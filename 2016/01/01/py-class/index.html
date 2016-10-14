@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>python-OO相关 | 窗外临街</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="杂乱的note：
+123class Student(object):    passbart = Student()
+class后面紧接着是类名，即Student，类名通常是大写开头的单词，紧接着是(object)，表示该类是从哪个类继承下来的，继承的概念我们后面再讲，通常，如果没有合适的继承类，就使用object类，这是所有类最终都会继承的类。
+可以自由地给一个实例变量绑定属性，比如，给实例ba">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python-OO相关">
+<meta property="og:url" content="http://peihao.space/2016/01/01/py-class/index.html">
+<meta property="og:site_name" content="窗外临街">
+<meta property="og:description" content="杂乱的note：
+123class Student(object):    passbart = Student()
+class后面紧接着是类名，即Student，类名通常是大写开头的单词，紧接着是(object)，表示该类是从哪个类继承下来的，继承的概念我们后面再讲，通常，如果没有合适的继承类，就使用object类，这是所有类最终都会继承的类。
+可以自由地给一个实例变量绑定属性，比如，给实例ba">
+<meta property="og:updated_time" content="2016-10-09T14:46:15.362Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python-OO相关">
+<meta name="twitter:description" content="杂乱的note：
+123class Student(object):    passbart = Student()
+class后面紧接着是类名，即Student，类名通常是大写开头的单词，紧接着是(object)，表示该类是从哪个类继承下来的，继承的概念我们后面再讲，通常，如果没有合适的继承类，就使用object类，这是所有类最终都会继承的类。
+可以自由地给一个实例变量绑定属性，比如，给实例ba">
+  
+    <link rel="alternative" href="/atom.xml" title="窗外临街" type="application/atom+xml">
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?07ad8ea412265d4e0ce713ba2e3cd40a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?a706fa9fd732d608b9ad7e589d371545";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="baidu_js_push">
+	<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</div>
+<div class="overlay"> 
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div align="left" style="margin-top:6px;">
+<p style="color:#cccc99;font-size:90%">您好，培豪的第<span id="busuanzi_value_site_uv"></span>个小伙伴</p>
+</div>
+</div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">培豪</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/album">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/chuangwailinjie" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/chuangwailinjie" title="weibo">weibo</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/BeautifulSoup/" style="font-size: 10px;">BeautifulSoup</a> <a href="/tags/C/" style="font-size: 10px;">C#</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/FTP/" style="font-size: 10.91px;">FTP</a> <a href="/tags/Front-End/" style="font-size: 11.82px;">Front End</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/ISE/" style="font-size: 10px;">ISE</a> <a href="/tags/JQuery/" style="font-size: 10.91px;">JQuery</a> <a href="/tags/NoC/" style="font-size: 12.73px;">NoC</a> <a href="/tags/Numpy/" style="font-size: 10px;">Numpy</a> <a href="/tags/Python/" style="font-size: 18.18px;">Python</a> <a href="/tags/Requests/" style="font-size: 11.82px;">Requests</a> <a href="/tags/Router/" style="font-size: 11.82px;">Router</a> <a href="/tags/Scrapy/" style="font-size: 10px;">Scrapy</a> <a href="/tags/Verilog/" style="font-size: 17.27px;">Verilog</a> <a href="/tags/Verilog-HDL/" style="font-size: 13.64px;">Verilog HDL</a> <a href="/tags/algorithm/" style="font-size: 19.09px;">algorithm</a> <a href="/tags/android/" style="font-size: 16.36px;">android</a> <a href="/tags/cgi/" style="font-size: 10px;">cgi</a> <a href="/tags/front-end/" style="font-size: 10px;">front end</a> <a href="/tags/hexo优化/" style="font-size: 10.91px;">hexo优化</a> <a href="/tags/java/" style="font-size: 14.55px;">java</a> <a href="/tags/lambda/" style="font-size: 10px;">lambda</a> <a href="/tags/lxml/" style="font-size: 10px;">lxml</a> <a href="/tags/matlab/" style="font-size: 13.64px;">matlab</a> <a href="/tags/matplotlib/" style="font-size: 10.91px;">matplotlib</a> <a href="/tags/noc/" style="font-size: 10.91px;">noc</a> <a href="/tags/pyquery/" style="font-size: 10px;">pyquery</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/re/" style="font-size: 10.91px;">re</a> <a href="/tags/router/" style="font-size: 11.82px;">router</a> <a href="/tags/torrent/" style="font-size: 10.91px;">torrent</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/verilog/" style="font-size: 10px;">verilog</a> <a href="/tags/xpath/" style="font-size: 10px;">xpath</a> <a href="/tags/二维码/" style="font-size: 10px;">二维码</a> <a href="/tags/仿真/" style="font-size: 11.82px;">仿真</a> <a href="/tags/基础知识/" style="font-size: 10px;">基础知识</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/实用/" style="font-size: 10px;">实用</a> <a href="/tags/微信/" style="font-size: 10px;">微信</a> <a href="/tags/模式匹配/" style="font-size: 10.91px;">模式匹配</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/编码/" style="font-size: 11.82px;">编码</a> <a href="/tags/网络/" style="font-size: 10.91px;">网络</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/随感/" style="font-size: 11.82px;">随感</a> <a href="/tags/随笔/" style="font-size: 15.45px;">随笔</a> <a href="/tags/音乐/" style="font-size: 11.82px;">音乐</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">衣服晒干风在穿，我一个人，很简单，自己放纵自己管…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">培豪</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">培豪</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/album">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/chuangwailinjie" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/chuangwailinjie" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-py-class" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/01/py-class/" class="article-date">
+  	<time datetime="2016-01-01T12:43:42.000Z" itemprop="datePublished">2016-01-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python-OO相关
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/python/">python</a>
+	</div>
+
+
+
+		
+		<div class="bookicon"></div>
+		<div class="article-hit">
+		<span id="busuanzi_container_page_pv">
+  热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+	</div>
+	
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	      	<!-- Table of Contents -->
+			
+        <p>杂乱的note：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">bart = Student()</span><br></pre></td></tr></table></figure>
+<p>class后面紧接着是类名，即Student，类名通常是大写开头的单词，紧接着是(object)，表示该类是从哪个类继承下来的，继承的概念我们后面再讲，通常，如果没有合适的继承类，就使用object类，这是所有类最终都会继承的类。</p>
+<p>可以自由地给一个实例变量绑定属性，比如，给实例bart绑定一个name属性：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bart.name = <span class="string">'Bart Simpson'</span></span><br><span class="line">bart.name</span><br><span class="line"><span class="comment">#'Bart Simpson'</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>由于类可以起到模板的作用，因此，可以在创建实例的时候，把一些我们认为必须绑定的属性强制填写进去。通过定义一个特殊的<strong>init</strong>方法，在创建实例的时候，就把name，score等属性绑上去：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, score)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.score = score</span><br></pre></td></tr></table></figure>
+<p>注意到<strong>init</strong>方法的第一个参数永远是self，表示创建的实例本身，因此，在<strong>init</strong>方法内部，就可以把各种属性绑定到self，因为self就指向创建的实例本身。</p>
+<p>和静态语言不同，Python允许对实例变量绑定任何数据，也就是说，对于两个实例变量，虽然它们都是同一个类的不同实例，但拥有的变量名称都可能不同：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bart = Student(<span class="string">'Bart Simpson'</span>, <span class="number">59</span>)</span><br><span class="line">lisa = Student(<span class="string">'Lisa Simpson'</span>, <span class="number">87</span>)</span><br><span class="line">bart.age = <span class="number">8</span></span><br><span class="line">bart.age</span><br><span class="line"><span class="comment">#8</span></span><br><span class="line">lisa.age</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">AttributeError: <span class="string">'Student'</span> object has no attribute <span class="string">'age'</span></span><br></pre></td></tr></table></figure>
+<p>Student类中模板原件是没有age属性的，bar实例动态增加了这个属性，但是lisa实例依然没有age属性，所以获取此属性是报错</p>
+<p><em>类属性，是直接定义在class下面的属性，归类本身管理，类中的所有方法都可以对其进行操作访问</em></p>
+<blockquote>
+<p><a href="http://onlypython.group.iteye.com/group/wiki/1357-to-talk-about-the-types-of-properties-in-python-and-examples-of-the-types-of-attributes-the-difference" target="_blank" rel="external">更多关于类属性对象属性关系</a></p>
+</blockquote>
+<p>在Class内部，可以有属性和方法，而外部代码可以通过直接调用实例变量的方法来操作数据，这样，就隐藏了内部的复杂逻辑。</p>
+<p>但是，从前面Student类的定义来看，外部代码还是可以自由地修改一个实例的name、score属性：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bart = Student(<span class="string">'Bart Simpson'</span>, <span class="number">98</span>)</span><br><span class="line">bart.score</span><br><span class="line"><span class="comment">#98</span></span><br><span class="line">bart.score = <span class="number">59</span></span><br><span class="line">bart.score</span><br><span class="line"><span class="comment">#59</span></span><br></pre></td></tr></table></figure>
+<p>如果要让内部属性不被外部访问，可以把属性的名称前加上两个下划线<strong>，在Python中，实例的变量名如果以</strong>（两个下划线组成）开头，就变成了一个私有变量（private），只有内部可以访问，外部不能访问，所以，我们把Student类改一改：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, score)</span>:</span></span><br><span class="line">        self.__name = name</span><br><span class="line">        self.__score = score</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">print_score</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'%s: %s'</span> % (self.__name, self.__score))</span><br></pre></td></tr></table></figure>
+<p>改完后，对于外部代码来说，没什么变动，但是已经无法从外部访问实例变量.<strong>name和实例变量.</strong>score了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bart = Student(<span class="string">'Bart Simpson'</span>, <span class="number">98</span>)</span><br><span class="line">bart.__name</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">AttributeError: <span class="string">'Student'</span> object has no attribute <span class="string">'__name'</span></span><br></pre></td></tr></table></figure>
+<p>这样就确保了外部代码不能随意修改对象内部的状态，这样通过访问限制的保护，代码更加健壮。</p>
+<p>需要注意的是，在Python中，变量名类似<strong><strong>xxx</strong></strong>的，也就是以双下划线开头，并且以双下划线结尾的，是特殊变量，特殊变量是可以直接访问的，不是private变量，所以，不能用<strong>name</strong>、<strong>score</strong>这样的变量名。</p>
+<p>有些时候，你会看到以一个下划线开头的实例变量名，比如<strong>_name</strong>，这样的实例变量外部是可以访问的，但是，按照约定俗成的规定，当你看到这样的变量时，意思就是，“虽然我可以被访问，但是，请把我视为私有变量，不要随意访问”。</p>
+<p>双下划线开头的实例变量是不是一定不能从外部访问呢？其实也不是。不能直接访问<strong>name是因为Python解释器对外把</strong>name变量改成了_Student<strong>name，所以，仍然可以通过_Student</strong>name来访问__name变量：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bart._Student__name</span><br><span class="line"><span class="string">'Bart Simpson'</span></span><br></pre></td></tr></table></figure>
+<p>下面的做法要注意下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bart = Student(<span class="string">'Bart Simpson'</span>, <span class="number">98</span>)</span><br><span class="line">bart.get_name()</span><br><span class="line"><span class="string">'Bart Simpson'</span></span><br><span class="line">bart.__name = <span class="string">'New Name'</span> <span class="comment"># 设置__name变量！</span></span><br><span class="line">bart.__name</span><br><span class="line"><span class="string">'New Name'</span></span><br><span class="line"></span><br><span class="line"><span class="string">'''表面上看，外部代码“成功”地设置了__name变量，但实际上这个__name变量和class内部的__name变量不是一个变量！内部的__name变量已经被Python解释器自动改成了_Student__name，而外部代码给bart新增了一个__name变量'''</span></span><br><span class="line"></span><br><span class="line">bart.get_name() <span class="comment"># get_name()内部返回self.__name</span></span><br><span class="line"><span class="string">'Bart Simpson'</span></span><br></pre></td></tr></table></figure>
+<h1 id="继承与多态">继承与多态</h1><p>在OOP程序设计中，当我们定义一个class的时候，可以从某个现有的class继承，新的class称为子类（Subclass），而被继承的class称为基类、父类或超类（Base class、Super class）。</p>
+<p>比如，我们已经编写了一个名为Animal的class，有一个run()方法可以直接打印：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'Animal is running...'</span>)</span><br></pre></td></tr></table></figure>
+<p>当我们需要编写Dog和Cat类时，就可以直接从Animal类继承：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span><span class="params">(Animal)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span><span class="params">(Animal)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p>对于Dog来说，Animal就是它的父类，对于Animal来说，Dog就是它的子类。Cat和Dog类似。</p>
+<p>继承有什么好处？最大的好处是子类获得了父类的全部功能。由于Animial实现了run()方法，因此，Dog和Cat作为它的子类，什么事也没干，就自动拥有了run()方法</p>
+<p>判断一个变量是否是某个类型可以用isinstance()判断</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="type">list</span>() <span class="comment"># a是list类型</span></span><br><span class="line">isinstance(a, <span class="type">list</span>)</span><br><span class="line"><span class="comment">#True</span></span><br></pre></td></tr></table></figure>
+<h2 id="静态vs动态">静态vs动态</h2><p>对于静态语言（例如Java）来说，如果需要传入Animal类型，则传入的对象必须是Animal类型或者它的子类，否则，将无法调用run()方法。</p>
+<p>对于Python这样的动态语言来说，则不一定需要传入Animal类型。我们只需要保证传入的对象有一个run()方法就可以了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Timer</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'Start...'</span>)</span><br></pre></td></tr></table></figure>
+<p>这就是动态语言的“鸭子类型”，它并不要求严格的继承体系，一个对象只要“看起来像鸭子，走起路来像鸭子”，那它就可以被看做是鸭子。</p>
+<h1 id="一些常用的技巧">一些常用的技巧</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取对象的所有方法和属性</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">test</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">print(dir(test()))</span><br><span class="line"><span class="comment">#['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__']</span></span><br></pre></td></tr></table></figure>
+<p>配合getattr()、setattr()以及hasattr()，我们可以直接操作一个对象的状态：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyObject</span><span class="params">(object)</span>:</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">         self.x = <span class="number">9</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">power</span><span class="params">(self)</span>:</span></span><br><span class="line">         <span class="keyword">return</span> self.x * self.x</span><br><span class="line">obj = MyObject()</span><br><span class="line"></span><br><span class="line">hasattr(obj, <span class="string">'x'</span>) <span class="comment"># 有属性'x'吗？</span></span><br><span class="line"><span class="comment">#True</span></span><br><span class="line">obj.x</span><br><span class="line"><span class="comment">#9</span></span><br><span class="line">hasattr(obj, <span class="string">'y'</span>) <span class="comment"># 有属性'y'吗？</span></span><br><span class="line"><span class="comment">#False</span></span><br><span class="line">setattr(obj, <span class="string">'y'</span>, <span class="number">19</span>) <span class="comment"># 设置一个属性'y'</span></span><br><span class="line">hasattr(obj, <span class="string">'y'</span>) <span class="comment"># 有属性'y'吗？</span></span><br><span class="line"><span class="comment">#True</span></span><br><span class="line">getattr(obj, <span class="string">'y'</span>) <span class="comment"># 获取属性'y'</span></span><br><span class="line"><span class="comment">#19</span></span><br><span class="line">obj.y <span class="comment"># 获取属性'y'</span></span><br><span class="line"><span class="comment">#19</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#试图获取不存在的属性，会抛出AttributeError的错误</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#可以传入一个default参数，如果属性不存在，就返回默认值</span></span><br><span class="line">getattr(obj, <span class="string">'z'</span>, <span class="number">404</span>) <span class="comment"># 获取属性'z'，如果不存在，返回默认值404</span></span><br><span class="line"><span class="comment">#404</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#获得对象的方法</span></span><br><span class="line"></span><br><span class="line">hasattr(obj, <span class="string">'power'</span>) <span class="comment"># 有属性'power'吗？</span></span><br><span class="line"><span class="comment">#True</span></span><br><span class="line">getattr(obj, <span class="string">'power'</span>) <span class="comment"># 获取属性'power'</span></span><br><span class="line">&lt;bound method MyObject.power of &lt;__main__.MyObject object at <span class="number">0x10077a6a0</span>&gt;&gt;</span><br><span class="line">fn = getattr(obj, <span class="string">'power'</span>) <span class="comment"># 获取属性'power'并赋值到变量fn</span></span><br><span class="line">fn <span class="comment"># fn指向obj.power</span></span><br><span class="line">&lt;bound method MyObject.power of &lt;__main__.MyObject object at <span class="number">0x10077a6a0</span>&gt;&gt;</span><br><span class="line">fn() <span class="comment"># 调用fn()与调用obj.power()是一样的</span></span><br><span class="line"><span class="comment">#81</span></span><br></pre></td></tr></table></figure>
+
+      
+      
+	<! -- 添加捐赠图标 -->
+<div class ="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+           &weierp;&weierp;&weierp;<br>
+		   得到的是侥幸，失去的是人生
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden" >
+		<!-- 支付宝打赏图案 -->
+		<img src="/img/zhifubao.jpg" alt="支付宝打赏"> 
+		<!-- 微信打赏图案 -->
+		<img src="/img/wx.jpg" alt="微信打赏">  
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			$('#donate_board').addClass('hidden');
+			$('#donate_guide').removeClass('hidden');
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+
+
+	
+			<! -- 添加版权信息 -->
+<div class="article-footer-copyright">
+<p>本文由<b><a href="/index.html" target="_blank" title="培豪">培豪</a></b>创作和发表于&nbsp<a href="http://peihao.space">培豪的博客</a>&nbsp,采用<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">署名-非商业性使用-禁止演绎 3.0</a>进行许可。</p>
+
+<p>非商业转载请注明作者及出处。商业转载请联系作者本人。</p>
+ 
+ <p>本文标题为: <a href="http://peihao.space/2016/01/01/py-class/">python-OO相关</a> </p>
+ 
+ <p>本文链接为：<a href="http://peihao.space/2016/01/01/py-class/">http://peihao.space/2016/01/01/py-class/</a></p>
+</div>
+<! -- 添加版权信息 -->
+		
+    </div>
+    
+  </div>
+
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/01/02/str-bytes/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Python中的str与bytes
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/01/01/python2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python学习(二)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+  
+		
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="py-class" data-title="python-OO相关" data-url="http://peihao.space/2016/01/01/py-class/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"chuangwailinjie"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 培豪
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<div id="totop" style="position:fixed;bottom:100px;right:30px;cursor: pointer;">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+<script src="/js/totop.js"></script>
+
+  </div>
+</body>
+</html>

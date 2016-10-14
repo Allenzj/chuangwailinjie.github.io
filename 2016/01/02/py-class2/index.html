@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>python-OO | 窗外临街</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="杂乱的note：
+添加函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python-OO">
+<meta property="og:url" content="http://peihao.space/2016/01/02/py-class2/index.html">
+<meta property="og:site_name" content="窗外临街">
+<meta property="og:description" content="杂乱的note：
+添加函数">
+<meta property="og:updated_time" content="2016-10-10T13:52:17.684Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python-OO">
+<meta name="twitter:description" content="杂乱的note：
+添加函数">
+  
+    <link rel="alternative" href="/atom.xml" title="窗外临街" type="application/atom+xml">
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?07ad8ea412265d4e0ce713ba2e3cd40a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?a706fa9fd732d608b9ad7e589d371545";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="baidu_js_push">
+	<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</div>
+<div class="overlay"> 
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div align="left" style="margin-top:6px;">
+<p style="color:#cccc99;font-size:90%">您好，培豪的第<span id="busuanzi_value_site_uv"></span>个小伙伴</p>
+</div>
+</div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">培豪</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/album">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/chuangwailinjie" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/chuangwailinjie" title="weibo">weibo</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/BeautifulSoup/" style="font-size: 10px;">BeautifulSoup</a> <a href="/tags/C/" style="font-size: 10px;">C#</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/FTP/" style="font-size: 10.91px;">FTP</a> <a href="/tags/Front-End/" style="font-size: 11.82px;">Front End</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/ISE/" style="font-size: 10px;">ISE</a> <a href="/tags/JQuery/" style="font-size: 10.91px;">JQuery</a> <a href="/tags/NoC/" style="font-size: 12.73px;">NoC</a> <a href="/tags/Numpy/" style="font-size: 10px;">Numpy</a> <a href="/tags/Python/" style="font-size: 18.18px;">Python</a> <a href="/tags/Requests/" style="font-size: 11.82px;">Requests</a> <a href="/tags/Router/" style="font-size: 11.82px;">Router</a> <a href="/tags/Scrapy/" style="font-size: 10px;">Scrapy</a> <a href="/tags/Verilog/" style="font-size: 17.27px;">Verilog</a> <a href="/tags/Verilog-HDL/" style="font-size: 13.64px;">Verilog HDL</a> <a href="/tags/algorithm/" style="font-size: 19.09px;">algorithm</a> <a href="/tags/android/" style="font-size: 16.36px;">android</a> <a href="/tags/cgi/" style="font-size: 10px;">cgi</a> <a href="/tags/front-end/" style="font-size: 10px;">front end</a> <a href="/tags/hexo优化/" style="font-size: 10.91px;">hexo优化</a> <a href="/tags/java/" style="font-size: 14.55px;">java</a> <a href="/tags/lambda/" style="font-size: 10px;">lambda</a> <a href="/tags/lxml/" style="font-size: 10px;">lxml</a> <a href="/tags/matlab/" style="font-size: 13.64px;">matlab</a> <a href="/tags/matplotlib/" style="font-size: 10.91px;">matplotlib</a> <a href="/tags/noc/" style="font-size: 10.91px;">noc</a> <a href="/tags/pyquery/" style="font-size: 10px;">pyquery</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/re/" style="font-size: 10.91px;">re</a> <a href="/tags/router/" style="font-size: 11.82px;">router</a> <a href="/tags/torrent/" style="font-size: 10.91px;">torrent</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/verilog/" style="font-size: 10px;">verilog</a> <a href="/tags/xpath/" style="font-size: 10px;">xpath</a> <a href="/tags/二维码/" style="font-size: 10px;">二维码</a> <a href="/tags/仿真/" style="font-size: 11.82px;">仿真</a> <a href="/tags/基础知识/" style="font-size: 10px;">基础知识</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/实用/" style="font-size: 10px;">实用</a> <a href="/tags/微信/" style="font-size: 10px;">微信</a> <a href="/tags/模式匹配/" style="font-size: 10.91px;">模式匹配</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/编码/" style="font-size: 11.82px;">编码</a> <a href="/tags/网络/" style="font-size: 10.91px;">网络</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/随感/" style="font-size: 11.82px;">随感</a> <a href="/tags/随笔/" style="font-size: 15.45px;">随笔</a> <a href="/tags/音乐/" style="font-size: 11.82px;">音乐</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">衣服晒干风在穿，我一个人，很简单，自己放纵自己管…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">培豪</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">培豪</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/album">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/chuangwailinjie" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/chuangwailinjie" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-py-class2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/02/py-class2/" class="article-date">
+  	<time datetime="2016-01-02T12:43:42.000Z" itemprop="datePublished">2016-01-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python-OO
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/python/">python</a>
+	</div>
+
+
+
+		
+		<div class="bookicon"></div>
+		<div class="article-hit">
+		<span id="busuanzi_container_page_pv">
+  热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+	</div>
+	
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	      	<!-- Table of Contents -->
+			
+			  <div id="toc" class="toc-article">
+			    <strong class="toc-title">文章目录</strong>
+			    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#添加函数"><span class="toc-number">1.</span> <span class="toc-text">添加函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#property装饰器"><span class="toc-number">2.</span> <span class="toc-text">property装饰器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#str"><span class="toc-number">3.</span> <span class="toc-text">str</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#iter"><span class="toc-number">4.</span> <span class="toc-text">iter</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#getitem"><span class="toc-number">5.</span> <span class="toc-text">getitem</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#枚举类Enum"><span class="toc-number">6.</span> <span class="toc-text">枚举类Enum</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#枚举派生类"><span class="toc-number">6.1.</span> <span class="toc-text">枚举派生类</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#metaclass"><span class="toc-number">7.</span> <span class="toc-text">metaclass</span></a></li></ol>
+			  </div>
+			
+        <p>杂乱的note：</p>
+<h1 id="添加函数">添加函数</h1><a id="more"></a>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(age)</span>:</span> <span class="comment"># 定义一个函数作为实例方法</span></span><br><span class="line">     print(age)</span><br><span class="line">s=Student()</span><br><span class="line">s.set_age = func <span class="comment"># 给实例绑定一个方法</span></span><br><span class="line">s.set_age(<span class="number">25</span>) <span class="comment"># 调用实例方法</span></span><br><span class="line"><span class="comment">#25</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#更进一步，我们可以通过绑定的方法为类添加实例属性</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">set_age</span><span class="params">(self, age)</span>:</span> <span class="comment"># 定义一个函数作为实例方法</span></span><br><span class="line">     self.age = age</span><br><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> MethodType</span><br><span class="line">s.set_age = MethodType(set_age, s) </span><br><span class="line"><span class="comment"># 给实例绑定一个方法，方法为本实例对象添加属性。后面的s代表的是set_age(self,age)方法中的第一个参数</span></span><br><span class="line">s.set_age(<span class="number">25</span>) <span class="comment"># 调用实例方法</span></span><br><span class="line">s.age <span class="comment"># 测试结果</span></span><br><span class="line"><span class="comment">#25</span></span><br></pre></td></tr></table></figure>
+<p>为了给所有实例都绑定方法，可以给class绑定方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">set_scorex</span><span class="params">(self, score)</span>:</span></span><br><span class="line">     self.score = score</span><br><span class="line">Student.set_score = set_scorex</span><br><span class="line"><span class="comment">#给class绑定方法后，所有实例均可调用：</span></span><br><span class="line"></span><br><span class="line">s.set_score(<span class="number">100</span>)</span><br><span class="line">s.score</span><br><span class="line"><span class="comment">#100</span></span><br><span class="line">s2.set_score(<span class="number">99</span>)</span><br><span class="line">s2.score</span><br><span class="line"><span class="comment">#99</span></span><br></pre></td></tr></table></figure>
+<p>通常情况下，上面的set_score方法可以直接定义在class中，但动态绑定允许我们在程序运行的过程中动态给class加上功能，这在静态语言中很难实现。</p>
+<p>如果我们想要限制实例的属性怎么办？比如，只允许对Student实例添加name和age属性</p>
+<p>Python允许在定义class的时候，定义一个特殊的<strong>slots</strong>变量，来限制该class实例能添加的属性：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    __slots__ = (<span class="string">'name'</span>, <span class="string">'age'</span>) <span class="comment"># 用tuple定义允许绑定的属性名称</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s = Student() <span class="comment"># 创建新的实例</span></span><br><span class="line">s.name = <span class="string">'Michael'</span> <span class="comment"># 绑定属性'name'</span></span><br><span class="line">s.age = <span class="number">25</span> <span class="comment"># 绑定属性'age'</span></span><br><span class="line">s.score = <span class="number">99</span> <span class="comment"># 绑定属性'score'</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">AttributeError: <span class="string">'Student'</span> object has no attribute <span class="string">'score'</span></span><br></pre></td></tr></table></figure>
+<p>使用<strong>slots</strong>要注意，<strong>slots</strong>定义的属性仅对当前类实例起作用，对继承的子类是不起作用的</p>
+<h1 id="property装饰器">property装饰器</h1><p>Python内置的@property装饰器就是负责把一个方法变成属性调用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_score</span><span class="params">(self)</span>:</span></span><br><span class="line">         <span class="keyword">return</span> self._score</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_score</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(value, int):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'score must be an integer!'</span>)</span><br><span class="line">        <span class="keyword">if</span> value &lt; <span class="number">0</span> <span class="keyword">or</span> value &gt; <span class="number">100</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'score must between 0 ~ 100!'</span>)</span><br><span class="line">        self._score = value</span><br></pre></td></tr></table></figure>
+<p>上面的类方法中，在对属性_score进行设置操作时进行了限制检查，规定value必须是数字同时限制范围，否则就抛出Error。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s = Student()</span><br><span class="line">s.set_score(<span class="number">60</span>) <span class="comment"># ok!</span></span><br><span class="line">s.get_score()</span><br><span class="line"><span class="comment">#60</span></span><br><span class="line">s.set_score(<span class="number">9999</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  ...</span><br><span class="line">ValueError: score must between <span class="number">0</span> ~ <span class="number">100</span>!</span><br></pre></td></tr></table></figure>
+<p>上面的调用方法又略显复杂，没有直接用属性这么直接简单，此时就可以祭出@property装饰器</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">#修改原来的getter方法</span></span><br><span class="line"><span class="decorator">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._score</span><br><span class="line"></span><br><span class="line">	<span class="comment">#修改原来的setter方法</span></span><br><span class="line"><span class="decorator">    @score.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(value, int):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'score must be an integer!'</span>)</span><br><span class="line">        <span class="keyword">if</span> value &lt; <span class="number">0</span> <span class="keyword">or</span> value &gt; <span class="number">100</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'score must between 0 ~ 100!'</span>)</span><br><span class="line">        self._score = value</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s = Student()</span><br><span class="line">s.score = <span class="number">60</span> <span class="comment"># OK，实际转化为s.set_score(60)</span></span><br><span class="line">s.score <span class="comment"># OK，实际转化为s.get_score()</span></span><br><span class="line"><span class="comment">#60</span></span><br><span class="line">s.score = <span class="number">9999</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  ...</span><br><span class="line">ValueError: score must between <span class="number">0</span> ~ <span class="number">100</span>!</span><br></pre></td></tr></table></figure>
+<h1 id="str"><strong>str</strong></h1><p>我们先定义一个Student类，打印一个实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">         self.name = name</span><br><span class="line">print(Student(<span class="string">'Michael'</span>))</span><br><span class="line">&lt;__main__.Student object at <span class="number">0x109afb190</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>打印出一堆<__main__.student object="" at="" 0x109afb190="">，不好看。</__main__.student></p>
+<p>怎么才能打印得好看呢？只需要定义好<strong>str</strong>()方法，返回一个好看的字符串就可以了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">         self.name = name</span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">		<span class="comment">#注意这里是return而不是print</span></span><br><span class="line">         <span class="keyword">return</span> <span class="string">'Student object (name: %s)'</span> % self.name</span><br><span class="line">print(Student(<span class="string">'Michael'</span>))</span><br><span class="line">Student object (name: Michael)</span><br></pre></td></tr></table></figure>
+<p>此时直接敲变量不用print，打印出来的实例还是不好看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s = Student(<span class="string">'Michael'</span>)</span><br><span class="line">s</span><br><span class="line">&lt;__main__.Student object at <span class="number">0x109afb310</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>这是因为直接显示变量调用的不是<strong>str</strong>()，而是<code>__repr__()</code>，两者的区别是<strong>str</strong>()返回用户看到的字符串，而<strong>repr</strong>()返回程序开发者看到的字符串，也就是说，<strong>repr</strong>()是为调试服务的。</p>
+<p>解决办法是再定义一个<strong>repr</strong>()。但是通常<strong>str</strong>()和<strong>repr</strong>()代码都是一样的，所以，有个偷懒的写法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Student object (name=%s)'</span> % self.name</span><br><span class="line">    __repr__ = __str__</span><br></pre></td></tr></table></figure>
+<h1 id="iter">iter</h1><p>如果一个类想被用于for … in循环，类似list或tuple那样，就必须实现一个<strong>iter</strong>()方法，该方法返回一个迭代对象，然后，Python的for循环就会不断调用该迭代对象的<strong>next</strong>()方法拿到循环的下一个值，直到遇到StopIteration错误时退出循环</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fib</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.a, self.b = <span class="number">0</span>, <span class="number">1</span> <span class="comment"># 初始化两个计数器a，b</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self <span class="comment"># 实例本身就是迭代对象，故返回自己</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__next__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.a, self.b = self.b, self.a + self.b <span class="comment"># 计算下一个值</span></span><br><span class="line">        <span class="keyword">if</span> self.a &gt; <span class="number">100000</span>: <span class="comment"># 退出循环的条件</span></span><br><span class="line">            <span class="keyword">raise</span> StopIteration();</span><br><span class="line">        <span class="keyword">return</span> self.a <span class="comment"># 返回下一个值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> Fib():</span><br><span class="line">	print(n)</span><br></pre></td></tr></table></figure>
+<h1 id="getitem"><strong>getitem</strong></h1><p>为了实现通过下标访问元素，需要增加<strong>getitem</strong>（）方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        a,b=<span class="number">1</span>,<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> range(item):</span><br><span class="line">            a,b=b,a+b</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">print(Fib()[<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
+<p>为了为当前类添加切片功能（类似列表序列的list[1,5]），我们需要改写下<strong>getitem</strong>()方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self,n)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> isinstance(n,int):</span><br><span class="line">		a,b=<span class="number">1</span>,<span class="number">1</span></span><br><span class="line">		<span class="keyword">for</span> x <span class="keyword">in</span> range(n):</span><br><span class="line">			a,b=b,a+b</span><br><span class="line">		<span class="keyword">return</span> a</span><br><span class="line">	<span class="keyword">if</span> isinstance(n,slice):</span><br><span class="line">		start=n.start</span><br><span class="line">		end=n.stop</span><br><span class="line">		<span class="keyword">if</span> start <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">			start=<span class="number">0</span></span><br><span class="line">		a,b=<span class="number">1</span>,<span class="number">1</span></span><br><span class="line">		L=[]</span><br><span class="line">		<span class="keyword">for</span> x <span class="keyword">in</span> range(end):</span><br><span class="line">			<span class="keyword">if</span> x&gt;=start:</span><br><span class="line">				L.append(a)</span><br><span class="line">			a,b=b,a+b</span><br><span class="line">		<span class="keyword">return</span> L</span><br><span class="line"></span><br><span class="line">print(Fib()[<span class="number">3</span>,<span class="number">7</span>])</span><br><span class="line"><span class="comment">#[3,4,5,6]</span></span><br></pre></td></tr></table></figure>
+<hr>
+<ul>
+<li>通过重写<strong>call</strong>()方法，通过实例自身的调用，达到()调用的效果</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name)</span>:</span></span><br><span class="line">		self.name=name</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self)</span>:</span></span><br><span class="line">		print(<span class="string">'My name is %s'</span> % self.name)</span><br><span class="line"></span><br><span class="line">s=Student(<span class="string">'James'</span>)</span><br><span class="line">s()</span><br><span class="line"><span class="comment">#My name is James</span></span><br></pre></td></tr></table></figure>
+<h1 id="枚举类Enum">枚举类Enum</h1><p>python中的枚举类中，每个我们规定的常量都是唯一实例。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> enum <span class="keyword">import</span> Enum</span><br><span class="line">Week=Enum(<span class="string">'Week'</span>,(<span class="string">'Monday'</span>,<span class="string">'Tuesday'</span>,<span class="string">'Wednesday'</span>,<span class="string">'Thursday'</span>,<span class="string">'Friday'</span>,<span class="string">'Saturday'</span>,<span class="string">'Sunday'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">#可以直接使用Week.Friday来引用一个常量，或者枚举它的所有成员</span></span><br><span class="line"><span class="keyword">for</span> name,member <span class="keyword">in</span> Week.__members__.items():</span><br><span class="line">    print(name,<span class="string">'=&gt;'</span>,member,<span class="string">'&lt;==&gt;'</span>,member.value)</span><br><span class="line"></span><br><span class="line">Monday =&gt; Week.Monday &lt;==&gt; <span class="number">1</span></span><br><span class="line">Tuesday =&gt; Week.Tuesday &lt;==&gt; <span class="number">2</span></span><br><span class="line">Wednesday =&gt; Week.Wednesday &lt;==&gt; <span class="number">3</span></span><br><span class="line">Thursday =&gt; Week.Thursday &lt;==&gt; <span class="number">4</span></span><br><span class="line">Friday =&gt; Week.Friday &lt;==&gt; <span class="number">5</span></span><br><span class="line">Saturday =&gt; Week.Saturday &lt;==&gt; <span class="number">6</span></span><br><span class="line">Sunday =&gt; Week.Sunday &lt;==&gt; <span class="number">7</span></span><br></pre></td></tr></table></figure>
+<h2 id="枚举派生类">枚举派生类</h2><p>为了更方便的操作枚举类型数据，我们可以定义一个继承自Enum.class的子类</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from <span class="class"><span class="keyword">enum</span> <span class="title">import</span> <span class="title">Enum</span>, <span class="title">unique</span></span></span><br><span class="line"></span><br><span class="line"><span class="variable">@unique</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Weekday</span>(<span class="title">Enum</span>):</span></span><br><span class="line">    <span class="constant">Sun</span> = <span class="number">0</span> <span class="comment"># Sun的value被设定为0</span></span><br><span class="line">    <span class="constant">Mon</span> = <span class="number">1</span></span><br><span class="line">    <span class="constant">Tue</span> = <span class="number">2</span></span><br><span class="line">    <span class="constant">Wed</span> = <span class="number">3</span></span><br><span class="line">    <span class="constant">Thu</span> = <span class="number">4</span></span><br><span class="line">    <span class="constant">Fri</span> = <span class="number">5</span></span><br><span class="line">    <span class="constant">Sat</span> = <span class="number">6</span></span><br></pre></td></tr></table></figure>
+<p>上面实例中，导入enmu模块中的Enum和unique后，我们可以使用@unique标记对继承自Enum的子类进行元素唯一性检测，当不同的元素被设置成为相同的value，会报错</p>
+<p>可以使用多种访问方法：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">day1 = Weekday<span class="class">.Mon</span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(day1)</span></span></span><br><span class="line">Weekday<span class="class">.Mon</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(Weekday[<span class="string">'Tue'</span>])</span></span></span><br><span class="line">Weekday<span class="class">.Tue</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(Weekday.Tue.value)</span></span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(day1 == Weekday.Mon)</span></span></span><br><span class="line">True</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(day1 == Weekday.Tue)</span></span></span><br><span class="line">False</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(Weekday(<span class="number">1</span>)</span></span>)</span><br><span class="line">Weekday<span class="class">.Mon</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(day1 == Weekday(<span class="number">1</span>)</span></span>)</span><br><span class="line">True</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">Weekday</span><span class="params">(<span class="number">7</span>)</span></span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  ...</span><br><span class="line">ValueError: <span class="number">7</span> is not <span class="tag">a</span> valid Weekday</span><br><span class="line">  <span class="keyword">for</span> name, member <span class="keyword">in</span> Weekday.__members__.<span class="function"><span class="title">items</span><span class="params">()</span></span>:</span><br><span class="line">      <span class="function"><span class="title">print</span><span class="params">(name, <span class="string">'=&gt;'</span>, member)</span></span></span><br></pre></td></tr></table></figure>
+<h1 id="metaclass">metaclass</h1><blockquote>
+<p><a href="http://blog.jobbole.com/21351/" target="_blank" rel="external">metaclass</a></p>
+</blockquote>
+<p>元类：python语言在发展中借鉴了smalltalk的思想，所有东西都是对象，类也是对象。元类就是创建类的模板，也就是说，元类就是创建类的类。正常情况下类都是采用pyhton内建的元类type来创建类这个对象，但是当我们在定义类的过程中，我们可以指定使用的元类创建我们的对象。这个元类继承自type。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#a是一个对象，a.__class__指的是对象所属的类，而这个所属类所属的类呢，就是type</span></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>a.__class__.__class__</span><br><span class="line">&lt;type <span class="string">'type'</span>&gt;</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>age.__class__.__class__</span><br><span class="line">&lt;type <span class="string">'type'</span>&gt;</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>foo.__class__.__class__</span><br><span class="line">&lt;type <span class="string">'type'</span>&gt;</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>b.__class__.__class__</span><br><span class="line">&lt;type <span class="string">'type'</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>通常我们第一一个类，然后实例化类的对象，我们都是希望对象能够按照类模板进行创建，而恰恰元类就是我们在创建类的过程中动态修改类的一个方法。</p>
+<p>可以在写一个类的时候为其添加<strong>metaclass</strong>属性：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span><span class="params">(object)</span>:</span></span><br><span class="line">	__metaclass__ = something</span><br></pre></td></tr></table></figure>
+<p>如果你这么做了，Python就会用元类来创建类Foo.你首先写下class Foo(object)，但是类对象Foo还没有在内存中创建。Python会在类的定义中寻找<strong>metaclass</strong>属性，如果找到了，Python就会用它来创建类Foo，如果没有找到，就会用内建的type来创建这个类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span><span class="params">(Bar)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p>Foo中有<strong>metaclass</strong>这个属性吗？如果是，Python会在内存中通过<strong>metaclass</strong>创建一个名字为Foo的类对象（我说的是类对象，请紧跟我的思路）。如果Python没有找到<strong>metaclass</strong>，它会继续在Bar（父类）中寻找<strong>metaclass</strong>属性，并尝试做和前面同样的操作。如果Python在任何父类中都找不到<strong>metaclass</strong>，它就会在模块层次中去寻找<strong>metaclass</strong>，并尝试做同样的操作。如果还是找不到<strong>metaclass</strong>,Python就会用内置的type来创建这个类对象</p>
+<p>我们可以在<strong>metaclass</strong>中放置些什么代码呢？答案就是：可以创建一个类的东西。那么什么可以用来创建一个类呢？type，或者任何使用到type或者子类化type的东东都可以。</p>
+<p>type可以像这样工作</p>
+<p><code>type(类名, 父类的元组（针对继承的情况，可以为空），包含属性的字典（名称和值）)</code></p>
+<p>我们先从一个小例子观测<strong>metaclass</strong>的功能：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">upper_attr</span><span class="params">(future_class_name,future_parent,future_class_attr)</span>:</span></span><br><span class="line">	attrs=((name,value) <span class="keyword">for</span> name,value <span class="keyword">in</span> future_class_attr.items() <span class="keyword">if</span> <span class="keyword">not</span> name.startwith(<span class="string">'__'</span>))</span><br><span class="line">	upperattrs=dict((name.upper(),value)<span class="keyword">for</span> name,value <span class="keyword">in</span> attrs)</span><br><span class="line">	<span class="keyword">return</span> type(future_class_name,future_parents,upperattrs)</span><br><span class="line"></span><br><span class="line">__metaclass__ = upper_attr  <span class="comment">#  这会作用到这个模块中的所有类</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="comment"># 我们也可以只在这里定义__metaclass__，这样就只会作用于这个类中</span></span><br><span class="line">    bar = <span class="string">'bip'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#测试</span></span><br><span class="line"><span class="keyword">print</span> hasattr(Foo, <span class="string">'bar'</span>)</span><br><span class="line"><span class="comment"># 输出: False</span></span><br><span class="line"><span class="keyword">print</span> hasattr(Foo, <span class="string">'BAR'</span>)</span><br><span class="line"><span class="comment"># 输出:True</span></span><br><span class="line"> </span><br><span class="line">f = Foo()</span><br><span class="line"><span class="keyword">print</span> f.BAR</span><br><span class="line"><span class="comment"># 输出:'bip'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用一个真正的class当做元类</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class UpperAttrMetaclass(type):&#10;    def __new__(cls, name, bases, dct):&#10;        attrs = ((name, value) for name, value in dct.items() if not name.startswith(&#39;__&#39;)&#10;        uppercase_attr  = dict((name.upper(), value) for name, value in attrs)&#10;        return type.__new__(cls, name, bases, uppercase_attr)</span><br></pre></td></tr></table></figure>
+
+      
+      
+	<! -- 添加捐赠图标 -->
+<div class ="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+           &weierp;&weierp;&weierp;<br>
+		   得到的是侥幸，失去的是人生
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden" >
+		<!-- 支付宝打赏图案 -->
+		<img src="/img/zhifubao.jpg" alt="支付宝打赏"> 
+		<!-- 微信打赏图案 -->
+		<img src="/img/wx.jpg" alt="微信打赏">  
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			$('#donate_board').addClass('hidden');
+			$('#donate_guide').removeClass('hidden');
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+
+
+	
+			<! -- 添加版权信息 -->
+<div class="article-footer-copyright">
+<p>本文由<b><a href="/index.html" target="_blank" title="培豪">培豪</a></b>创作和发表于&nbsp<a href="http://peihao.space">培豪的博客</a>&nbsp,采用<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">署名-非商业性使用-禁止演绎 3.0</a>进行许可。</p>
+
+<p>非商业转载请注明作者及出处。商业转载请联系作者本人。</p>
+ 
+ <p>本文标题为: <a href="http://peihao.space/2016/01/02/py-class2/">python-OO</a> </p>
+ 
+ <p>本文链接为：<a href="http://peihao.space/2016/01/02/py-class2/">http://peihao.space/2016/01/02/py-class2/</a></p>
+</div>
+<! -- 添加版权信息 -->
+		
+    </div>
+    
+  </div>
+
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/01/10/py-raise/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          error机制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/01/02/str-bytes/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python中的str与bytes</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+  
+		
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="py-class2" data-title="python-OO" data-url="http://peihao.space/2016/01/02/py-class2/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"chuangwailinjie"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 培豪
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<div id="totop" style="position:fixed;bottom:100px;right:30px;cursor: pointer;">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+<script src="/js/totop.js"></script>
+
+  </div>
+</body>
+</html>
