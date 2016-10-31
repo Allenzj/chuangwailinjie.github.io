@@ -4,6 +4,119 @@
 
     
   <url>
+    <loc>http://peihao.space/2016/10/31/scrapy_notes/</loc>
+    <lastmod>2016-10-31T08:55:49.359Z</lastmod>
+    <data>
+        <display>
+        <title>Scrapy笔记</title>
+        <pubTime>2016-10-31T02:28:30.000Z</pubTime>
+        
+        <tag>Scrapy</tag>
+         
+        <tag>python</tag>
+         
+         
+           
+             
+              <breadCrumb title="python" url="http://peihao.space/categories/python/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://peihao.space/2016/10/28/scrapy-unicode/</loc>
+    <lastmod>2016-10-28T03:59:27.601Z</lastmod>
+    <data>
+        <display>
+        <title>Scrapy中关于Export Unicode字符集问题解决</title>
+        <pubTime>2016-10-28T02:28:30.000Z</pubTime>
+        
+        <tag>Scrapy</tag>
+         
+        <tag>python</tag>
+         
+         
+           
+             
+              <breadCrumb title="python" url="http://peihao.space/categories/python/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2016/10/23/pyinstaller/</loc>
+    <lastmod>2016-10-23T09:29:54.798Z</lastmod>
+    <data>
+        <display>
+        <title>pyinstaller打包pyqt5问题解决</title>
+        <pubTime>2016-10-23T07:28:30.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+         
+           
+             
+              <breadCrumb title="python" url="http://peihao.space/categories/python/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2016/02/03/csdn_viewer/</loc>
+    <lastmod>2016-10-23T09:17:58.823Z</lastmod>
+    <data>
+        <display>
+        <title>CSDN访问量作弊器</title>
+        <pubTime>2016-02-03T07:28:30.000Z</pubTime>
+        
+        <tag>BeautifulSoup</tag>
+         
+        <tag>python</tag>
+         
+        <tag>urllib</tag>
+         
+         
+           
+             
+              <breadCrumb title="python" url="http://peihao.space/categories/python/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2016/10/14/django_note/</loc>
+    <lastmod>2016-10-18T10:28:34.534Z</lastmod>
+    <data>
+        <display>
+        <title>Django笔记</title>
+        <pubTime>2016-10-14T14:24:06.000Z</pubTime>
+        
+        <tag>django</tag>
+         
+        <tag>python</tag>
+         
+         
+           
+             
+              <breadCrumb title="python" url="http://peihao.space/categories/python/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+  <url>
     <loc>http://peihao.space/2016/02/12/py_PIL/</loc>
     <lastmod>2016-10-12T10:02:10.649Z</lastmod>
     <data>
@@ -314,30 +427,6 @@
            
              
               <breadCrumb title="java" url="http://peihao.space/categories/java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://peihao.space/2016/02/03/csdn_viewer/</loc>
-    <lastmod>2016-09-28T16:51:37.737Z</lastmod>
-    <data>
-        <display>
-        <title>CSDN访问量作弊器</title>
-        <pubTime>2016-02-03T07:28:30.000Z</pubTime>
-        
-        <tag>BeautifulSoup</tag>
-         
-        <tag>python</tag>
-         
-        <tag>urllib</tag>
-         
-         
-           
-             
-              <breadCrumb title="python" url="http://peihao.space/categories/python/"/>
           
         </display>
     </data>
@@ -1095,7 +1184,6 @@
     </url>
 
     
-    
   <url>
     <loc>http://peihao.space/2016/05/23/about-verilog-newnote/</loc>
     <lastmod>2016-05-23T15:26:04.000Z</lastmod>
@@ -1680,7 +1768,6 @@
     </url>
 
     
-    
   <url>
     <loc>http://peihao.space/2016/04/07/context/</loc>
     <lastmod>2016-04-07T05:09:50.000Z</lastmod>
@@ -1868,7 +1955,6 @@
     </data>
     </url>
 
-    
     
   <url>
     <loc>http://peihao.space/2016/03/31/NoC-FIFO/</loc>
