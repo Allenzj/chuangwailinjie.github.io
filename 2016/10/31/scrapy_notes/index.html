@@ -5,22 +5,40 @@
   
   <title>Scrapy笔记 | 窗外临街</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这里先记录两种使用率最高的Spider：Spider和他的子类CrawlSpider.
-SpiderScrapy中所有的Spider都是继承自scrapy.spiders.Spider这个类，所以他有爬虫类的一些共性，以及最常规符合我们思路的爬虫思想。
-我们先看一下例子：">
+  <meta name="description" content="这里记录两种使用率最高的Spider：Spider和他的子类CrawlSpider.
+
+组件梳理先对整个Scrapy的部件进行梳理：
+
+Scrapy Engine引擎负责控制数据流在系统中所有组件中流动，并在相应动作发生时触发事件。
+
+调度器(Scheduler)调度器从引擎接受request并将他们入队，以便之后引擎请求他们时提供给引擎。
+
+下载器(Downloader)下载器负责获取页面数据并">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Scrapy笔记">
 <meta property="og:url" content="http://peihao.space/2016/10/31/scrapy_notes/index.html">
 <meta property="og:site_name" content="窗外临街">
-<meta property="og:description" content="这里先记录两种使用率最高的Spider：Spider和他的子类CrawlSpider.
-SpiderScrapy中所有的Spider都是继承自scrapy.spiders.Spider这个类，所以他有爬虫类的一些共性，以及最常规符合我们思路的爬虫思想。
-我们先看一下例子：">
-<meta property="og:updated_time" content="2016-10-31T08:55:49.359Z">
+<meta property="og:description" content="这里记录两种使用率最高的Spider：Spider和他的子类CrawlSpider.
+
+组件梳理先对整个Scrapy的部件进行梳理：
+
+Scrapy Engine引擎负责控制数据流在系统中所有组件中流动，并在相应动作发生时触发事件。
+
+调度器(Scheduler)调度器从引擎接受request并将他们入队，以便之后引擎请求他们时提供给引擎。
+
+下载器(Downloader)下载器负责获取页面数据并">
+<meta property="og:updated_time" content="2016-11-01T03:10:36.306Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Scrapy笔记">
-<meta name="twitter:description" content="这里先记录两种使用率最高的Spider：Spider和他的子类CrawlSpider.
-SpiderScrapy中所有的Spider都是继承自scrapy.spiders.Spider这个类，所以他有爬虫类的一些共性，以及最常规符合我们思路的爬虫思想。
-我们先看一下例子：">
+<meta name="twitter:description" content="这里记录两种使用率最高的Spider：Spider和他的子类CrawlSpider.
+
+组件梳理先对整个Scrapy的部件进行梳理：
+
+Scrapy Engine引擎负责控制数据流在系统中所有组件中流动，并在相应动作发生时触发事件。
+
+调度器(Scheduler)调度器从引擎接受request并将他们入队，以便之后引擎请求他们时提供给引擎。
+
+下载器(Downloader)下载器负责获取页面数据并">
   
     <link rel="alternative" href="/atom.xml" title="窗外临街" type="application/atom+xml">
   
@@ -164,7 +182,7 @@ var _hmt = _hmt || [];
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/BeautifulSoup/" style="font-size: 10px;">BeautifulSoup</a> <a href="/tags/C/" style="font-size: 10px;">C#</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/FTP/" style="font-size: 10.91px;">FTP</a> <a href="/tags/Front-End/" style="font-size: 11.82px;">Front End</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/ISE/" style="font-size: 10px;">ISE</a> <a href="/tags/JQuery/" style="font-size: 10.91px;">JQuery</a> <a href="/tags/NoC/" style="font-size: 12.73px;">NoC</a> <a href="/tags/Numpy/" style="font-size: 10px;">Numpy</a> <a href="/tags/Python/" style="font-size: 18.18px;">Python</a> <a href="/tags/Requests/" style="font-size: 11.82px;">Requests</a> <a href="/tags/Router/" style="font-size: 11.82px;">Router</a> <a href="/tags/Scrapy/" style="font-size: 11.82px;">Scrapy</a> <a href="/tags/Verilog/" style="font-size: 17.27px;">Verilog</a> <a href="/tags/Verilog-HDL/" style="font-size: 13.64px;">Verilog HDL</a> <a href="/tags/algorithm/" style="font-size: 19.09px;">algorithm</a> <a href="/tags/android/" style="font-size: 16.36px;">android</a> <a href="/tags/cgi/" style="font-size: 10px;">cgi</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/front-end/" style="font-size: 10px;">front end</a> <a href="/tags/hexo优化/" style="font-size: 10.91px;">hexo优化</a> <a href="/tags/java/" style="font-size: 14.55px;">java</a> <a href="/tags/lambda/" style="font-size: 10px;">lambda</a> <a href="/tags/lxml/" style="font-size: 10px;">lxml</a> <a href="/tags/matlab/" style="font-size: 13.64px;">matlab</a> <a href="/tags/matplotlib/" style="font-size: 10.91px;">matplotlib</a> <a href="/tags/noc/" style="font-size: 10.91px;">noc</a> <a href="/tags/pyquery/" style="font-size: 10px;">pyquery</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/re/" style="font-size: 10.91px;">re</a> <a href="/tags/router/" style="font-size: 11.82px;">router</a> <a href="/tags/torrent/" style="font-size: 10.91px;">torrent</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/verilog/" style="font-size: 10px;">verilog</a> <a href="/tags/xpath/" style="font-size: 10px;">xpath</a> <a href="/tags/二维码/" style="font-size: 10px;">二维码</a> <a href="/tags/仿真/" style="font-size: 11.82px;">仿真</a> <a href="/tags/基础知识/" style="font-size: 10px;">基础知识</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/实用/" style="font-size: 10px;">实用</a> <a href="/tags/微信/" style="font-size: 10px;">微信</a> <a href="/tags/模式匹配/" style="font-size: 10.91px;">模式匹配</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/编码/" style="font-size: 11.82px;">编码</a> <a href="/tags/网络/" style="font-size: 10.91px;">网络</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/随感/" style="font-size: 11.82px;">随感</a> <a href="/tags/随笔/" style="font-size: 15.45px;">随笔</a> <a href="/tags/音乐/" style="font-size: 11.82px;">音乐</a>
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/BeautifulSoup/" style="font-size: 10px;">BeautifulSoup</a> <a href="/tags/C/" style="font-size: 10px;">C#</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/FTP/" style="font-size: 10.91px;">FTP</a> <a href="/tags/Front-End/" style="font-size: 11.82px;">Front End</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/ISE/" style="font-size: 10px;">ISE</a> <a href="/tags/JQuery/" style="font-size: 10.91px;">JQuery</a> <a href="/tags/NoC/" style="font-size: 12.73px;">NoC</a> <a href="/tags/Numpy/" style="font-size: 10px;">Numpy</a> <a href="/tags/Python/" style="font-size: 18.18px;">Python</a> <a href="/tags/Requests/" style="font-size: 11.82px;">Requests</a> <a href="/tags/Router/" style="font-size: 11.82px;">Router</a> <a href="/tags/Scrapy/" style="font-size: 13.64px;">Scrapy</a> <a href="/tags/Verilog/" style="font-size: 17.27px;">Verilog</a> <a href="/tags/Verilog-HDL/" style="font-size: 13.64px;">Verilog HDL</a> <a href="/tags/algorithm/" style="font-size: 19.09px;">algorithm</a> <a href="/tags/android/" style="font-size: 16.36px;">android</a> <a href="/tags/cgi/" style="font-size: 10px;">cgi</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/front-end/" style="font-size: 10px;">front end</a> <a href="/tags/hexo优化/" style="font-size: 10.91px;">hexo优化</a> <a href="/tags/java/" style="font-size: 14.55px;">java</a> <a href="/tags/lambda/" style="font-size: 10px;">lambda</a> <a href="/tags/lxml/" style="font-size: 10px;">lxml</a> <a href="/tags/matlab/" style="font-size: 13.64px;">matlab</a> <a href="/tags/matplotlib/" style="font-size: 10.91px;">matplotlib</a> <a href="/tags/noc/" style="font-size: 10.91px;">noc</a> <a href="/tags/pyquery/" style="font-size: 10px;">pyquery</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/re/" style="font-size: 10.91px;">re</a> <a href="/tags/router/" style="font-size: 11.82px;">router</a> <a href="/tags/torrent/" style="font-size: 10.91px;">torrent</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/verilog/" style="font-size: 10px;">verilog</a> <a href="/tags/xpath/" style="font-size: 10px;">xpath</a> <a href="/tags/二维码/" style="font-size: 10px;">二维码</a> <a href="/tags/仿真/" style="font-size: 11.82px;">仿真</a> <a href="/tags/基础知识/" style="font-size: 10px;">基础知识</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/实用/" style="font-size: 10px;">实用</a> <a href="/tags/微信/" style="font-size: 10px;">微信</a> <a href="/tags/模式匹配/" style="font-size: 10.91px;">模式匹配</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/编码/" style="font-size: 11.82px;">编码</a> <a href="/tags/网络/" style="font-size: 10.91px;">网络</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/随感/" style="font-size: 11.82px;">随感</a> <a href="/tags/随笔/" style="font-size: 15.45px;">随笔</a> <a href="/tags/音乐/" style="font-size: 11.82px;">音乐</a>
 					</div>
 				</section>
 				
@@ -294,14 +312,43 @@ var _hmt = _hmt || [];
 			
 			  <div id="toc" class="toc-article">
 			    <strong class="toc-title">文章目录</strong>
-			    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Spider"><span class="toc-number">1.</span> <span class="toc-text">Spider</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CrawlSpider"><span class="toc-number">2.</span> <span class="toc-text">CrawlSpider</span></a></li></ol>
+			    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#组件梳理"><span class="toc-number">1.</span> <span class="toc-text">组件梳理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Spider"><span class="toc-number">2.</span> <span class="toc-text">Spider</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CrawlSpider"><span class="toc-number">3.</span> <span class="toc-text">CrawlSpider</span></a></li></ol>
 			  </div>
 			
-        <p>这里先记录两种使用率最高的Spider：Spider和他的子类CrawlSpider.</p>
+        <p>这里记录两种使用率最高的Spider：Spider和他的子类CrawlSpider.</p>
+<hr>
+<h1 id="组件梳理">组件梳理</h1><p>先对整个Scrapy的部件进行梳理：</p>
+<ul>
+<li><p>Scrapy Engine<br>引擎负责控制数据流在系统中所有组件中流动，并在相应动作发生时触发事件。</p>
+</li>
+<li><p>调度器(Scheduler)<br>调度器从引擎接受request并将他们入队，以便之后引擎请求他们时提供给引擎。</p>
+</li>
+<li><p>下载器(Downloader)<br>下载器负责获取页面数据并提供给引擎，而后提供给spider。</p>
+<a id="more"></a></li>
+<li><p>Spiders<br>Spider是Scrapy用户编写用于分析response并提取item(即获取到的item)或额外跟进的URL的类。 每个spider负责处理一个特定(或一些)网站。 更多内容请看 Spiders 。</p>
+</li>
+<li><p>Item Pipeline<br>Item Pipeline负责处理被spider提取出来的item。典型的处理有清理、 验证及持久化(例如存取到数据库中)。 更多内容查看 Item Pipeline 。</p>
+</li>
+<li><p>下载器中间件(Downloader middlewares)<br>下载器中间件是在引擎及下载器之间的特定钩子(specific hook)，处理Downloader传递给引擎的response（也包括引擎传递给下载器的Request）。 其提供了一个简便的机制，通过插入自定义代码来扩展Scrapy功能。处理下载请求部分</p>
+</li>
+<li><p>Spider中间件(Spider middlewares)<br>Spider中间件是在引擎及Spider之间的特定钩子(specific hook)，处理spider的输入(response)和输出(items及requests)。 其提供了一个简便的机制，通过插入自定义代码来扩展Scrapy功能，处理解析部分</p>
+</li>
+</ul>
+<ol>
+<li>引擎打开一个网站(open a domain)，找到处理该网站的Spider并向该spider请求第一个要爬取的URL(s)。</li>
+<li>引擎从Spider中获取到第一个要爬取的URL并在调度器(Scheduler)以Request调度。</li>
+<li>引擎向调度器请求下一个要爬取的URL。</li>
+<li>调度器返回下一个要爬取的URL给引擎，引擎将URL通过下载中间件(请求(request)方向)转发给下载器。</li>
+<li>一旦页面下载完毕，下载器生成一个该页面的Response，并将其通过下载中间件(返回(response)方向)发送给引擎。</li>
+<li>引擎从下载器中接收到Response并通过Spider中间件(输入方向)发送给Spider处理。</li>
+<li>Spider处理Response并返回爬取到的Item及(跟进的)新的Request给引擎。</li>
+<li>引擎将(Spider返回的)爬取到的Item给Item Pipeline，将(Spider返回的)Request给调度器。</li>
+<li>(从第二步)重复直到调度器中没有更多地request，引擎关闭该网站。</li>
+</ol>
 <h1 id="Spider">Spider</h1><p>Scrapy中所有的Spider都是继承自scrapy.spiders.Spider这个类，所以他有爬虫类的一些共性，以及最常规符合我们思路的爬虫思想。</p>
-<p>我们先看一下例子：<br><a id="more"></a><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> scrapy.linkextractors <span class="keyword">import</span> LinkExtractor</span><br><span class="line"><span class="keyword">from</span> douban.items <span class="keyword">import</span> CsdnItem</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CsdnSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">	name=<span class="string">'csdn'</span></span><br><span class="line">	allowed_domains=[<span class="string">'blog.csdn.net'</span>]</span><br><span class="line">	start_urls=[<span class="string">'http://blog.csdn.net/******/article/list/1'</span>]</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self,response)</span>:</span></span><br><span class="line">		<span class="keyword">for</span> info <span class="keyword">in</span> response.xpath(<span class="string">'//dl[@class="list_c clearfix"]/dd'</span>):</span><br><span class="line">			item=CsdnItem()</span><br><span class="line">			item[<span class="string">'title'</span>] = info.xpath(<span class="string">'h3/a/text()'</span>).extract()</span><br><span class="line">			item[<span class="string">'url'</span>] = info.xpath(<span class="string">'h3/a/@href'</span>).extract()</span><br><span class="line">			item[<span class="string">'description'</span>] = info.xpath(<span class="string">'p[@class="list_c_c"]/text()'</span>).extract()</span><br><span class="line">			item[<span class="string">'viewpoint'</span>]=info.xpath(<span class="string">'div[@class="list_c_b"]/div[@class="list_c_b_l"]/span[1]/text()'</span>).extract()</span><br><span class="line">			<span class="keyword">yield</span> item</span><br><span class="line">		next_page = response.xpath(<span class="string">'//div[@class="pagelist"]/a[text()="下一页"]/@href'</span>)</span><br><span class="line">		<span class="keyword">if</span> next_page:</span><br><span class="line">			url = <span class="string">'http://blog.csdn.net'</span>+next_page[<span class="number">0</span>].extract()</span><br><span class="line">			<span class="keyword">yield</span> scrapy.Request(url, self.parse)</span><br></pre></td></tr></table></figure></p>
+<p>我们先看一下例子：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> scrapy.linkextractors <span class="keyword">import</span> LinkExtractor</span><br><span class="line"><span class="keyword">from</span> douban.items <span class="keyword">import</span> CsdnItem</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CsdnSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">	name=<span class="string">'csdn'</span></span><br><span class="line">	allowed_domains=[<span class="string">'blog.csdn.net'</span>]</span><br><span class="line">	start_urls=[<span class="string">'http://blog.csdn.net/******/article/list/1'</span>]</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self,response)</span>:</span></span><br><span class="line">		<span class="keyword">for</span> info <span class="keyword">in</span> response.xpath(<span class="string">'//dl[@class="list_c clearfix"]/dd'</span>):</span><br><span class="line">			item=CsdnItem()</span><br><span class="line">			item[<span class="string">'title'</span>] = info.xpath(<span class="string">'h3/a/text()'</span>).extract()</span><br><span class="line">			item[<span class="string">'url'</span>] = info.xpath(<span class="string">'h3/a/@href'</span>).extract()</span><br><span class="line">			item[<span class="string">'description'</span>] = info.xpath(<span class="string">'p[@class="list_c_c"]/text()'</span>).extract()</span><br><span class="line">			item[<span class="string">'viewpoint'</span>]=info.xpath(<span class="string">'div[@class="list_c_b"]/div[@class="list_c_b_l"]/span[1]/text()'</span>).extract()</span><br><span class="line">			<span class="keyword">yield</span> item</span><br><span class="line">		next_page = response.xpath(<span class="string">'//div[@class="pagelist"]/a[text()="下一页"]/@href'</span>)</span><br><span class="line">		<span class="keyword">if</span> next_page:</span><br><span class="line">			url = <span class="string">'http://blog.csdn.net'</span>+next_page[<span class="number">0</span>].extract()</span><br><span class="line">			<span class="keyword">yield</span> scrapy.Request(url, self.parse)</span><br></pre></td></tr></table></figure></p>
 <p>上面的例子是我自己的某博客网站进行爬虫，获取所有文章的标题，url摘要和访问数信息。自定义的CsdnSpider类就是基类的子类，我们对name、allowed_domans和start_urls进行赋值，分别代表项目的唯一爬虫名称、此爬虫爬虫的站点范围和初始爬虫的入口url。</p>
-<p>设置之后，当我们开始进行爬虫程序后，scrapy.Spider末默认开始调用start_requests方法，对每个start_urls中的连接使用make_requests_from_url方法，尝试request访问并返回Request对象，scrapy的http模块对请求实现，并返回response对象。之后我们需要对response信息提取有用的信息。</p>
+<p>设置之后，当我们开始进行爬虫程序后，scrapy.Spider末默认开始调用start_requests方法，对每个start_urls中的连接使用make_requests_from_url方法，尝试request访问返回Request对象，scrapy的downloader对请求实现，并返回response对象。之后我们需要对response信息提取有用的信息。</p>
 <p>在spider类中，默认使用的解析方法是parse，按我们的理解来说，他应该算是抽象方法，也就是必须实现的方法，否则直接抛出Error<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError</span><br></pre></td></tr></table></figure></p>
 <p>response对象包含很多常用的属性，类似response.url、response.body等等都是能够直接返回数据，同时可以使用cssselector、xpath等方法对response深层的信息获取。item就是我们我们把需要获取的数据整合成的对象，包含一系列的Field属性保存爬取的数据；出现了yield说明这个函数是一个生成器，对比使用return，yield可以及时的将信息返回给pipline，更重要的是可以在一个生成器中同时生成一个Item和产生新的请求，return无法做到。</p>
 <p>上面的例子执行的话可以使用<br><code>scrapy crawl csdn -o xxx.json</code></p>
@@ -359,6 +406,15 @@ var _hmt = _hmt || [];
   
     
 <nav id="article-nav">
+  
+    <a href="/2016/11/02/scrapy_formrequest/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Scrapy解决formrequest中formdata为dict问题
+        
+      </div>
+    </a>
   
   
     <a href="/2016/10/28/scrapy-unicode/" id="article-nav-older" class="article-nav-link-wrap">

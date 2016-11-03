@@ -4,8 +4,52 @@
 
     
   <url>
+    <loc>http://peihao.space/2016/11/03/scrapy_zhihu/</loc>
+    <lastmod>2016-11-03T09:11:35.071Z</lastmod>
+    <data>
+        <display>
+        <title>Scrapy爬取知乎两种思路</title>
+        <pubTime>2016-11-03T08:28:30.000Z</pubTime>
+        
+        <tag>Scrapy</tag>
+         
+        <tag>python</tag>
+         
+         
+           
+             
+              <breadCrumb title="python" url="http://peihao.space/categories/python/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2016/11/02/scrapy_formrequest/</loc>
+    <lastmod>2016-11-03T07:43:47.778Z</lastmod>
+    <data>
+        <display>
+        <title>Scrapy解决formrequest中formdata为dict问题</title>
+        <pubTime>2016-11-02T14:28:30.000Z</pubTime>
+        
+        <tag>Scrapy</tag>
+         
+        <tag>python</tag>
+         
+         
+           
+             
+              <breadCrumb title="python" url="http://peihao.space/categories/python/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://peihao.space/2016/10/31/scrapy_notes/</loc>
-    <lastmod>2016-10-31T08:55:49.359Z</lastmod>
+    <lastmod>2016-11-01T03:10:36.306Z</lastmod>
     <data>
         <display>
         <title>Scrapy笔记</title>
@@ -113,6 +157,7 @@
     </data>
     </url>
 
+    
     
     
     
@@ -736,7 +781,6 @@
     </data>
     </url>
 
-    
     
   <url>
     <loc>http://peihao.space/2016/08/11/motion/</loc>
