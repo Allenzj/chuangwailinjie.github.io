@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://peihao.space/2016/11/05/today/</loc>
+    
+    <lastmod>2016-11-05T07:30:56.520Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://peihao.space/2016/11/03/scrapy_zhihu/</loc>
     
     <lastmod>2016-11-03T09:11:35.071Z</lastmod>
