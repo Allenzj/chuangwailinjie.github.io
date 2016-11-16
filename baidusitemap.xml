@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://peihao.space/2016/11/14/tornado/</loc>
-    <lastmod>2016-11-14T13:40:39.625Z</lastmod>
+    <lastmod>2016-11-15T15:39:01.174Z</lastmod>
     <data>
         <display>
         <title>Tornodo入门</title>
@@ -19,6 +19,48 @@
            
              
               <breadCrumb title="python" url="http://peihao.space/categories/python/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2016/11/14/asyn_loop/</loc>
+    <lastmod>2016-11-15T15:23:58.982Z</lastmod>
+    <data>
+        <display>
+        <title>阻塞/非阻塞&同步/异步</title>
+        <pubTime>2016-11-14T15:28:30.000Z</pubTime>
+        
+        <tag>网络</tag>
+         
+         
+           
+             
+              <breadCrumb title="网络" url="http://peihao.space/categories/%E7%BD%91%E7%BB%9C/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2016/11/15/io_multiplexing/</loc>
+    <lastmod>2016-11-15T15:18:47.266Z</lastmod>
+    <data>
+        <display>
+        <title>Linux IO多路复用(转)</title>
+        <pubTime>2016-11-15T15:28:30.000Z</pubTime>
+        
+        <tag>linux</tag>
+         
+        <tag>网络</tag>
+         
+         
+           
+             
+              <breadCrumb title="网络" url="http://peihao.space/categories/%E7%BD%91%E7%BB%9C/"/>
           
         </display>
     </data>

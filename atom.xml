@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://peihao.space/"/>
-  <updated>2016-11-14T13:40:39.625Z</updated>
+  <updated>2016-11-15T15:18:47.266Z</updated>
   <id>http://peihao.space/</id>
   
   <author>
@@ -16,11 +16,195 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Linux IO多路复用(转)</title>
+    <link href="http://peihao.space/2016/11/15/io_multiplexing/"/>
+    <id>http://peihao.space/2016/11/15/io_multiplexing/</id>
+    <published>2016-11-15T15:28:30.000Z</published>
+    <updated>2016-11-15T15:18:47.266Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://segmentfault.com/a/1190000003063859&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Linux IO模式-人云思云&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;IO模式&quot;&gt;IO模式&lt;/h1&gt;&lt;p&gt;对于一次IO访问，数据会先被拷贝到操作系统的内核缓冲中，然后应用会从缓冲区中获取数据，这中间有两个过程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;等待数据准备（waiting for data to be read）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;将数据从内核拷贝到进程中(copying the data from the kernel to the process)&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;一般有5种网络模式：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;阻塞&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;非阻塞&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;I/O多路复用&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;信号驱动&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;异步I/O&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;阻塞_I/O（blocking_IO）&quot;&gt;阻塞 I/O（blocking IO）&lt;/h2&gt;&lt;p&gt;在linux中，默认情况下所有的socket都是blocking，一个典型的读操作流程大概是这样：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://segmentfault.com/img/bVm1c3&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;当用户进程调用了recvfrom这个系统调用，kernel就开始了IO的第一个阶段：准备数据（对于网络IO来说，很多时候数据在一开始还没有到达。比如，还没有收到一个完整的UDP包。这个时候kernel就要等待足够的数据到来）。这个过程需要等待，也就是说数据被拷贝到操作系统内核的缓冲区中是需要一个过程的。而在用户进程这边，整个进程会被阻塞（当然，是进程自己选择的阻塞）。当kernel一直等到数据准备好了，它就会将数据从kernel中拷贝到用户内存，然后kernel返回结果，用户进程才解除block的状态，重新运行起来。&lt;/p&gt;
+&lt;p&gt;所以，blocking IO的特点就是在IO执行的两个阶段都被block了。&lt;/p&gt;
+&lt;h2 id=&quot;非阻塞_I/O（nonblocking_IO）&quot;&gt;非阻塞 I/O（nonblocking IO）&lt;/h2&gt;&lt;p&gt;linux下，可以通过设置socket使其变为non-blocking。当对一个non-blocking socket执行读操作时，流程是这个样子：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://segmentfault.com/img/bVm1c4&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;当用户进程发出read操作时，如果kernel中的数据还没有准备好，那么它并不会block用户进程，而是立刻返回一个error。从用户进程角度讲 ，它发起一个read操作后，并不需要等待，而是马上就得到了一个结果。用户进程判断结果是一个error时，它就知道数据还没有准备好，于是它可以再次发送read操作。一旦kernel中的数据准备好了，并且又再次收到了用户进程的system call，那么它马上就将数据拷贝到了用户内存，然后返回。&lt;/p&gt;
+&lt;p&gt;在这种模式下，之前提到的两种过程：等待数据拷贝到内核以及从内核拷贝到应用中，在第一个过程，进程并未被阻塞，依然可以继续进行下去，但是只能去不断的轮询数据是否到达了；第二个过程依然还是阻塞形式。&lt;/p&gt;
+&lt;h2 id=&quot;异步IO&quot;&gt;异步IO&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://segmentfault.com/img/bVm1c8&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;用户进程发起read操作之后，立刻就可以开始去做其它的事。而另一方面，从kernel的角度，当它受到一个asynchronous read之后，首先它会立刻返回，所以不会对用户进程产生任何block。然后，kernel会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel会给用户进程发送一个signal，告诉它read操作完成了。&lt;/p&gt;
+&lt;h2 id=&quot;I/O_多路复用（_IO_multiplexing）&quot;&gt;I/O 多路复用（ IO multiplexing）&lt;/h2&gt;&lt;p&gt;IO multiplexing就是我们说的select，poll，epoll，有些地方也称这种IO方式为event driven IO。select/epoll的好处就在于单个process就可以同时处理多个网络连接的IO。它的基本原理就是select，poll，epoll这个function会不断的轮询所负责的所有socket，当某个socket有数据到达了，就通知用户进程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://segmentfault.com/img/bVm1c5&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;当用户进程调用了select，那么整个进程会被block，而同时，kernel会“监视”所有select负责的socket，当任何一个socket中的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。&lt;/p&gt;
+&lt;p&gt;所以，I/O 多路复用的特点是通过一种机制一个进程能同时等待多个文件描述符，而这些文件描述符（套接字描述符）其中的任意一个进入读就绪状态，select()函数就可以返回。&lt;br&gt;这个图和blocking IO的图其实并没有太大的不同，事实上，还更差一些。因为这里需要使用两个system call (select 和 recvfrom)，而blocking IO只调用了一个system call (recvfrom)。但是，用select的优势在于它可以同时处理多个connection。&lt;/p&gt;
+&lt;p&gt;所以，如果处理的连接数不是很高的话，使用select/epoll的web server不一定比使用multi-threading + blocking IO的web server性能更好，可能延迟还更大。select/epoll的优势并不是对于单个连接能处理得更快，而是在于能处理更多的连接。）&lt;/p&gt;
+&lt;p&gt;在IO multiplexing Model中，实际中，对于每一个socket，一般都设置成为non-blocking，但是，如上图所示，整个用户的process其实是一直被block的。只不过process是被select这个函数block，而不是被socket IO给block。&lt;/p&gt;
+&lt;h1 id=&quot;asynchronous/synchronous_IO&quot;&gt;asynchronous/synchronous IO&lt;/h1&gt;&lt;p&gt;是同步IO还是异步IO在POSIX中是这样定义的：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A synchronous I/O operation causes the requesting process to be blocked until that I/O operation completes;&lt;/p&gt;
+&lt;p&gt;An asynchronous I/O operation does not cause the requesting process to be blocked;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;两者的区别就在于synchronous IO做”IO operation”的时候会将process阻塞。按照这个定义，之前所述的blocking IO，non-blocking IO，IO multiplexing都属于synchronous IO。&lt;/p&gt;
+&lt;p&gt;有人会说，non-blocking IO并没有被block啊。这里有个非常“狡猾”的地方，定义中所指的”IO operation”是指真实的IO操作，就是例子中的recvfrom这个system call。non-blocking IO在执行recvfrom这个system call的时候，如果kernel的数据没有准备好，这时候不会block进程。但是，当kernel中数据准备好的时候，recvfrom会将数据从kernel拷贝到用户内存中，这个时候进程是被block了，在这段时间内，进程是被block的。&lt;/p&gt;
+&lt;p&gt;而asynchronous IO则不一样，当进程发起IO 操作之后，就直接返回再也不理睬了，直到kernel发送一个信号，告诉进程说IO完成。在这整个过程中，进程完全没有被block。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://segmentfault.com/img/bVm1c9&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;多路复用的3种方式&quot;&gt;多路复用的3种方式&lt;/h1&gt;&lt;p&gt;select，poll，epoll都是IO多路复用的机制。I/O多路复用就是通过一种机制，一个进程可以监视多个描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。但select，poll，epoll本质上都是同步I/O，因为他们都需要在读写事件就绪后自己负责进行读写，也就是说这个读写过程是阻塞的，而异步I/O则无需自己负责进行读写，异步I/O的实现会负责把数据从内核拷贝到用户空间，异步I/O根本不会在数据复制的过程中接触到这些数据。&lt;/p&gt;
+&lt;h2 id=&quot;select&quot;&gt;select&lt;/h2&gt;&lt;p&gt;&lt;code&gt;int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;select 函数监视的文件描述符分3类，分别是writefds、readfds、和exceptfds。调用后select函数会阻塞，直到有描述副就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以 通过遍历fdset，来找到就绪的描述符，然后再一同使用recvfrom函数从描述符指引的地方拿数据。&lt;/p&gt;
+&lt;p&gt;select目前几乎在所有的平台上支持，其良好跨平台支持也是它的一个优点。select的一 个缺点在于单个进程能够监视的文件描述符的数量存在最大限制，在Linux上一般为1024，可以通过修改宏定义甚至重新编译内核的方式提升这一限制，但 是这样也会造成效率的降低。&lt;/p&gt;
+&lt;h2 id=&quot;poll&quot;&gt;poll&lt;/h2&gt;&lt;p&gt;&lt;code&gt;int poll (struct pollfd *fds, unsigned int nfds, int timeout);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;不同与select使用三个位图来表示三个fdset的方式，poll使用一个 pollfd的指针实现。&lt;/p&gt;
+&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; pollfd &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; fd; &lt;span class=&quot;comment&quot;&gt;/* file descriptor */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;short&lt;/span&gt; events; &lt;span class=&quot;comment&quot;&gt;/* requested events to watch */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;short&lt;/span&gt; revents; &lt;span class=&quot;comment&quot;&gt;/* returned events witnessed */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;pollfd结构包含了要监视的event和发生的event，不再使用select“参数-值”传递的方式。同时，pollfd并没有最大数量限制（但是数量过大后性能也是会下降）。 和select函数一样，poll返回后，需要轮询pollfd来获取就绪的描述符。&lt;/p&gt;
+&lt;p&gt;从上面看，select和poll都需要在返回后，通过遍历文件描述符来获取已经就绪的socket。事实上，同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。&lt;/p&gt;
+&lt;h2 id=&quot;epoll&quot;&gt;epoll&lt;/h2&gt;&lt;p&gt;epoll操作过程需要三个接口，分别如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;int epoll_create(int size)；//创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;int epoll_create(int size)&lt;/code&gt;&lt;br&gt;创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大，这个参数不同于select()中的第一个参数，给出最大监听的fd+1的值，参数size并不是限制了epoll所能监听的描述符最大个数，只是对内核初始分配内部数据结构的一个建议。&lt;br&gt;当创建好epoll句柄后，它就会占用一个fd值，在linux下如果查看/proc/进程id/fd/，是能够看到这个fd的，所以在使用完epoll后，必须调用close()关闭，否则可能导致fd被耗尽。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)&lt;/code&gt;&lt;br&gt;函数是对指定描述符fd执行op操作。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;epfd：是epoll_create()的返回值。&lt;/li&gt;
+&lt;li&gt;op：表示op操作，用三个宏来表示：添加EPOLL_CTL_ADD，删除EPOLL_CTL_DEL，修改EPOLL_CTL_MOD。分别添加、删除和修改对fd的监听事件。&lt;/li&gt;
+&lt;li&gt;fd：是需要监听的fd（文件描述符）&lt;/li&gt;
+&lt;li&gt;epoll_event：是告诉内核需要监听什么事，struct epoll_event结构如下：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;等待epfd上的io事件，最多返回maxevents个事件。&lt;br&gt;参数events用来从内核得到事件的集合，maxevents告之内核这个events有多大，这个maxevents的值不能大于创建epoll_create()时的size，参数timeout是超时时间（毫秒，0会立即返回，-1将不确定，也有说法说是永久阻塞）。该函数返回需要处理的事件数目，如返回0表示已超时。&lt;/p&gt;
+&lt;h2 id=&quot;工作模式&quot;&gt;工作模式&lt;/h2&gt;&lt;p&gt;epoll对文件描述符的操作有两种模式：LT（level trigger）和ET（edge trigger）。LT模式是默认模式，LT模式与ET模式的区别如下：
+　　&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;LT模式：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序可以不立即处理该事件。下次调用epoll_wait时，会再次响应应用程序并通知此事件。
+　　&lt;/li&gt;
+&lt;li&gt;ET模式：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序必须立即处理该事件。如果不处理，下次调用epoll_wait时，不会再次响应应用程序并通知此事件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;LT模式&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;LT(level triggered)是缺省的工作方式，并且同时支持block和no-block socket.在这种做法中，内核告诉你一个文件描述符是否就绪了，然后你可以对这个就绪的fd进行IO操作。如果你不作任何操作，内核还是会继续通知你的。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;ET模式&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;ET(edge-triggered)是高速工作方式，只支持no-block socket。在这种模式下，当描述符从未就绪变为就绪时，内核通过epoll告诉你。然后它会假设你知道文件描述符已经就绪，并且不会再为那个文件描述符发送更多的就绪通知，直到你做了某些操作导致那个文件描述符不再为就绪状态了(比如，你在发送，接收或者接收请求，或者发送接收的数据少于一定量时导致了一个EWOULDBLOCK 错误）。但是请注意，如果一直不对这个fd作IO操作(从而导致它再次变成未就绪)，内核不会发送更多的通知(only once)&lt;/p&gt;
+&lt;p&gt;ET模式在很大程度上减少了epoll事件被重复触发的次数，因此效率要比LT模式高。epoll工作在ET模式的时候，必须使用非阻塞套接口，以避免由于一个文件句柄的阻塞读/阻塞写操作把处理多个文件描述符的任务饿死。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;epoll优点&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 select/poll中，进程只有在调用一定的方法后，内核才对所有监视的文件描述符进行扫描，而epoll事先通过epoll_ctl()来注册一 个文件描述符，一旦基于某个文件描述符就绪时，内核会采用类似callback的回调机制，迅速激活这个文件描述符，当进程调用epoll_wait() 时便得到通知。(此处去掉了遍历文件描述符，而是通过监听回调的的机制。这正是epoll的魅力所在。)&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;监视的描述符数量不受限制，它所支持的FD上限是最大可以打开文件的数目，这个数字一般远大于2048,举个例子,在1GB内存的机器上大约是10万左 右，具体数目可以cat /proc/sys/fs/file-max察看,一般来说这个数目和系统内存关系很大。select的最大缺点就是进程打开的fd是有数量限制的。这对 于连接数量比较大的服务器来说根本不能满足。虽然也可以选择多进程的解决方案( Apache就是这样实现的)，不过虽然linux上面创建进程的代价比较小，但仍旧是不可忽视的，加上进程间数据同步远比不上线程间同步的高效，所以也不是一种完美的方案。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;IO的效率不会随着监视fd的数量的增长而下降。epoll不同于select和poll轮询的方式，而是通过每个fd定义的回调函数来实现的。只有就绪的fd才会执行回调函数。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如果没有大量的idle -connection或者dead-connection，epoll的效率并不会比select/poll高很多，但是当遇到大量的idle- connection，就会发现epoll的效率大大高于select/poll。&lt;/p&gt;
+&lt;h1 id=&quot;事件循环&quot;&gt;事件循环&lt;/h1&gt;&lt;p&gt;nginx和tornado的最高效实现实际上都是基于epoll或类似epoll（mac下是kqueue，windows下只支持select）的事件循环机制&lt;/p&gt;
+&lt;p&gt;异步事件驱动模型中，把会导致阻塞的操作转化为一个异步操作，主线程负责发起这个异步操作，并处理这个异步操作的结果。由于所有阻塞的操作都转化为异步操作，理论上主线程的大部分时间都是在处理实际的计算任务，少了多线程的调度时间，所以这种模型的性能通常会比较好。&lt;/p&gt;
+&lt;p&gt;事件驱动编程的架构是预先设计一个事件循环，这个事件循环程序不断地检查目前要处理的信息，根据要处理的信息运行一个触发函数。其中这个外部信息可能来自一个目录夹中的文件，可能来自键盘或鼠标的动作，或者是一个时间事件。这个触发函数，可以是系统默认的也可以是用户注册的回调函数。&lt;/p&gt;
+&lt;p&gt;事件驱动程序设计着重于弹性以及异步化上面。&lt;/p&gt;
+&lt;p&gt;基于事件驱动的编程是单线程思维，其特点是异步+回调。&lt;strong&gt;异步的实现可以使使用多线程，也可以将任务交给其他进程处理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;协程也是单线程，但是它能让原来要使用异步+回调方式写的非人类代码,可以用看似同步的方式写出来。它是实现推拉互动的所谓非抢占式协作的关键。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://segmentfault.com/a/1190000003063859&quot;&gt;Linux IO模式-人云思云&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;IO模式&quot;&gt;IO模式&lt;/h1&gt;&lt;p&gt;对于一次IO访问，数据会先被拷贝到操作系统的内核缓冲中，然后应用会从缓冲区中获取数据，这中间有两个过程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;等待数据准备（waiting for data to be read）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;将数据从内核拷贝到进程中(copying the data from the kernel to the process)&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="网络" scheme="http://peihao.space/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="linux" scheme="http://peihao.space/tags/linux/"/>
+    
+      <category term="网络" scheme="http://peihao.space/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>阻塞/非阻塞&amp;同步/异步</title>
+    <link href="http://peihao.space/2016/11/14/asyn_loop/"/>
+    <id>http://peihao.space/2016/11/14/asyn_loop/</id>
+    <published>2016-11-14T15:28:30.000Z</published>
+    <updated>2016-11-15T15:23:58.982Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;同步/异步&quot;&gt;同步/异步&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;http://library.tebyan.net/en/Viewer/Text/164873/92&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;The Sockets Networking API&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;同步和异步的区别在于，做一件事情，消息通知的流程。在同步中，是由发起者（调用者）主动等待消息反应，而异步情况则是有被动者（被调用者）通过反馈机制通知发起者来处理返回的消息&lt;/p&gt;
+&lt;p&gt;所以区分同步与异步，主要是消息处理前的行为&lt;/p&gt;
+&lt;h1 id=&quot;阻塞/非阻塞&quot;&gt;阻塞/非阻塞&lt;/h1&gt;&lt;p&gt;阻塞是在调用结果返回之前，当前&lt;strong&gt;线程/进程&lt;/strong&gt;将会被挂起，直到结果返回才会继续执行。&lt;/p&gt;
+&lt;p&gt;非阻塞情况不会阻塞当前线程，该线程还可以执行。&lt;/p&gt;
+&lt;p&gt;所以阻塞与非阻塞的关注点应该在于发出请求之后，请求未返回之前这段时间，线程是否有能力（被允许）执行之后的任务&lt;/p&gt;
+&lt;p&gt;阻塞是由系统自动执行阻塞原语(block)，使自己由运行状态变为阻塞状态。进程进入阻塞状态之后，不会占用CPU资源&lt;/p&gt;
+&lt;h1 id=&quot;coroutine与异步回调&quot;&gt;coroutine与异步回调&lt;/h1&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;协程&quot;&gt;协程&lt;/h2&gt;&lt;p&gt;coroutine即协程，是实现类异步执行的一种方式。 协程是什么呢，协程实际上是一种比线程更小的执行单元，自带context，协程实现类异步也是通过不断的切换；相比线程，协程仅仅是保持着cpu context，而进程一直维持着cache、断点等很多消耗时间、内存的地方。&lt;/p&gt;
+&lt;p&gt;协程的一些缺点：虽然相比线程来讲，减少了很多cache等数据维持，实际上context与线程相比并没有太多的提升，如果task是CPU密集型，使用协程可以看到很好的效果，I/O密集型则不会有很大改观，因为依然是阻塞式；协程是非系统层面感知的，无法使用系统的进程调度，我们只能主动的在协程的上层线程中重造调度器来实现协程间的调度；&lt;/p&gt;
+&lt;p&gt;解决：低速I/O与高速CPU协调问题&lt;/p&gt;
+&lt;h2 id=&quot;异步回调&quot;&gt;异步回调&lt;/h2&gt;&lt;p&gt;这是一种比较常见的异步使用方式，发起方调用任务，并设置指定的回调函数；调用方和被调用处于不同的线程中，调用方发起并启动新的被调用线程后继续执行后面的task，新线程执行完指定的调用任务后，通过多种消息通知方法通知调用方，这样调用放就能够继续执行异步调用数据。&lt;/p&gt;
+&lt;p&gt;缺点：将原有逻辑上整体的蛋糕强行分成了两部分甚至更多，这样不是很符合人类的逻辑理解。多个回调之间耦合性太高&lt;/p&gt;
+&lt;p&gt;异步的实现可以使用多线程，也可以将任务交给其他进程处理&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;同步/异步&quot;&gt;同步/异步&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;http://library.tebyan.net/en/Viewer/Text/164873/92&quot;&gt;The Sockets Networking API&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;同步和异步的区别在于，做一件事情，消息通知的流程。在同步中，是由发起者（调用者）主动等待消息反应，而异步情况则是有被动者（被调用者）通过反馈机制通知发起者来处理返回的消息&lt;/p&gt;
+&lt;p&gt;所以区分同步与异步，主要是消息处理前的行为&lt;/p&gt;
+&lt;h1 id=&quot;阻塞/非阻塞&quot;&gt;阻塞/非阻塞&lt;/h1&gt;&lt;p&gt;阻塞是在调用结果返回之前，当前&lt;strong&gt;线程/进程&lt;/strong&gt;将会被挂起，直到结果返回才会继续执行。&lt;/p&gt;
+&lt;p&gt;非阻塞情况不会阻塞当前线程，该线程还可以执行。&lt;/p&gt;
+&lt;p&gt;所以阻塞与非阻塞的关注点应该在于发出请求之后，请求未返回之前这段时间，线程是否有能力（被允许）执行之后的任务&lt;/p&gt;
+&lt;p&gt;阻塞是由系统自动执行阻塞原语(block)，使自己由运行状态变为阻塞状态。进程进入阻塞状态之后，不会占用CPU资源&lt;/p&gt;
+&lt;h1 id=&quot;coroutine与异步回调&quot;&gt;coroutine与异步回调&lt;/h1&gt;
+    
+    </summary>
+    
+      <category term="网络" scheme="http://peihao.space/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="网络" scheme="http://peihao.space/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Tornodo入门</title>
     <link href="http://peihao.space/2016/11/14/tornado/"/>
     <id>http://peihao.space/2016/11/14/tornado/</id>
     <published>2016-11-14T14:28:30.000Z</published>
-    <updated>2016-11-14T13:40:39.625Z</updated>
+    <updated>2016-11-15T15:39:01.174Z</updated>
     
     <content type="html">&lt;h1 id=&quot;引言&quot;&gt;引言&lt;/h1&gt;&lt;p&gt;首先来谈谈c10k问题。所谓c10k问题，指的是服务器同时支持成千上万个客户端的问题，也就是concurrent 10000 connection。由于硬件成本的大幅度降低和硬件技术的进步，如果一台服务器同时能够服务更多的客户端，那么也就意味着服务每一个客户端的成本大幅度降低，从这个角度来看，c10k问题显得非常有意义。&lt;/p&gt;
 &lt;p&gt;Tornado在设计之初就考虑到了性能因素，旨在解决C10K问题，这样的设计使得其成为一个拥有非常高性能的框架。此外，它还拥有处理安全性、用户验证、社交网络以及与外部服务（如数据库和网站API）进行异步交互的工具。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -43,6 +227,24 @@
 &lt;li&gt;&lt;code&gt;WrapHandler&lt;/code&gt;处理post请求，这里字符串的处理使用的是textwrap模块，可以方便的进行段落填充，并且设置每行的最大值&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;&lt;code&gt;curl http://localhost:8001/wrap -d text=Lorem+ipsum+dolor+sit+amet,+consectetuer+adipiscing+elit&lt;/code&gt;&lt;/p&gt;
+&lt;h1 id=&quot;异步执行&quot;&gt;异步执行&lt;/h1&gt;&lt;p&gt;上面的例子中，修改IndexHandler类：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; time&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;IndexHandler&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(tornado.web.RequestHandler)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(slef)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		time.sleep(&lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		greeting=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;greeting&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;Hello&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.write(ge=reeting+&lt;span class=&quot;string&quot;&gt;&#39;,*******&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;其他不用修改，此时我们按顺序在两个terminal中请求&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;curl http://localhost:8002/?greeting=clinjie&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;curl http://localhost:8002/reverse/home&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;可以发现，虽然我们执行的时间间隔非常小，不会超过3s，但是由于第一个请求被阻塞了，第二个很简单可以直接返回数据的请求也无法立刻执行，只能等待第一个请求执行完毕后开始执行后面的。&lt;/p&gt;
+&lt;p&gt;tornado与其他web framework最出彩的就是对于异步处理支持度很高。&lt;/p&gt;
+&lt;h2 id=&quot;tornado-web-asynchronous注解&quot;&gt;tornado.web.asynchronous注解&lt;/h2&gt;&lt;p&gt;在类前面使用&lt;code&gt;@tornado.web.asynchronous&lt;/code&gt;装饰注解，此后命中匹配这个类的连接将会被认为是长连接(long connection)，保持连接开启。注意这里很重要，tornado默认是在当前方法结束之后就会将连接关闭，但是使用异步情况下，我们将会使用callback function，必须要保持连接开启&lt;/p&gt;
+&lt;p&gt;直到某些到达状态（例如接受response）时都在等待。由于保证了长连接的状态，我们必须显式的执行self.finish关闭连接，否则连接是不会被关闭的，我们会一直等待，无法收到数据&lt;/p&gt;
+&lt;p&gt;在类前面加入装饰器之后这个程序还是不能达到我们想要的效果，还要在函数中定义回调函数并在下面实现&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;curl http://localhost:8002/?greeting=clinjie&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;修改下：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;IndexHandler&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(tornado.web.RequestHandler)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;decorator&quot;&gt;	@tornado.web.asynchronous&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		do sth...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		tornado.ioloop.IOLoop.instance().add_timeout(time.time() + &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;, callback=self.on_response)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;on_response&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;comment&quot;&gt;#self.write(self.greeting+&#39;,*******&#39;)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		do sth...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.finish()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;终于可以搞了！&lt;/p&gt;
+&lt;p&gt;新版本的tornado支持yield生成器，无需定义回调函数：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#@tornado.web.asynchronous不用了&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;decorator&quot;&gt;@tornado.gen.coroutine&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;yield&lt;/span&gt; tornado.gen.Task(tornado.ioloop.IOLoop.instance().add_timeout, time.time() + &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    self.write(&lt;span class=&quot;string&quot;&gt;&quot;when i sleep 5s&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;上面可以看到，要实现异步执行效果，都没有使用&lt;code&gt;time.sleep(m)&lt;/code&gt;方法，因为time.sleep方法是线程阻塞的，而我们使用asynchronous或者coroutine这类装饰器的就是将耗时的工作变成异步回调/协程状态保存的（否则根本就没有意义），这里只能另辟蹊径，使用异步的定时执行器：&lt;code&gt;tornado.ioloop.IOLoop.instance().add_timeout&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;基于IOLoop的，当我们get url进入get方法，耗时任务通过异步回调或者协程处理，底层通过epoll或者kqueue、select执行，但是你要来个time.sleep这种阻塞方法那就没得玩了，所以还是通过将定时器加入到IOLoop中实现类似sleep的效果&lt;/p&gt;
 </content>
     
     <summary type="html">
@@ -1031,112 +1233,6 @@
       <category term="随笔" scheme="http://peihao.space/tags/%E9%9A%8F%E7%AC%94/"/>
     
       <category term="音乐" scheme="http://peihao.space/tags/%E9%9F%B3%E4%B9%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Django初识6</title>
-    <link href="http://peihao.space/2016/09/18/django_intro6/"/>
-    <id>http://peihao.space/2016/09/18/django_intro6/</id>
-    <published>2016-09-18T04:24:06.000Z</published>
-    <updated>2016-09-17T13:45:33.870Z</updated>
-    
-    <content type="html">&lt;h1 id=&quot;静态文件相关&quot;&gt;静态文件相关&lt;/h1&gt;&lt;hr&gt;
-&lt;p&gt;除了服务端生成的 HTML 以外，网络应用通常需要一些其他的文件——比如图片，脚本和样式表——来帮助渲染网络页面。在 Django 中，我们把这些文件统称为“静态文件”。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;django.contrib.staticfile将各个应用的静态文件（和一些你指明的目录里的文件）统一收集起来，这样一来，在生产环境中，这些文件就会集中在一个便于分发的地方。&lt;/p&gt;
-&lt;p&gt;首先，在 polls 目录下创建一个 static 目录。 Django 将会从这里收集静态文件，就像 Django 在 polls/templates 里寻找模板一样。&lt;/p&gt;
-&lt;p&gt;Django 的 STATICFILES_FINDERS 设置项是一个列表，它包含了若干个知道如何从不同地点寻找静态文件的搜寻器。其中之一是 AppDirectoriesFinder，它会从 INSTALLED_APPS 中各个应用的 “static” 子目录中寻找文件，比如刚刚创建的 polls/static。 之前的管理页面也使用了相同的目录结构来管理静态文件。&lt;/p&gt;
-&lt;p&gt;在刚创建的 static 目录下创建一个 polls 目录，再在其中新建文件 style.css。也就是说，你的样式文件的位置是 polls/static/polls/style.css。由于 AppDirectoriesFinder 的存在，你可以在 Django 中使用 polls/style.css 来引用这个文件，就像我们引用模板文件那样。&lt;/p&gt;
-&lt;h2 id=&quot;静态文件命名空间&quot;&gt;静态文件命名空间&lt;/h2&gt;&lt;p&gt;和模板一个样，虽然我们可以直接把样式表放在 polls/static 目录下（而不是再创建一个 polls 子目录），但是这并不是个好主意。Django 将会使用它找到的第一个和名称项匹配文件，当你在另一个应用里也有一个同名的文件的话，Django 将无法区分它们。我们想让 Django 能够找到正确的文件，最简单的方法就是使用命名空间。也就是把静态文件放到一个和应用同名的子目录中。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;css文件&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;在polls/static/polls/style.css文件中编辑：&lt;/p&gt;
-&lt;figure class=&quot;highlight css&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;tag&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;rules&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;rule&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;color&lt;/span&gt;:&lt;span class=&quot;value&quot;&gt;red&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;html模板&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/djaogo/django_6_1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;load staticfiles语句会从staticfiles模板库里导入static模板标签，static标签会把静态文件引用转换成绝对地址&lt;/p&gt;
-&lt;h2 id=&quot;设置背景图片&quot;&gt;设置背景图片&lt;/h2&gt;&lt;p&gt;在static目录下设置专门存放图片的文件夹img,网页的背景图片地址为&lt;/p&gt;
-&lt;p&gt;polls/static/polls/img/xxx.png&lt;/p&gt;
-&lt;p&gt;在index。html模板中添加：&lt;/p&gt;
-&lt;figure class=&quot;highlight scss&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;value&quot;&gt;: &lt;span class=&quot;function&quot;&gt;url&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&quot;img/xxx.png&quot;&lt;/span&gt;)no-repeat center;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;静态文件相关&quot;&gt;静态文件相关&lt;/h1&gt;&lt;hr&gt;
-&lt;p&gt;除了服务端生成的 HTML 以外，网络应用通常需要一些其他的文件——比如图片，脚本和样式表——来帮助渲染网络页面。在 Django 中，我们把这些文件统称为“静态文件”。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="python" scheme="http://peihao.space/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://peihao.space/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Django初识5</title>
-    <link href="http://peihao.space/2016/09/17/django_intro5/"/>
-    <id>http://peihao.space/2016/09/17/django_intro5/</id>
-    <published>2016-09-17T04:24:06.000Z</published>
-    <updated>2016-09-17T12:16:38.370Z</updated>
-    
-    <content type="html">&lt;p&gt;测试相关&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;自动化测试是由某个系统帮你自动完成的。当你创建好了一系列测试，每次修改应用代码后，就可以自动检查出修改后的代码是否还像你曾经预期的那样正常工作。你不需要话费大量时间来进行手动测试。&lt;/p&gt;
-&lt;h1 id=&quot;实例&quot;&gt;实例&lt;/h1&gt;&lt;p&gt;在这个系列文章的第一部分，我们在poll投票应用中定义了一个Question model方法，返回当前投票问题是否是最近创建的，如果创建时间与当前时间相差不到24小时，则返回True.&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;was_published_recently&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; self.pub_date&amp;gt;=timezone.now()-datetime.timedelta(days=&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;很明显，这里有一个Bug，就是当我们手动修改问题的创建时间（实际操作可以在创建问题的构造函数修改，或者直接在项目后台修改）为未来时间，即timezone.now+的情况，方法依然会返回True.&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;prompt&quot;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;p=Question.objects.get(question_text=&lt;span class=&quot;string&quot;&gt;&#39;debug&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;prompt&quot;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;p&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;Question: debug&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;prompt&quot;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;p.was_published_recently()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;True&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;prompt&quot;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;p.pub_date&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;datetime.datetime(&lt;span class=&quot;number&quot;&gt;2016&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;9&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;22&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;29&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;57&lt;/span&gt;, tzinfo=&amp;lt;UTC&amp;gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;prompt&quot;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; django.utils &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; timezone&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;prompt&quot;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;timezone.now()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;datetime.datetime(&lt;span class=&quot;number&quot;&gt;2016&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;9&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;17&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;43&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;47&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;450885&lt;/span&gt;, tzinfo=&amp;lt;UT&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;C&amp;gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;手动将question_text为debug的Question对象pub_date时间修改为当前时间往后数5天，当我们测试was_published_recently()方法时，依然会反悔True.明显，这与我们的设计初衷不符合。&lt;/p&gt;
-&lt;h1 id=&quot;使用代码检测漏洞&quot;&gt;使用代码检测漏洞&lt;/h1&gt;&lt;p&gt;Django应用的额测试写在应用的test.py文件中，测试系统自动在所有以test开开头的文件中寻找bong执行测试代码。&lt;/p&gt;
-&lt;h2 id=&quot;测试初体验&quot;&gt;测试初体验&lt;/h2&gt;&lt;p&gt;下面我们就在头片应用polls/目录下的test.py文件中尝试test：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; datetime&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; django.utils &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; timezone&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; .models &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; Question&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;QuestionMethodTests&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(TestCase)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;test_was_published_recently_with_future_question&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		time=timezone.noew()+datetime.timedelta(days=&lt;span class=&quot;number&quot;&gt;30&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		future_question=Question(pub_date=time)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.assertEqual(future_question.was_published_recently(),&lt;span class=&quot;keyword&quot;&gt;False&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;在网站项目的根目录下启动终端：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ winpty python manage.py test polls&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Creating test database &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; alias &lt;span class=&quot;string&quot;&gt;&#39;default&#39;&lt;/span&gt;...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;F&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;============================================================&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;==========&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;FAIL: test_was_published_recently_with_future_question (poll&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;s.tests.QuestionMethodTests)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;------------------------------------------------------------&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;----------&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Traceback (most recent call last):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  File &lt;span class=&quot;string&quot;&gt;&quot;E:\djangosite\mysite\polls\tests.py&quot;&lt;/span&gt;, line &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; te&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;st_was_published_recently_with_future_question&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    self.assertEqual(future_question.was_published_recently(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;),&lt;span class=&quot;keyword&quot;&gt;False&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;AssertionError: &lt;span class=&quot;keyword&quot;&gt;True&lt;/span&gt; != &lt;span class=&quot;keyword&quot;&gt;False&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;------------------------------------------------------------&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;----------&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Ran &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; test &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0.002&lt;/span&gt;s&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;FAILED (failures=&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Destroying test database &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; alias &lt;span class=&quot;string&quot;&gt;&#39;default&#39;&lt;/span&gt;...&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;python manage.py test polls 将会寻找 poll 应用里的测试代码&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;它找到了一个 django.test.TestCase 的子类&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;它创建一个特殊的数据库供测试使用,与我们正常使用的数据库不同，在测试完成之后，数据将会自动销毁&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;它在类中寻找测试方法——以 test 开头的方法。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在 test_was_published_recently_with_future_question 方法中，它创建了一个 pub_date 值为未来第 30 天的 Question 实例。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;然后使用 assertEqual() 方法，发现 was_published_recently() 返回了 True，而我们希望它返回 False&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;为了做对比，我使用离当前时间前30小时作为问题发布时间：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;test_was_published_recently_with_future_question&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		time=timezone.now()+datetime.timedelta(hours=&lt;span class=&quot;number&quot;&gt;30&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		future_question=Question(pub_date=time)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.assertEqual(future_question.was_published_recently(),&lt;span class=&quot;keyword&quot;&gt;False&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ winpty python manage.py test polls&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Creating test database &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; alias &lt;span class=&quot;string&quot;&gt;&#39;default&#39;&lt;/span&gt;...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;------------------------------------------------------------&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;----------&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Ran &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; test &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0.001&lt;/span&gt;s&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;OK&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Destroying test database &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; alias &lt;span class=&quot;string&quot;&gt;&#39;default&#39;&lt;/span&gt;...&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;同时，我们应该修改views.py文件，将显示的返回集合修改。&lt;/p&gt;
-&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;def get_queryset(self):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	return Question.objects.order_by(&#39;-pub_date&#39;)[:5]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;---&amp;gt;&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;def get_queryset(self):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	return Question.objects.filter(pub_date_lte=timezone.now()).order_by(&#39;-pub_date&#39;)[:5]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h2 id=&quot;更全面的测试&quot;&gt;更全面的测试&lt;/h2&gt;&lt;p&gt;实际上，光是问题发布时间方面，如果想要更全面的测试，以上的测试还是不够的，我们需要未来时间的测试，一天之前时间的测试，以及一天之内时间的测试。&lt;/p&gt;
-&lt;p&gt;我们在上面实现了未来时间的测试，下面是剩余两项的测试：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; django.test &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; TestCase&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; datetime&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; django.utils &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; timezone&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; .models &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; Question&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;QuestionMethodTests&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(TestCase)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;test_was_published_recently_with_future_question&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;comment&quot;&gt;#按照设计，应该返回False&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		time=timezone.now()+datetime.timedelta(days=&lt;span class=&quot;number&quot;&gt;30&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		future_question=Question(pub_date=time)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.assertEqual(future_question.was_published_recently(),&lt;span class=&quot;keyword&quot;&gt;False&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;test_was_published_recently_with_old_question&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;comment&quot;&gt;#按照设计，应该返回False&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		time=timezone.now()-datetime.timedelta(days=&lt;span class=&quot;number&quot;&gt;30&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		old_question=Question(pub_date=time)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.assertEqual(old_question.was_published_recently(),&lt;span class=&quot;keyword&quot;&gt;False&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;test_was_published_recently_with_recent_question&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;comment&quot;&gt;#应该返回True&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		time=timezone.now()-datetime.timedelta(hours=&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		recent_question=Question(pub_date=time)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.assertEqual(recent_question.was_published_recently(),&lt;span class=&quot;keyword&quot;&gt;True&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ winpty python manage.py test polls&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Creating test database &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; alias &lt;span class=&quot;string&quot;&gt;&#39;default&#39;&lt;/span&gt;...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;------------------------------------------------------------&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;----------&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Ran &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt; tests &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0.003&lt;/span&gt;s&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;OK&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Destroying test database &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; alias &lt;span class=&quot;string&quot;&gt;&#39;default&#39;&lt;/span&gt;...&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;测试相关&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;自动化测试是由某个系统帮你自动完成的。当你创建好了一系列测试，每次修改应用代码后，就可以自动检查出修改后的代码是否还像你曾经预期的那样正常工作。你不需要话费大量时间来进行手动测试。&lt;/p&gt;
-&lt;h1 id=&quot;实例&quot;&gt;实例&lt;/h1&gt;&lt;p&gt;在这个系列文章的第一部分，我们在poll投票应用中定义了一个Question model方法，返回当前投票问题是否是最近创建的，如果创建时间与当前时间相差不到24小时，则返回True.&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;was_published_recently&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; self.pub_date&amp;gt;=timezone.now()-datetime.timedelta(days=&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-      <category term="python" scheme="http://peihao.space/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://peihao.space/tags/python/"/>
     
   </entry>
   
