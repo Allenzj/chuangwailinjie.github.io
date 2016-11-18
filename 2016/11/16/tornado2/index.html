@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>tornado2 | 窗外临街</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="模板基础与之前的Django类似的是，tornado同样是使用了MVT模式，通过模板渲染网页，tornado服务器端提取数据填充到模板文件中返回给client
+前面我们为了测试tornado异步框架以及最简单的request-response流程，没有使用Template，仅仅是简单的直接self.write写入到输出流返回给client
+py流程实际的开发流程中，都会用到template模板，类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tornado2">
+<meta property="og:url" content="http://peihao.space/2016/11/16/tornado2/index.html">
+<meta property="og:site_name" content="窗外临街">
+<meta property="og:description" content="模板基础与之前的Django类似的是，tornado同样是使用了MVT模式，通过模板渲染网页，tornado服务器端提取数据填充到模板文件中返回给client
+前面我们为了测试tornado异步框架以及最简单的request-response流程，没有使用Template，仅仅是简单的直接self.write写入到输出流返回给client
+py流程实际的开发流程中，都会用到template模板，类">
+<meta property="og:updated_time" content="2016-11-18T13:48:18.503Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tornado2">
+<meta name="twitter:description" content="模板基础与之前的Django类似的是，tornado同样是使用了MVT模式，通过模板渲染网页，tornado服务器端提取数据填充到模板文件中返回给client
+前面我们为了测试tornado异步框架以及最简单的request-response流程，没有使用Template，仅仅是简单的直接self.write写入到输出流返回给client
+py流程实际的开发流程中，都会用到template模板，类">
+  
+    <link rel="alternative" href="/atom.xml" title="窗外临街" type="application/atom+xml">
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?07ad8ea412265d4e0ce713ba2e3cd40a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?a706fa9fd732d608b9ad7e589d371545";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="baidu_js_push">
+	<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</div>
+<div class="overlay"> 
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div align="left" style="margin-top:6px;">
+<p style="color:#cccc99;font-size:90%">您好，培豪的第<span id="busuanzi_value_site_pv"></span>个小伙伴</p>
+</div>
+</div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">培豪</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/album">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/chuangwailinjie" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/chuangwailinjie" title="weibo">weibo</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/BeautifulSoup/" style="font-size: 10px;">BeautifulSoup</a> <a href="/tags/C/" style="font-size: 10px;">C#</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/FTP/" style="font-size: 11px;">FTP</a> <a href="/tags/Front-End/" style="font-size: 12px;">Front End</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/ISE/" style="font-size: 10px;">ISE</a> <a href="/tags/JQuery/" style="font-size: 11px;">JQuery</a> <a href="/tags/NoC/" style="font-size: 13px;">NoC</a> <a href="/tags/Numpy/" style="font-size: 10px;">Numpy</a> <a href="/tags/Python/" style="font-size: 18px;">Python</a> <a href="/tags/Requests/" style="font-size: 12px;">Requests</a> <a href="/tags/Router/" style="font-size: 12px;">Router</a> <a href="/tags/Scrapy/" style="font-size: 14px;">Scrapy</a> <a href="/tags/Tornodo/" style="font-size: 10px;">Tornodo</a> <a href="/tags/Verilog/" style="font-size: 17px;">Verilog</a> <a href="/tags/Verilog-HDL/" style="font-size: 14px;">Verilog HDL</a> <a href="/tags/algorithm/" style="font-size: 19px;">algorithm</a> <a href="/tags/android/" style="font-size: 16px;">android</a> <a href="/tags/cgi/" style="font-size: 10px;">cgi</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/front-end/" style="font-size: 10px;">front end</a> <a href="/tags/hexo优化/" style="font-size: 11px;">hexo优化</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/lambda/" style="font-size: 10px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/lxml/" style="font-size: 10px;">lxml</a> <a href="/tags/matlab/" style="font-size: 14px;">matlab</a> <a href="/tags/matplotlib/" style="font-size: 11px;">matplotlib</a> <a href="/tags/noc/" style="font-size: 11px;">noc</a> <a href="/tags/pyquery/" style="font-size: 10px;">pyquery</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/re/" style="font-size: 11px;">re</a> <a href="/tags/router/" style="font-size: 12px;">router</a> <a href="/tags/tornado/" style="font-size: 10px;">tornado</a> <a href="/tags/torrent/" style="font-size: 11px;">torrent</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/verilog/" style="font-size: 10px;">verilog</a> <a href="/tags/xpath/" style="font-size: 10px;">xpath</a> <a href="/tags/二维码/" style="font-size: 10px;">二维码</a> <a href="/tags/仿真/" style="font-size: 12px;">仿真</a> <a href="/tags/基础知识/" style="font-size: 10px;">基础知识</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/实用/" style="font-size: 10px;">实用</a> <a href="/tags/微信/" style="font-size: 10px;">微信</a> <a href="/tags/模式匹配/" style="font-size: 11px;">模式匹配</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/编码/" style="font-size: 12px;">编码</a> <a href="/tags/网络/" style="font-size: 14px;">网络</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/随感/" style="font-size: 12px;">随感</a> <a href="/tags/随笔/" style="font-size: 16px;">随笔</a> <a href="/tags/音乐/" style="font-size: 12px;">音乐</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">衣服晒干风在穿，我一个人，很简单，自己放纵自己管…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">培豪</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">培豪</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/album">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/chuangwailinjie" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/chuangwailinjie" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-tornado2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/16/tornado2/" class="article-date">
+  	<time datetime="2016-11-16T12:13:29.000Z" itemprop="datePublished">2016-11-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      tornado2
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tornado/">tornado</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/tornado/">tornado</a>
+	</div>
+
+
+
+		
+		<div class="bookicon"></div>
+		<div class="article-hit">
+		<span id="busuanzi_container_page_pv">
+  热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+	</div>
+	
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	      	<!-- Table of Contents -->
+			
+			  <div id="toc" class="toc-article">
+			    <strong class="toc-title">文章目录</strong>
+			    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#模板基础"><span class="toc-number">1.</span> <span class="toc-text">模板基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#py流程"><span class="toc-number">1.1.</span> <span class="toc-text">py流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模板文件"><span class="toc-number">1.2.</span> <span class="toc-text">模板文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模板扩展"><span class="toc-number">2.</span> <span class="toc-text">模板扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#extends"><span class="toc-number">2.1.</span> <span class="toc-text">extends</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#block"><span class="toc-number">2.2.</span> <span class="toc-text">block</span></a></li></ol></li></ol>
+			  </div>
+			
+        <h1 id="模板基础">模板基础</h1><p>与之前的Django类似的是，tornado同样是使用了MVT模式，通过模板渲染网页，tornado服务器端提取数据填充到模板文件中返回给client</p>
+<p>前面我们为了测试tornado异步框架以及最简单的request-response流程，没有使用Template，仅仅是简单的直接self.write写入到输出流返回给client</p>
+<h2 id="py流程">py流程</h2><p>实际的开发流程中，都会用到template模板，类似下面：<br><a id="more"></a><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os.path</span><br><span class="line"><span class="keyword">import</span> tornado.ioloop</span><br><span class="line"><span class="keyword">import</span> tornado.options</span><br><span class="line"><span class="keyword">import</span> tornado.web</span><br><span class="line"><span class="keyword">import</span> tornado.httpserver</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> tornado.options <span class="keyword">import</span> options,define</span><br><span class="line">define(<span class="string">'port'</span>,default=<span class="number">8001</span>,helo=<span class="string">'plz run on the given port'</span>,type=int)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IndexHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.render(<span class="string">'index.html'</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PoemHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self)</span>:</span></span><br><span class="line">        no1=self.get_argument(<span class="string">'no1'</span>)</span><br><span class="line">        no2=self.get_argument(<span class="string">'no2'</span>)</span><br><span class="line">        no3=self.get_argument(<span class="string">'no3'</span>)</span><br><span class="line">        verb=self.get_argument(<span class="string">'verb'</span>)</span><br><span class="line">        self.render(<span class="string">'poem.html'</span>,no1=no1,no2=no2,no3=no3,verb-verb)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __main__==<span class="string">'__main__'</span>:</span><br><span class="line">    tornodo.options.parse_command_line()</span><br><span class="line">    app=tornado.web.Application(</span><br><span class="line">    handler=[(<span class="string">r'/'</span>,IndexHandler),</span><br><span class="line">        (<span class="string">r'/poem'</span>,PoemHandler)]</span><br><span class="line">        template_path=os.path.join(os.path.dirname(__file__),<span class="string">'templates'</span>)</span><br><span class="line">    )</span><br><span class="line">    http_server=tornado.httpserver.HTTPServer(app)</span><br><span class="line">    http_server.listen(options.port)</span><br><span class="line">    tornado.ioloop.IOLoop.instance().start()</span><br></pre></td></tr></table></figure></p>
+<p>使用template之后，使用self.render代替了原有的self.write,render，提交给指定的html模板文件，并在方法中设置会在htlm文件中用到的context，然后tornodo就会把数据添到html文件中，之后把这个转换后的html文件作为response的body部分返回。</p>
+<p>这里用到了模板文件，发现这里是直接在render方法中使用文件名，也就是相对路径，因为我们在将所有需要监听的url加入到循环事件之前已经将template_path设置好了：</p>
+<p><code>tempalte_path=os.path.join(os.path.dirname(__file____),&#39;templates&#39;)</code></p>
+<h2 id="模板文件">模板文件</h2><p>前面的os.path.dirname(<strong>file</strong>)是将当前文件的目录提取出来，如果我们在执行这个程序的时候使用的是相对文件路径，那么返回的当然也是相对路径，总之就是返回可以识别的路径，然后后面加上’templates’这个目录名称，这个目录是提前创建好的，里面有两个模板文件：index.html和poem.html</p>
+<p>index.html文件是很简单的一个包含form表格的html:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--简单的写一个大题流程--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">form</span> <span class="attribute">action</span>=<span class="value">"/poem"</span> <span class="attribute">method</span>=<span class="value">"post"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">name</span>=<span class="value">"no1"</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">name</span>=<span class="value">"no2"</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">name</span>=<span class="value">"no3"</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">name</span>=<span class="value">"verb"</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"submit"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，我们的表单action是/poem，也就是说同构submit按钮提交会转给server_adderss:port/poem这个路径处理，正好对用着我们在Application中设置的url，<code>(r&#39;/poem&#39;,PoemHandler)</code>，这里，实际上index.html完全就是普通的html文件，跟正常的文件没有丝毫区别</p>
+<p>然后是使用模板流程的poem.html<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">    no1 --- &#123;&#123;no1&#125;&#125;</span><br><span class="line">    no2 --- &#123;&#123;no2&#125;&#125;</span><br><span class="line">    no3 --- &#123;&#123;no3&#125;&#125;</span><br><span class="line">    verb --- &#123;&#123;verb&#125;&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span></span></span><br></pre></td></tr></table></figure></p>
+<p>这里就用到了模板文件中常用的数据占位符号<code>{}</code></p>
+<p>我们在往上面的PoemHandler类的post方法看看那：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self)</span>:</span></span><br><span class="line">    no1=self.get_argument(<span class="string">'no1'</span>)</span><br><span class="line">    no2=self.get_argument(<span class="string">'no2'</span>)</span><br><span class="line">    ...</span><br><span class="line">    self.render(<span class="string">'poem.html'</span>,no1=no1,no2=no2,no3=no3,verb=verb)</span><br></pre></td></tr></table></figure>
+<p>由于是使用的post方法提交的转到的/poem页面，我们这里使用的是post方法处理数据（其他方法没有用）</p>
+<p>self.get_argument这个方法没什么好讲的，简单通俗，从post发来的信息中听过argument name提取数据，这里的参数名就是index.html表格中的input name=”…” 这个</p>
+<p><code>self.render(&#39;poem.html&#39;,no1=no1....)</code></p>
+<p>这里传递的context一定要设置好，即使我们在这里故意使用了相同的参数name，如果不在render方法中设置，服务器会认为你传递的是空的context，就像IndexHandler中的get方法一样，不需要使用context。</p>
+<p>我们在模板文件中用两个大括号包裹的就是设置的context的左值，右值是我们之前处理的数据。</p>
+<h1 id="模板扩展">模板扩展</h1><p>tornado中的模板扩展，包括extens和block块使用与Django都很相似，因为有前面的知识，这里我们简单过一下</p>
+<h2 id="extends">extends</h2><p>原始的base文件base.html中使用的所有tag、layout、css、js内容都能够在使用扩展命令的其他模板文件中直接使用：</p>
+<p><code>{\% extends base.html \%}</code></p>
+<p>这一点与Django完全一致</p>
+<h2 id="block">block</h2><p>只是继承原始的文件有什么用呢，一定要重写某些部分，够则与原始文件毫无二致，这需要2个步骤：</p>
+<ol>
+<li><p>在原始需要扩展的base.html中的某些需要替换部分使用<code>{\% block block_name \%}{\% end \%}</code></p>
+</li>
+<li><p>在扩展的文件中<code>{\% extends base.html \%}</code></p>
+</li>
+<li><p>在扩展的文件中重写<code>block_name</code>部分</p>
+</li>
+</ol>
+<ul>
+<li>base.html</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--base.html--&gt;</span></span><br><span class="line">hiahiahia</span><br><span class="line">&#123;\% block content \%&#125;</span><br><span class="line">    I am the base.html</span><br><span class="line">&#123;\% end \%&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>override.html</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--override.html--&gt;</span></span><br><span class="line">&#123;\% extends "base.html" \%&#125;</span><br><span class="line">&#123;\% block content \%&#125;</span><br><span class="line">I am the override.html</span><br><span class="line">&#123;\% end \%&#125;</span><br></pre></td></tr></table></figure>
+<p>override.html文件继承base.html文件内容，在content block块中修改相应的内容</p>
+<p>Tips:因为在base.html中我们定义的是完整的html标签，我们不可能破坏了原有的整体布局，当然也可以在块中继续使用html标签、引用css、js等</p>
+<p>这样我们在分别请求对应的url后会发现显示的不同的内容</p>
+<p>与Django做对比，Django模板中也有block部分，使用也相当相似：</p>
+<p><code>{\% block content \%}{\% endblock \%}</code></p>
+<p>在Django中因为要与for循环的结束符号<code>{\% endfor \%}</code>作出区别，没有直接使用end，而是选择了endblock，其他的毫无区别</p>
+
+      
+      
+	<! -- 添加捐赠图标 -->
+<div class ="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+           &weierp;&weierp;&weierp;<br>
+		   得到的是侥幸，失去的是人生
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden" >
+		<!-- 支付宝打赏图案 -->
+		<img src="/img/zhifubao.jpg" alt="支付宝打赏"> 
+		<!-- 微信打赏图案 -->
+		<img src="/img/wx.jpg" alt="微信打赏">  
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			$('#donate_board').addClass('hidden');
+			$('#donate_guide').removeClass('hidden');
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+
+
+	
+			<! -- 添加版权信息 -->
+<div class="article-footer-copyright">
+<p>本文由<b><a href="/index.html" target="_blank" title="培豪">培豪</a></b>创作和发表于&nbsp<a href="http://peihao.space">培豪的博客</a>&nbsp,采用<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">署名-非商业性使用-禁止演绎 3.0</a>进行许可。</p>
+
+<p>非商业转载请注明作者及出处。商业转载请联系作者本人。</p>
+ 
+ <p>本文标题为: <a href="http://peihao.space/2016/11/16/tornado2/">tornado2</a> </p>
+ 
+ <p>本文链接为：<a href="http://peihao.space/2016/11/16/tornado2/">http://peihao.space/2016/11/16/tornado2/</a></p>
+</div>
+<! -- 添加版权信息 -->
+		
+    </div>
+    
+  </div>
+
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/11/16/uwsgi/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">uwsgi</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+  
+		
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="tornado2" data-title="tornado2" data-url="http://peihao.space/2016/11/16/tornado2/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"chuangwailinjie"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 培豪
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<div id="totop" style="position:fixed;bottom:100px;right:30px;cursor: pointer;">
+<a title="返回顶部" ><img src="/img/scrollup.png"/></a>
+</div>
+<script src="/js/totop.js"></script>
+
+  </div>
+</body>
+</html>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://peihao.space/"/>
-  <updated>2016-11-15T15:18:47.266Z</updated>
+  <updated>2016-11-18T13:48:18.503Z</updated>
   <id>http://peihao.space/</id>
   
   <author>
@@ -16,11 +16,170 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Linux IO多路复用(转)</title>
+    <title>tornado2</title>
+    <link href="http://peihao.space/2016/11/16/tornado2/"/>
+    <id>http://peihao.space/2016/11/16/tornado2/</id>
+    <published>2016-11-16T12:13:29.000Z</published>
+    <updated>2016-11-18T13:48:18.503Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;模板基础&quot;&gt;模板基础&lt;/h1&gt;&lt;p&gt;与之前的Django类似的是，tornado同样是使用了MVT模式，通过模板渲染网页，tornado服务器端提取数据填充到模板文件中返回给client&lt;/p&gt;
+&lt;p&gt;前面我们为了测试tornado异步框架以及最简单的request-response流程，没有使用Template，仅仅是简单的直接self.write写入到输出流返回给client&lt;/p&gt;
+&lt;h2 id=&quot;py流程&quot;&gt;py流程&lt;/h2&gt;&lt;p&gt;实际的开发流程中，都会用到template模板，类似下面：&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; os.path&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.ioloop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.options&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.web&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.httpserver&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; tornado.options &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; options,define&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;define(&lt;span class=&quot;string&quot;&gt;&#39;port&#39;&lt;/span&gt;,default=&lt;span class=&quot;number&quot;&gt;8001&lt;/span&gt;,helo=&lt;span class=&quot;string&quot;&gt;&#39;plz run on the given port&#39;&lt;/span&gt;,type=int)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;IndexHandler&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(tornado.web.RequestHandler)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        self.render(&lt;span class=&quot;string&quot;&gt;&#39;index.html&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;PoemHandler&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(tornado.web.RequestHandler)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        no1=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;no1&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        no2=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;no2&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        no3=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;no3&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        verb=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;verb&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        self.render(&lt;span class=&quot;string&quot;&gt;&#39;poem.html&#39;&lt;/span&gt;,no1=no1,no2=no2,no3=no3,verb-verb)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; __main__==&lt;span class=&quot;string&quot;&gt;&#39;__main__&#39;&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    tornodo.options.parse_command_line()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    app=tornado.web.Application(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    handler=[(&lt;span class=&quot;string&quot;&gt;r&#39;/&#39;&lt;/span&gt;,IndexHandler),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        (&lt;span class=&quot;string&quot;&gt;r&#39;/poem&#39;&lt;/span&gt;,PoemHandler)]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        template_path=os.path.join(os.path.dirname(__file__),&lt;span class=&quot;string&quot;&gt;&#39;templates&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    )&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    http_server=tornado.httpserver.HTTPServer(app)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    http_server.listen(options.port)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    tornado.ioloop.IOLoop.instance().start()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;使用template之后，使用self.render代替了原有的self.write,render，提交给指定的html模板文件，并在方法中设置会在htlm文件中用到的context，然后tornodo就会把数据添到html文件中，之后把这个转换后的html文件作为response的body部分返回。&lt;/p&gt;
+&lt;p&gt;这里用到了模板文件，发现这里是直接在render方法中使用文件名，也就是相对路径，因为我们在将所有需要监听的url加入到循环事件之前已经将template_path设置好了：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;tempalte_path=os.path.join(os.path.dirname(__file____),&amp;#39;templates&amp;#39;)&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&quot;模板文件&quot;&gt;模板文件&lt;/h2&gt;&lt;p&gt;前面的os.path.dirname(&lt;strong&gt;file&lt;/strong&gt;)是将当前文件的目录提取出来，如果我们在执行这个程序的时候使用的是相对文件路径，那么返回的当然也是相对路径，总之就是返回可以识别的路径，然后后面加上’templates’这个目录名称，这个目录是提前创建好的，里面有两个模板文件：index.html和poem.html&lt;/p&gt;
+&lt;p&gt;index.html文件是很简单的一个包含form表格的html:&lt;/p&gt;
+&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;&amp;lt;!--简单的写一个大题流程--&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;form&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;action&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;/poem&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;method&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;post&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;no1&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;no2&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;no3&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;verb&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;submit&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;form&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;可以看到，我们的表单action是/poem，也就是说同构submit按钮提交会转给server_adderss:port/poem这个路径处理，正好对用着我们在Application中设置的url，&lt;code&gt;(r&amp;#39;/poem&amp;#39;,PoemHandler)&lt;/code&gt;，这里，实际上index.html完全就是普通的html文件，跟正常的文件没有丝毫区别&lt;/p&gt;
+&lt;p&gt;然后是使用模板流程的poem.html&lt;br&gt;&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    no1 --- &amp;#123;&amp;#123;no1&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    no2 --- &amp;#123;&amp;#123;no2&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    no3 --- &amp;#123;&amp;#123;no3&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    verb --- &amp;#123;&amp;#123;verb&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;body&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;这里就用到了模板文件中常用的数据占位符号&lt;code&gt;{}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;我们在往上面的PoemHandler类的post方法看看那：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    no1=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;no1&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    no2=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;no2&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    self.render(&lt;span class=&quot;string&quot;&gt;&#39;poem.html&#39;&lt;/span&gt;,no1=no1,no2=no2,no3=no3,verb=verb)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;由于是使用的post方法提交的转到的/poem页面，我们这里使用的是post方法处理数据（其他方法没有用）&lt;/p&gt;
+&lt;p&gt;self.get_argument这个方法没什么好讲的，简单通俗，从post发来的信息中听过argument name提取数据，这里的参数名就是index.html表格中的input name=”…” 这个&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;self.render(&amp;#39;poem.html&amp;#39;,no1=no1....)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;这里传递的context一定要设置好，即使我们在这里故意使用了相同的参数name，如果不在render方法中设置，服务器会认为你传递的是空的context，就像IndexHandler中的get方法一样，不需要使用context。&lt;/p&gt;
+&lt;p&gt;我们在模板文件中用两个大括号包裹的就是设置的context的左值，右值是我们之前处理的数据。&lt;/p&gt;
+&lt;h1 id=&quot;模板扩展&quot;&gt;模板扩展&lt;/h1&gt;&lt;p&gt;tornado中的模板扩展，包括extens和block块使用与Django都很相似，因为有前面的知识，这里我们简单过一下&lt;/p&gt;
+&lt;h2 id=&quot;extends&quot;&gt;extends&lt;/h2&gt;&lt;p&gt;原始的base文件base.html中使用的所有tag、layout、css、js内容都能够在使用扩展命令的其他模板文件中直接使用：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{\% extends base.html \%}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;这一点与Django完全一致&lt;/p&gt;
+&lt;h2 id=&quot;block&quot;&gt;block&lt;/h2&gt;&lt;p&gt;只是继承原始的文件有什么用呢，一定要重写某些部分，够则与原始文件毫无二致，这需要2个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;在原始需要扩展的base.html中的某些需要替换部分使用&lt;code&gt;{\% block block_name \%}{\% end \%}&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在扩展的文件中&lt;code&gt;{\% extends base.html \%}&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在扩展的文件中重写&lt;code&gt;block_name&lt;/code&gt;部分&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;base.html&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;&amp;lt;!--base.html--&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;hiahiahia&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;\% block content \%&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    I am the base.html&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;\% end \%&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;override.html&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;&amp;lt;!--override.html--&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;\% extends &quot;base.html&quot; \%&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;\% block content \%&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;I am the override.html&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;\% end \%&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;override.html文件继承base.html文件内容，在content block块中修改相应的内容&lt;/p&gt;
+&lt;p&gt;Tips:因为在base.html中我们定义的是完整的html标签，我们不可能破坏了原有的整体布局，当然也可以在块中继续使用html标签、引用css、js等&lt;/p&gt;
+&lt;p&gt;这样我们在分别请求对应的url后会发现显示的不同的内容&lt;/p&gt;
+&lt;p&gt;与Django做对比，Django模板中也有block部分，使用也相当相似：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{\% block content \%}{\% endblock \%}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在Django中因为要与for循环的结束符号&lt;code&gt;{\% endfor \%}&lt;/code&gt;作出区别，没有直接使用end，而是选择了endblock，其他的毫无区别&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;模板基础&quot;&gt;模板基础&lt;/h1&gt;&lt;p&gt;与之前的Django类似的是，tornado同样是使用了MVT模式，通过模板渲染网页，tornado服务器端提取数据填充到模板文件中返回给client&lt;/p&gt;
+&lt;p&gt;前面我们为了测试tornado异步框架以及最简单的request-response流程，没有使用Template，仅仅是简单的直接self.write写入到输出流返回给client&lt;/p&gt;
+&lt;h2 id=&quot;py流程&quot;&gt;py流程&lt;/h2&gt;&lt;p&gt;实际的开发流程中，都会用到template模板，类似下面：&lt;br&gt;
+    
+    </summary>
+    
+      <category term="tornado" scheme="http://peihao.space/categories/tornado/"/>
+    
+    
+      <category term="tornado" scheme="http://peihao.space/tags/tornado/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>uwsgi</title>
+    <link href="http://peihao.space/2016/11/16/uwsgi/"/>
+    <id>http://peihao.space/2016/11/16/uwsgi/</id>
+    <published>2016-11-16T03:27:38.000Z</published>
+    <updated>2016-11-18T12:17:35.350Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;wsgi&quot;&gt;wsgi&lt;/h1&gt;&lt;p&gt;先来讲讲Web应用，抛开dns、网络连接这些先不谈，我们只看服务器与浏览器client之间，静态Web应用一般是这样的流程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;浏览器发送一个http请求&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;服务器收到request，生成或者找到请求的文件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;服务器将html文件作为response的body部分返回/无需渲染文件直接返回&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;浏览器收到响应后，从response取出数据并填充、渲染&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;类似Apache、Nginx这类static server最擅长干的事情，就是我们提前将浏览器要访问的html页面、static文件（img、css、js）等放到静态服务器的指定位置，服务器接受请求返回文件&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;动态服务器的话因为要根据请求的url解析并生成数据返回给浏览器，上面的一些步骤就需要我们自己实现。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;不过，接受HTTP请求、解析HTTP请求、发送HTTP响应都是苦力活，如果我们自己来写这些底层代码，还没开始写动态HTML呢，就得花个把月去读HTTP规范。&lt;/p&gt;
+&lt;p&gt;正确的做法是底层代码由专门的服务器软件实现，我们用Python专注于生成HTML文档。因为我们不希望接触到TCP连接、HTTP原始请求和响应格式，所以，需要一个统一的接口，让我们专心用Python编写Web业务。&lt;/p&gt;
+&lt;p&gt;这个接口就是WSGI：Web Server Gateway Interface。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;WSGI接口定义非常简单，它只要求Web开发者实现一个函数，就可以响应HTTP请求。&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#app.py&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(environ,start_response)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	start_response(&lt;span class=&quot;string&quot;&gt;&#39;200 OK&#39;&lt;/span&gt;,[(&lt;span class=&quot;string&quot;&gt;&#39;Content-Type&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;text/html&#39;&lt;/span&gt;)])&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	body=&lt;span class=&quot;string&quot;&gt;&#39;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;hiahia&amp;lt;/title&amp;gt;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;Hello %s&amp;lt;/h1&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/head&amp;gt;&#39;&lt;/span&gt; % (environ[&lt;span class=&quot;string&quot;&gt;&#39;PATH_INFO&#39;&lt;/span&gt;][&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;:] &lt;span class=&quot;keyword&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;world&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; [body.encode(&lt;span class=&quot;string&quot;&gt;&#39;utf-8&#39;&lt;/span&gt;)]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这个函数是被wsgi服务器调用，跑在wsgi服务器上的，接受两个参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;environ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;包含所有HTTP请求信息的dict对象，上面使用的environ[‘PATH_INFO’]就是我们请求的服务器地址，例如服务器跑在本机端口8001上:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;curl http://localhost:8001/hiahiahia/hiahiahia&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;那么此时就会返回 Hello hiahiahia/hiahiahia，如果是直接请求/，会返回默认设置的’world’&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;start_response&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;发送HTTP响应的函数&lt;/p&gt;
+&lt;p&gt;application()函数中，调用：&lt;code&gt;start_response(&amp;#39;200 OK&amp;#39;, [(&amp;#39;Content-Type&amp;#39;, &amp;#39;text/html&amp;#39;)])&lt;/code&gt;&lt;br&gt;就发送了HTTP响应的Header，注意Header只能发送一次，也就是只能调用一次start_response()函数。start_response()函数接收两个参数，一个是HTTP响应码，一个是一组list表示的HTTP Header，每个Header用一个包含两个str的tuple表示。多个元祖之间以逗号分开，填充到list中&lt;/p&gt;
+&lt;p&gt;然后，函数的返回值b’&lt;/p&gt;&lt;h1&gt;Hello, web!&lt;/h1&gt;‘将作为HTTP响应的Body发送给浏览器。&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;有了WSGI，我们关心的就是如何从environ这个dict对象拿到HTTP请求信息，然后构造HTML，通过start_response()发送Header，最后返回Body。&lt;/p&gt;
+&lt;p&gt;整个application()函数本身没有涉及到任何解析HTTP的部分，也就是说，底层代码不需要我们自己编写，我们只负责在更高层次上考虑如何响应请求就可以了。&lt;/p&gt;
+&lt;p&gt;application()函数必须由WSGI服务器来调用，我们这里简单测试就用python自带的wsgiref&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#server.py&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; wsgiref.simple_server &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; make_server&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; app &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; application&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;httpd=make_server(&lt;span class=&quot;string&quot;&gt;&#39;&#39;&lt;/span&gt;,&lt;span class=&quot;number&quot;&gt;8001&lt;/span&gt;,application)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;httpd.serve_forever()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;无论多么复杂的Web应用程序，入口都是一个WSGI处理函数。HTTP请求的所有输入信息都可以通过environ获得，HTTP响应的输出都可以通过start_response()加上函数返回值作为Body。&lt;/p&gt;
+&lt;h1 id=&quot;uWSGI&quot;&gt;uWSGI&lt;/h1&gt;&lt;p&gt;uwsgi是uWSGI服务器自创的一种协议，是一种线路协议而非类似wsgi的通信协议。&lt;/p&gt;
+&lt;p&gt;uWSGI是实现了WSGI、uwsgi和http协议的服务器&lt;/p&gt;
+&lt;h2 id=&quot;django+uWSGI+nginx&quot;&gt;django+uWSGI+nginx&lt;/h2&gt;&lt;p&gt;这里吧django、uWSGI和nginx的关系梳理一下，网络上有大把的文章都是在描述这三者怎么搭载、怎么执行的，却没有好好介绍之间的联系：&lt;/p&gt;
+&lt;p&gt;Django实际上只是一个流行的开源框架，因为其高效、便捷全面的开发流程收到欢迎；&lt;/p&gt;
+&lt;p&gt;nginx为Django Project提供反向代理服务，是对外服务的接口，浏览器通过url请求服务器的时候，请求首先会经过nginx，nginx将请求分析，如果是静态文件则直接返回可用的静态文件，动态网页就转发给uwsgi；&lt;/p&gt;
+&lt;p&gt;uwsgi收到请求后处理成wsgi能够接受的格式，wsgi根据配置文件使用app的函数，然后把处理后的数据在打包成uwsgi接受的格式、转发给nginx-&amp;gt;传回给浏览器&lt;/p&gt;
+&lt;p&gt;从上面的流程中可以看到，实际上nginx做的处理静态文件请求这件事，uwsgi也是能做的，那么为什么还要用nginx呢？&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;对于静态文件的处理，nginx要比uwsgi好得多&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;程序不希望被浏览器访问到，而是通过nginx,nginx只开放某个接口，uwsgi本身则是内网接口，这样运维人员在nginx上加上安全性的限制，可以达到保护程序的作用&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;nginx可以做反向映射，一个uwsgi服务器可能不能保证程序的运行，放到多个服务器上，这样通过nginx配置文件中配置后，不同的app转发到不同的uwsgi上。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;关于反向映射，可以看这张图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/proxy.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;对于普通代理来讲，代理机与client(browser)属于同一个域，服务器将他们视为整体，代理的是client；&lt;/p&gt;
+&lt;p&gt;反向代理与真正的服务器在一个域，属于同一局域网，client将他们视为整体，代理的是后面多台服务器，主要有cache、安全性以及负载平衡方面的考虑&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;wsgi&quot;&gt;wsgi&lt;/h1&gt;&lt;p&gt;先来讲讲Web应用，抛开dns、网络连接这些先不谈，我们只看服务器与浏览器client之间，静态Web应用一般是这样的流程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;浏览器发送一个http请求&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;服务器收到request，生成或者找到请求的文件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;服务器将html文件作为response的body部分返回/无需渲染文件直接返回&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;浏览器收到响应后，从response取出数据并填充、渲染&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;类似Apache、Nginx这类static server最擅长干的事情，就是我们提前将浏览器要访问的html页面、static文件（img、css、js）等放到静态服务器的指定位置，服务器接受请求返回文件&lt;br&gt;
+    
+    </summary>
+    
+      <category term="网络" scheme="http://peihao.space/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="网络" scheme="http://peihao.space/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 网络IO模式(转)</title>
     <link href="http://peihao.space/2016/11/15/io_multiplexing/"/>
     <id>http://peihao.space/2016/11/15/io_multiplexing/</id>
     <published>2016-11-15T15:28:30.000Z</published>
-    <updated>2016-11-15T15:18:47.266Z</updated>
+    <updated>2016-11-16T08:59:04.679Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;&lt;a href=&quot;https://segmentfault.com/a/1190000003063859&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Linux IO模式-人云思云&lt;/a&gt;&lt;/p&gt;
@@ -45,17 +204,17 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&quot;阻塞_I/O（blocking_IO）&quot;&gt;阻塞 I/O（blocking IO）&lt;/h2&gt;&lt;p&gt;在linux中，默认情况下所有的socket都是blocking，一个典型的读操作流程大概是这样：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://segmentfault.com/img/bVm1c3&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/async/block_io.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;当用户进程调用了recvfrom这个系统调用，kernel就开始了IO的第一个阶段：准备数据（对于网络IO来说，很多时候数据在一开始还没有到达。比如，还没有收到一个完整的UDP包。这个时候kernel就要等待足够的数据到来）。这个过程需要等待，也就是说数据被拷贝到操作系统内核的缓冲区中是需要一个过程的。而在用户进程这边，整个进程会被阻塞（当然，是进程自己选择的阻塞）。当kernel一直等到数据准备好了，它就会将数据从kernel中拷贝到用户内存，然后kernel返回结果，用户进程才解除block的状态，重新运行起来。&lt;/p&gt;
 &lt;p&gt;所以，blocking IO的特点就是在IO执行的两个阶段都被block了。&lt;/p&gt;
 &lt;h2 id=&quot;非阻塞_I/O（nonblocking_IO）&quot;&gt;非阻塞 I/O（nonblocking IO）&lt;/h2&gt;&lt;p&gt;linux下，可以通过设置socket使其变为non-blocking。当对一个non-blocking socket执行读操作时，流程是这个样子：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://segmentfault.com/img/bVm1c4&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/async/nonblock_io.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;当用户进程发出read操作时，如果kernel中的数据还没有准备好，那么它并不会block用户进程，而是立刻返回一个error。从用户进程角度讲 ，它发起一个read操作后，并不需要等待，而是马上就得到了一个结果。用户进程判断结果是一个error时，它就知道数据还没有准备好，于是它可以再次发送read操作。一旦kernel中的数据准备好了，并且又再次收到了用户进程的system call，那么它马上就将数据拷贝到了用户内存，然后返回。&lt;/p&gt;
 &lt;p&gt;在这种模式下，之前提到的两种过程：等待数据拷贝到内核以及从内核拷贝到应用中，在第一个过程，进程并未被阻塞，依然可以继续进行下去，但是只能去不断的轮询数据是否到达了；第二个过程依然还是阻塞形式。&lt;/p&gt;
-&lt;h2 id=&quot;异步IO&quot;&gt;异步IO&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://segmentfault.com/img/bVm1c8&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;异步IO&quot;&gt;异步IO&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/async/asynchronous_io.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;用户进程发起read操作之后，立刻就可以开始去做其它的事。而另一方面，从kernel的角度，当它受到一个asynchronous read之后，首先它会立刻返回，所以不会对用户进程产生任何block。然后，kernel会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel会给用户进程发送一个signal，告诉它read操作完成了。&lt;/p&gt;
 &lt;h2 id=&quot;I/O_多路复用（_IO_multiplexing）&quot;&gt;I/O 多路复用（ IO multiplexing）&lt;/h2&gt;&lt;p&gt;IO multiplexing就是我们说的select，poll，epoll，有些地方也称这种IO方式为event driven IO。select/epoll的好处就在于单个process就可以同时处理多个网络连接的IO。它的基本原理就是select，poll，epoll这个function会不断的轮询所负责的所有socket，当某个socket有数据到达了，就通知用户进程。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://segmentfault.com/img/bVm1c5&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/async/io_multiplexing.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;当用户进程调用了select，那么整个进程会被block，而同时，kernel会“监视”所有select负责的socket，当任何一个socket中的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。&lt;/p&gt;
 &lt;p&gt;所以，I/O 多路复用的特点是通过一种机制一个进程能同时等待多个文件描述符，而这些文件描述符（套接字描述符）其中的任意一个进入读就绪状态，select()函数就可以返回。&lt;br&gt;这个图和blocking IO的图其实并没有太大的不同，事实上，还更差一些。因为这里需要使用两个system call (select 和 recvfrom)，而blocking IO只调用了一个system call (recvfrom)。但是，用select的优势在于它可以同时处理多个connection。&lt;/p&gt;
 &lt;p&gt;所以，如果处理的连接数不是很高的话，使用select/epoll的web server不一定比使用multi-threading + blocking IO的web server性能更好，可能延迟还更大。select/epoll的优势并不是对于单个连接能处理得更快，而是在于能处理更多的连接。）&lt;/p&gt;
@@ -68,7 +227,7 @@
 &lt;p&gt;两者的区别就在于synchronous IO做”IO operation”的时候会将process阻塞。按照这个定义，之前所述的blocking IO，non-blocking IO，IO multiplexing都属于synchronous IO。&lt;/p&gt;
 &lt;p&gt;有人会说，non-blocking IO并没有被block啊。这里有个非常“狡猾”的地方，定义中所指的”IO operation”是指真实的IO操作，就是例子中的recvfrom这个system call。non-blocking IO在执行recvfrom这个system call的时候，如果kernel的数据没有准备好，这时候不会block进程。但是，当kernel中数据准备好的时候，recvfrom会将数据从kernel拷贝到用户内存中，这个时候进程是被block了，在这段时间内，进程是被block的。&lt;/p&gt;
 &lt;p&gt;而asynchronous IO则不一样，当进程发起IO 操作之后，就直接返回再也不理睬了，直到kernel发送一个信号，告诉进程说IO完成。在这整个过程中，进程完全没有被block。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://segmentfault.com/img/bVm1c9&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/async/io_comparison.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;h1 id=&quot;多路复用的3种方式&quot;&gt;多路复用的3种方式&lt;/h1&gt;&lt;p&gt;select，poll，epoll都是IO多路复用的机制。I/O多路复用就是通过一种机制，一个进程可以监视多个描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。但select，poll，epoll本质上都是同步I/O，因为他们都需要在读写事件就绪后自己负责进行读写，也就是说这个读写过程是阻塞的，而异步I/O则无需自己负责进行读写，异步I/O的实现会负责把数据从内核拷贝到用户空间，异步I/O根本不会在数据复制的过程中接触到这些数据。&lt;/p&gt;
 &lt;h2 id=&quot;select&quot;&gt;select&lt;/h2&gt;&lt;p&gt;&lt;code&gt;int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;select 函数监视的文件描述符分3类，分别是writefds、readfds、和exceptfds。调用后select函数会阻塞，直到有描述副就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以 通过遍历fdset，来找到就绪的描述符，然后再一同使用recvfrom函数从描述符指引的地方拿数据。&lt;/p&gt;
@@ -1173,66 +1332,6 @@
     
     
       <category term="java" scheme="http://peihao.space/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>蓄水池</title>
-    <link href="http://peihao.space/2016/09/21/polls/"/>
-    <id>http://peihao.space/2016/09/21/polls/</id>
-    <published>2016-09-21T14:24:06.000Z</published>
-    <updated>2016-09-21T13:26:36.182Z</updated>
-    
-    <content type="html">&lt;h1 id=&quot;蓄水池算法&quot;&gt;蓄水池算法&lt;/h1&gt;&lt;p&gt;给定一个数据流，数据流的长度出事我们未知，需求时等概率的返回摸个数据流数值。从性能方面分析，我们为了节省空间性能，无需在遍历整个数据流之后保存，再进行随即等概率运算。这介绍一中蓄水池算法思想。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;就假设数据流的数值是升序进行，1、2、3、4…..，当我们获取第二个数值时，我们手中有两个数值进行选择，1和2，此时我们选择其中的一个抛手，此时进行的第二个数据，我们以1/2的概率处理。假设2被留下；继续读入数据流，读取到3，此时我们又有了两个数据，这是第三个数据，我们规定只有1/3的概率3才能留下，否则看留下的是前两个数字的胜出者，假设3留下；读入最后一个数据4,依照上面，只有1/4的概率，我们才留下4，否则留下前面3个数据的胜出者。我们计算一下这几个数值保留时的概率：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;1:&lt;code&gt;(1/1)*(1/2)*(2/3)*(3/4)=1/4&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;2:&lt;code&gt;(1/2)*(2/3)*(3/4)=1/4&lt;/code&gt; &lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;3：&lt;code&gt;(1/3)*(3/4)=1/4&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;4: &lt;code&gt;1/4&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;发现我们的规定是可以满足需求，等概率返回数值。&lt;/p&gt;
-&lt;p&gt;上面实际上使用了数学上的一个小技巧，多个分数相乘，前分母与后分子相同直接约掉即可，例如&lt;code&gt;(4/5)*(5/6)=4/6&lt;/code&gt;等等，由于当前阶段数值留下的概率是(1/数据流index)，而后面每次留下的概率都是(数据流index/数据流index+1)、(数据流index+1/数据流index+2)….所以满足这个思路&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;蓄水池算法&quot;&gt;蓄水池算法&lt;/h1&gt;&lt;p&gt;给定一个数据流，数据流的长度出事我们未知，需求时等概率的返回摸个数据流数值。从性能方面分析，我们为了节省空间性能，无需在遍历整个数据流之后保存，再进行随即等概率运算。这介绍一中蓄水池算法思想。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="algorithm、" scheme="http://peihao.space/categories/algorithm%E3%80%81/"/>
-    
-    
-      <category term="algorithm" scheme="http://peihao.space/tags/algorithm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>候鸟</title>
-    <link href="http://peihao.space/2016/09/18/%E5%80%99%E9%B8%9F/"/>
-    <id>http://peihao.space/2016/09/18/候鸟/</id>
-    <published>2016-09-18T12:36:28.000Z</published>
-    <updated>2016-09-18T11:26:25.934Z</updated>
-    
-    <content type="html">&lt;center&gt;&lt;br&gt;冰箱上有字条&lt;br&gt;&lt;br&gt;桌上有菜&lt;br&gt;&lt;br&gt;电锅里面有饭&lt;br&gt;&lt;br&gt;没有人在&lt;br&gt;&lt;br&gt;电话里的独白&lt;br&gt;&lt;br&gt;还在等待&lt;br&gt;&lt;br&gt;一个人的表情&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;怎么安排&lt;br&gt;&lt;br&gt;我也早有预感&lt;br&gt;&lt;br&gt;一起风满&lt;br&gt;&lt;br&gt;生命的窗忘了关&lt;br&gt;&lt;br&gt;吹进意外&lt;br&gt;&lt;br&gt;旅途上的愉快&lt;br&gt;&lt;br&gt;划过一半&lt;br&gt;&lt;br&gt;南方又在呼唤&lt;br&gt;&lt;br&gt;当我醒来&lt;br&gt;&lt;br&gt;飞过那片茫茫人海&lt;br&gt;&lt;br&gt;下个路口直走或转弯&lt;br&gt;&lt;br&gt;长大太慢老得太快&lt;br&gt;&lt;br&gt;等得太久&lt;br&gt;&lt;br&gt;结果太难猜&lt;br&gt;&lt;br&gt;我的故事被风吹散&lt;br&gt;&lt;br&gt;我的明天我从不期待&lt;br&gt;&lt;br&gt;所以现在我只想要&lt;br&gt;&lt;br&gt;寻找一丝最后的温暖&lt;br&gt;&lt;br&gt;包厢里的狂欢&lt;br&gt;&lt;br&gt;曲终人散&lt;br&gt;&lt;br&gt;长夜里的空白&lt;br&gt;&lt;br&gt;消化不完&lt;br&gt;&lt;br&gt;灵魂总是要贪&lt;br&gt;&lt;br&gt;片刻灿烂&lt;br&gt;&lt;br&gt;那双唇的孤单&lt;br&gt;&lt;br&gt;变得野蛮&lt;br&gt;&lt;br&gt;那陌生的阳光&lt;br&gt;&lt;br&gt;照在床单&lt;br&gt;&lt;br&gt;昨夜发生的事&lt;br&gt;&lt;br&gt;不想再猜&lt;br&gt;&lt;br&gt;而枕边的人啊&lt;br&gt;&lt;br&gt;一直在换&lt;br&gt;&lt;br&gt;每一次都以为&lt;br&gt;&lt;br&gt;到了终站&lt;br&gt;&lt;br&gt;飞过那片茫茫人海&lt;br&gt;&lt;br&gt;下个路口直走或转弯&lt;br&gt;&lt;br&gt;长大太慢老得太快&lt;br&gt;&lt;br&gt;等得太久&lt;br&gt;&lt;br&gt;结果太难猜&lt;br&gt;&lt;br&gt;我的故事被风吹散&lt;br&gt;&lt;br&gt;我的明天我从不期待&lt;br&gt;&lt;br&gt;所以现在我只想要&lt;br&gt;&lt;br&gt;寻找一丝最后的温暖&lt;br&gt;&lt;br&gt;&lt;img src=&quot;http://peihao.space/img/houniao.jpg&quot; alt=&quot;&quot;&gt;&lt;br&gt;&lt;br&gt;&lt;/center&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;center&gt;&lt;br&gt;冰箱上有字条&lt;br&gt;&lt;br&gt;桌上有菜&lt;br&gt;&lt;br&gt;电锅里面有饭&lt;br&gt;&lt;br&gt;没有人在&lt;br&gt;&lt;br&gt;电话里的独白&lt;br&gt;&lt;br&gt;还在等待&lt;br&gt;&lt;br&gt;一个人的表情&lt;br&gt;
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://peihao.space/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-      <category term="随笔" scheme="http://peihao.space/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-      <category term="音乐" scheme="http://peihao.space/tags/%E9%9F%B3%E4%B9%90/"/>
     
   </entry>
   
