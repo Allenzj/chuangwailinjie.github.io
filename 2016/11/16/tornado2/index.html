@@ -15,7 +15,7 @@ py流程实际的开发流程中，都会用到template模板，类">
 <meta property="og:description" content="模板基础与之前的Django类似的是，tornado同样是使用了MVT模式，通过模板渲染网页，tornado服务器端提取数据填充到模板文件中返回给client
 前面我们为了测试tornado异步框架以及最简单的request-response流程，没有使用Template，仅仅是简单的直接self.write写入到输出流返回给client
 py流程实际的开发流程中，都会用到template模板，类">
-<meta property="og:updated_time" content="2016-11-18T13:48:18.503Z">
+<meta property="og:updated_time" content="2016-11-18T14:11:45.455Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tornado2">
 <meta name="twitter:description" content="模板基础与之前的Django类似的是，tornado同样是使用了MVT模式，通过模板渲染网页，tornado服务器端提取数据填充到模板文件中返回给client
@@ -318,13 +318,13 @@ var _hmt = _hmt || [];
 <p>我们在模板文件中用两个大括号包裹的就是设置的context的左值，右值是我们之前处理的数据。</p>
 <h1 id="模板扩展">模板扩展</h1><p>tornado中的模板扩展，包括extens和block块使用与Django都很相似，因为有前面的知识，这里我们简单过一下</p>
 <h2 id="extends">extends</h2><p>原始的base文件base.html中使用的所有tag、layout、css、js内容都能够在使用扩展命令的其他模板文件中直接使用：</p>
-<p><code>{\% extends base.html \%}</code></p>
+<p><code>{ % extends base.html % }</code></p>
 <p>这一点与Django完全一致</p>
 <h2 id="block">block</h2><p>只是继承原始的文件有什么用呢，一定要重写某些部分，够则与原始文件毫无二致，这需要2个步骤：</p>
 <ol>
-<li><p>在原始需要扩展的base.html中的某些需要替换部分使用<code>{\% block block_name \%}{\% end \%}</code></p>
+<li><p>在原始需要扩展的base.html中的某些需要替换部分使用<code>{ % block block_name % }{ % end % }</code></p>
 </li>
-<li><p>在扩展的文件中<code>{\% extends base.html \%}</code></p>
+<li><p>在扩展的文件中<code>{ % extends base.html % }</code></p>
 </li>
 <li><p>在扩展的文件中重写<code>block_name</code>部分</p>
 </li>
@@ -332,17 +332,17 @@ var _hmt = _hmt || [];
 <ul>
 <li>base.html</li>
 </ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--base.html--&gt;</span></span><br><span class="line">hiahiahia</span><br><span class="line">&#123;\% block content \%&#125;</span><br><span class="line">    I am the base.html</span><br><span class="line">&#123;\% end \%&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--base.html--&gt;</span></span><br><span class="line">hiahiahia</span><br><span class="line">&#123; % block content % &#125;</span><br><span class="line">    I am the base.html</span><br><span class="line">&#123; % end % &#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>override.html</li>
 </ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--override.html--&gt;</span></span><br><span class="line">&#123;\% extends "base.html" \%&#125;</span><br><span class="line">&#123;\% block content \%&#125;</span><br><span class="line">I am the override.html</span><br><span class="line">&#123;\% end \%&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--override.html--&gt;</span></span><br><span class="line">&#123; % extends "base.html" % &#125;</span><br><span class="line">&#123; % block content % &#125;</span><br><span class="line">I am the override.html</span><br><span class="line">&#123; % end % &#125;</span><br></pre></td></tr></table></figure>
 <p>override.html文件继承base.html文件内容，在content block块中修改相应的内容</p>
 <p>Tips:因为在base.html中我们定义的是完整的html标签，我们不可能破坏了原有的整体布局，当然也可以在块中继续使用html标签、引用css、js等</p>
 <p>这样我们在分别请求对应的url后会发现显示的不同的内容</p>
 <p>与Django做对比，Django模板中也有block部分，使用也相当相似：</p>
-<p><code>{\% block content \%}{\% endblock \%}</code></p>
-<p>在Django中因为要与for循环的结束符号<code>{\% endfor \%}</code>作出区别，没有直接使用end，而是选择了endblock，其他的毫无区别</p>
+<p><code>{ % block content % }{ % endblock % }</code></p>
+<p>在Django中因为要与for循环的结束符号<code>{ % endfor % }</code>作出区别，没有直接使用end，而是选择了endblock，其他的毫无区别</p>
 
       
       

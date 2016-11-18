@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://peihao.space/"/>
-  <updated>2016-11-18T13:48:18.503Z</updated>
+  <updated>2016-11-18T14:11:45.455Z</updated>
   <id>http://peihao.space/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://peihao.space/2016/11/16/tornado2/"/>
     <id>http://peihao.space/2016/11/16/tornado2/</id>
     <published>2016-11-16T12:13:29.000Z</published>
-    <updated>2016-11-18T13:48:18.503Z</updated>
+    <updated>2016-11-18T14:11:45.455Z</updated>
     
     <content type="html">&lt;h1 id=&quot;模板基础&quot;&gt;模板基础&lt;/h1&gt;&lt;p&gt;与之前的Django类似的是，tornado同样是使用了MVT模式，通过模板渲染网页，tornado服务器端提取数据填充到模板文件中返回给client&lt;/p&gt;
 &lt;p&gt;前面我们为了测试tornado异步框架以及最简单的request-response流程，没有使用Template，仅仅是简单的直接self.write写入到输出流返回给client&lt;/p&gt;
@@ -43,13 +43,13 @@
 &lt;p&gt;我们在模板文件中用两个大括号包裹的就是设置的context的左值，右值是我们之前处理的数据。&lt;/p&gt;
 &lt;h1 id=&quot;模板扩展&quot;&gt;模板扩展&lt;/h1&gt;&lt;p&gt;tornado中的模板扩展，包括extens和block块使用与Django都很相似，因为有前面的知识，这里我们简单过一下&lt;/p&gt;
 &lt;h2 id=&quot;extends&quot;&gt;extends&lt;/h2&gt;&lt;p&gt;原始的base文件base.html中使用的所有tag、layout、css、js内容都能够在使用扩展命令的其他模板文件中直接使用：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;{\% extends base.html \%}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{ % extends base.html % }&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;这一点与Django完全一致&lt;/p&gt;
 &lt;h2 id=&quot;block&quot;&gt;block&lt;/h2&gt;&lt;p&gt;只是继承原始的文件有什么用呢，一定要重写某些部分，够则与原始文件毫无二致，这需要2个步骤：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;在原始需要扩展的base.html中的某些需要替换部分使用&lt;code&gt;{\% block block_name \%}{\% end \%}&lt;/code&gt;&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;在原始需要扩展的base.html中的某些需要替换部分使用&lt;code&gt;{ % block block_name % }{ % end % }&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在扩展的文件中&lt;code&gt;{\% extends base.html \%}&lt;/code&gt;&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;在扩展的文件中&lt;code&gt;{ % extends base.html % }&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;在扩展的文件中重写&lt;code&gt;block_name&lt;/code&gt;部分&lt;/p&gt;
 &lt;/li&gt;
@@ -57,17 +57,17 @@
 &lt;ul&gt;
 &lt;li&gt;base.html&lt;/li&gt;
 &lt;/ul&gt;
-&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;&amp;lt;!--base.html--&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;hiahiahia&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;\% block content \%&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    I am the base.html&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;\% end \%&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;&amp;lt;!--base.html--&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;hiahiahia&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123; % block content % &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    I am the base.html&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123; % end % &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;ul&gt;
 &lt;li&gt;override.html&lt;/li&gt;
 &lt;/ul&gt;
-&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;&amp;lt;!--override.html--&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;\% extends &quot;base.html&quot; \%&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;\% block content \%&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;I am the override.html&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;\% end \%&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;&amp;lt;!--override.html--&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123; % extends &quot;base.html&quot; % &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123; % block content % &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;I am the override.html&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123; % end % &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;override.html文件继承base.html文件内容，在content block块中修改相应的内容&lt;/p&gt;
 &lt;p&gt;Tips:因为在base.html中我们定义的是完整的html标签，我们不可能破坏了原有的整体布局，当然也可以在块中继续使用html标签、引用css、js等&lt;/p&gt;
 &lt;p&gt;这样我们在分别请求对应的url后会发现显示的不同的内容&lt;/p&gt;
 &lt;p&gt;与Django做对比，Django模板中也有block部分，使用也相当相似：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;{\% block content \%}{\% endblock \%}&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;在Django中因为要与for循环的结束符号&lt;code&gt;{\% endfor \%}&lt;/code&gt;作出区别，没有直接使用end，而是选择了endblock，其他的毫无区别&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{ % block content % }{ % endblock % }&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在Django中因为要与for循环的结束符号&lt;code&gt;{ % endfor % }&lt;/code&gt;作出区别，没有直接使用end，而是选择了endblock，其他的毫无区别&lt;/p&gt;
 </content>
     
     <summary type="html">
