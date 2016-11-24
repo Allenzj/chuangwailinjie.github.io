@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>http://peihao.space/2016/11/24/tornado-secure/</loc>
+    <lastmod>2016-11-24T15:22:40.594Z</lastmod>
+    <data>
+        <display>
+        <title>tornado安全技巧</title>
+        <pubTime>2016-11-24T04:28:30.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+         
+           
+             
+              <breadCrumb title="python" url="http://peihao.space/categories/python/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2015/11/22/linux-shell/</loc>
+    <lastmod>2016-11-24T04:28:21.095Z</lastmod>
+    <data>
+        <display>
+        <title>linux常用命令</title>
+        <pubTime>2015-11-22T11:40:22.000Z</pubTime>
+        
+        <tag>linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="linux" url="http://peihao.space/categories/linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://peihao.space/2015/11/21/centos-firewalld/</loc>
     <lastmod>2016-11-21T05:11:03.359Z</lastmod>
     <data>

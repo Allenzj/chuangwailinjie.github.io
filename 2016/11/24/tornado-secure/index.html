@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>tornado安全技巧 | 窗外临街</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="安全cookiesTornado的安全cookie使用加密签名验证cookies的值是否被除了服务器之外的程序修改过，未被我们授权的（不知道安全密钥）程序无法在应用不知情下修改cookies
+使用安全cookieTornado的set_secure_cookie()和get_secure_cookie()方法设置、请求浏览器的cookies，防止浏览器的恶意修改，在此之前，我们需要在构造函数中指定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tornado安全技巧">
+<meta property="og:url" content="http://peihao.space/2016/11/24/tornado-secure/index.html">
+<meta property="og:site_name" content="窗外临街">
+<meta property="og:description" content="安全cookiesTornado的安全cookie使用加密签名验证cookies的值是否被除了服务器之外的程序修改过，未被我们授权的（不知道安全密钥）程序无法在应用不知情下修改cookies
+使用安全cookieTornado的set_secure_cookie()和get_secure_cookie()方法设置、请求浏览器的cookies，防止浏览器的恶意修改，在此之前，我们需要在构造函数中指定">
+<meta property="og:updated_time" content="2016-11-24T15:22:40.594Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tornado安全技巧">
+<meta name="twitter:description" content="安全cookiesTornado的安全cookie使用加密签名验证cookies的值是否被除了服务器之外的程序修改过，未被我们授权的（不知道安全密钥）程序无法在应用不知情下修改cookies
+使用安全cookieTornado的set_secure_cookie()和get_secure_cookie()方法设置、请求浏览器的cookies，防止浏览器的恶意修改，在此之前，我们需要在构造函数中指定">
+  
+    <link rel="alternative" href="/atom.xml" title="窗外临街" type="application/atom+xml">
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?07ad8ea412265d4e0ce713ba2e3cd40a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?a706fa9fd732d608b9ad7e589d371545";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="baidu_js_push">
+	<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</div>
+<div class="overlay"> 
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div align="left" style="margin-top:6px;">
+<p style="color:#cccc99;font-size:90%">您好，培豪的第<span id="busuanzi_value_site_pv"></span>个小伙伴</p>
+</div>
+</div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">培豪</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/album">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/chuangwailinjie" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/chuangwailinjie" title="weibo">weibo</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/BeautifulSoup/" style="font-size: 10px;">BeautifulSoup</a> <a href="/tags/C/" style="font-size: 10px;">C#</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/FTP/" style="font-size: 10.91px;">FTP</a> <a href="/tags/Front-End/" style="font-size: 11.82px;">Front End</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/ISE/" style="font-size: 10px;">ISE</a> <a href="/tags/JQuery/" style="font-size: 10.91px;">JQuery</a> <a href="/tags/NoC/" style="font-size: 12.73px;">NoC</a> <a href="/tags/Numpy/" style="font-size: 10px;">Numpy</a> <a href="/tags/Python/" style="font-size: 18.18px;">Python</a> <a href="/tags/Requests/" style="font-size: 11.82px;">Requests</a> <a href="/tags/Router/" style="font-size: 11.82px;">Router</a> <a href="/tags/Scrapy/" style="font-size: 13.64px;">Scrapy</a> <a href="/tags/Tornodo/" style="font-size: 10px;">Tornodo</a> <a href="/tags/Verilog/" style="font-size: 17.27px;">Verilog</a> <a href="/tags/Verilog-HDL/" style="font-size: 13.64px;">Verilog HDL</a> <a href="/tags/algorithm/" style="font-size: 19.09px;">algorithm</a> <a href="/tags/android/" style="font-size: 16.36px;">android</a> <a href="/tags/cgi/" style="font-size: 10px;">cgi</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/front-end/" style="font-size: 10px;">front end</a> <a href="/tags/hexo优化/" style="font-size: 10.91px;">hexo优化</a> <a href="/tags/java/" style="font-size: 14.55px;">java</a> <a href="/tags/lambda/" style="font-size: 10px;">lambda</a> <a href="/tags/linux/" style="font-size: 11.82px;">linux</a> <a href="/tags/lxml/" style="font-size: 10px;">lxml</a> <a href="/tags/matlab/" style="font-size: 13.64px;">matlab</a> <a href="/tags/matplotlib/" style="font-size: 10.91px;">matplotlib</a> <a href="/tags/noc/" style="font-size: 10.91px;">noc</a> <a href="/tags/pyquery/" style="font-size: 10px;">pyquery</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/re/" style="font-size: 10.91px;">re</a> <a href="/tags/router/" style="font-size: 11.82px;">router</a> <a href="/tags/tornado/" style="font-size: 10px;">tornado</a> <a href="/tags/torrent/" style="font-size: 10.91px;">torrent</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/verilog/" style="font-size: 10px;">verilog</a> <a href="/tags/xpath/" style="font-size: 10px;">xpath</a> <a href="/tags/二维码/" style="font-size: 10px;">二维码</a> <a href="/tags/仿真/" style="font-size: 11.82px;">仿真</a> <a href="/tags/基础知识/" style="font-size: 10px;">基础知识</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/实用/" style="font-size: 10px;">实用</a> <a href="/tags/微信/" style="font-size: 10px;">微信</a> <a href="/tags/模式匹配/" style="font-size: 10.91px;">模式匹配</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/编码/" style="font-size: 11.82px;">编码</a> <a href="/tags/网络/" style="font-size: 15.45px;">网络</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/随感/" style="font-size: 11.82px;">随感</a> <a href="/tags/随笔/" style="font-size: 16.36px;">随笔</a> <a href="/tags/音乐/" style="font-size: 11.82px;">音乐</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">衣服晒干风在穿，我一个人，很简单，自己放纵自己管…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">培豪</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">培豪</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/album">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/chuangwailinjie" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/chuangwailinjie" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-tornado-secure" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/24/tornado-secure/" class="article-date">
+  	<time datetime="2016-11-24T04:28:30.000Z" itemprop="datePublished">2016-11-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      tornado安全技巧
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/python/">python</a>
+	</div>
+
+
+
+		
+		<div class="bookicon"></div>
+		<div class="article-hit">
+		<span id="busuanzi_container_page_pv">
+  热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+	</div>
+	
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	      	<!-- Table of Contents -->
+			
+			  <div id="toc" class="toc-article">
+			    <strong class="toc-title">文章目录</strong>
+			    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安全cookies"><span class="toc-number">1.</span> <span class="toc-text">安全cookies</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用安全cookie"><span class="toc-number">1.1.</span> <span class="toc-text">使用安全cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http-only&&ssl"><span class="toc-number">1.2.</span> <span class="toc-text">http-only&&ssl</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CSRF"><span class="toc-number">2.</span> <span class="toc-text">CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#举例"><span class="toc-number">2.1.</span> <span class="toc-text">举例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#防范措施"><span class="toc-number">2.2.</span> <span class="toc-text">防范措施</span></a></li></ol></li></ol>
+			  </div>
+			
+        <h1 id="安全cookies">安全cookies</h1><p>Tornado的安全cookie使用加密签名验证cookies的值是否被除了服务器之外的程序修改过，未被我们授权的（不知道安全密钥）程序无法在应用不知情下修改cookies</p>
+<h2 id="使用安全cookie">使用安全cookie</h2><p>Tornado的<code>set_secure_cookie()</code>和<code>get_secure_cookie()</code>方法设置、请求浏览器的cookies，防止浏览器的恶意修改，在此之前，我们需要在构造函数中指定cookie_secure参数。</p>
+<p>成功设定之后，应用在程序内部获取的cookie还是本身的值，在浏览器或抓包工具查看，发现cookie已经被加密，如果不知道密钥，无法获知cookie内容</p>
+<a id="more"></a>
+<p>如果通过恶意代码修改过cookie值，应用使用get_secure_cookie方法会获得None，此时我们可以在应用中判断，增加一些防范机制</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tornado.httpserver</span><br><span class="line"><span class="keyword">import</span> tornado.ioloop</span><br><span class="line"><span class="keyword">import</span> tornado.web</span><br><span class="line"><span class="keyword">import</span> tornado.options</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> tornado.options <span class="keyword">import</span> define, options</span><br><span class="line">define(<span class="string">"port"</span>, default=<span class="number">8001</span>, help=<span class="string">"run on the given port"</span>, type=int)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self)</span>:</span></span><br><span class="line">        times = self.get_secure_cookie(<span class="string">"count"</span>)</span><br><span class="line">        count = int(times) + <span class="number">1</span> <span class="keyword">if</span> times <span class="keyword">else</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        countString = <span class="string">"1 time"</span> <span class="keyword">if</span> count == <span class="number">1</span> <span class="keyword">else</span> <span class="string">"%d times"</span> % count</span><br><span class="line"></span><br><span class="line">        self.set_secure_cookie(<span class="string">"count"</span>, str(count))</span><br><span class="line"></span><br><span class="line">        self.write(</span><br><span class="line">            <span class="string">'&lt;html&gt;&lt;head&gt;&lt;title&gt;Cookie Counter&lt;/title&gt;&lt;/head&gt;'</span></span><br><span class="line">            <span class="string">'&lt;body&gt;&lt;h1&gt;You’ve viewed this page %s times.&lt;/h1&gt;'</span> % countString + </span><br><span class="line">            <span class="string">'&lt;/body&gt;&lt;/html&gt;'</span></span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    tornado.options.parse_command_line()</span><br><span class="line"></span><br><span class="line">    settings = &#123;</span><br><span class="line">        <span class="string">"cookie_secret"</span>: <span class="string">"bZJc2sWbQLKos6GkHn/VB9oXwQt8S0R0kRvJ5/xJ89E="</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    application = tortnado.web.Application([</span><br><span class="line">        (<span class="string">r'/'</span>, MainHandler)</span><br><span class="line">    ], **settings)</span><br><span class="line"></span><br><span class="line">    http_server = tornado.httpserver.HTTPServer(application)</span><br><span class="line">    http_server.listen(options.port)</span><br><span class="line">    tornado.ioloop.IOLoop.instance().start()</span><br></pre></td></tr></table></figure>
+<p>Tornado将cookie值编码为Base-64字符串</p>
+<h2 id="http-only&amp;&amp;ssl">http-only&amp;&amp;ssl</h2><p>Tornado的cookie功能依附于Python内建的Cokie模块，现在有两种常规的方法增强cookie的安全性，减少被截获的可能。</p>
+<ul>
+<li>为cookie设置<code>secure</code>属性只指示浏览器只通过SSL传递cookie</li>
+</ul>
+<p><code>self.set_cookie(&#39;foo&#39;,&#39;bar&#39;,secure=True)</code></p>
+<ul>
+<li>开启Http-only功能</li>
+</ul>
+<p><code>self.set_cookie(&#39;foo&#39;,&#39;bar&#39;,httponly=True)</code></p>
+<p>开启httponly之后，浏览器js不能访问cookie</p>
+<p>以上两种模式可以同时工作</p>
+<h1 id="CSRF">CSRF</h1><blockquote>
+<p>CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。CSRF通过伪装来自受信任用户的请求来利用受信任的网站。</p>
+</blockquote>
+<h2 id="举例">举例</h2><ol>
+<li>攻击通过在授权用户访问的页面中包含链接或者脚本的方式工作。例如：一个网站用户Bob可能正在浏览聊天论坛，而同时另一个用户Alice也在此论坛中，并且后者刚刚发布了一个具有Bob银行链接的图片消息。设想一下，Alice编写了一个在Bob的银行站点上进行取款的form提交的链接，并将此链接作为图片src。如果Bob的银行在cookie中保存他的授权信息，并且此cookie没有过期，那么当Bob的浏览器尝试装载图片时将提交这个取款form和他的cookie，这样在没经Bob同意的情况下便授权了这次事务</li>
+</ol>
+<ol>
+<li>假设Alice是Burt’s Books的一个普通顾客。当她在这个在线商店登录帐号后，网站使用一个浏览器cookie标识她。现在假设一个不择手段的作者，Melvin，想增加他图书的销量。在一个Alice经常访问的Web论坛中，他发表了一个带有HTML图像标签的条目，其源码初始化为在线商店购物的URL。比如：</li>
+</ol>
+<p><code>&lt;img src=&quot;http://store.burts-books.com/purchase?title=Melvins+Web+Sploitz&quot; /&gt;</code></p>
+<p>Alice的浏览器尝试获取这个图像资源，并且在请求中包含一个合法的cookies，并不知道取代小猫照片的是在线商店的购物URL,点击这个url，就会提交一个购买Melvin书籍的请求</p>
+<h2 id="防范措施">防范措施</h2><p>有很多预防措施可以防止这种类型的攻击。首先你在开发应用时需要深谋远虑。任何会产生副作用的HTTP请求，比如点击购买按钮、编辑账户设置、改变密码或删除文档，都应该使用HTTP POST方法。</p>
+<p>但是，这并不足够：一个恶意站点可能会通过其他手段，如HTML表单或XMLHTTPRequest API来向你的应用发送POST请求。保护POST请求需要额外的策略。</p>
+<p>为了防范伪造POST请求，我们会要求每个请求包括一个参数值作为令牌来匹配存储在cookie中的对应值。我们的应用将通过一个cookie头和一个隐藏的HTML表单元素向页面提供令牌。当一个合法页面的表单被提交时，它将包括表单值和已存储的cookie。如果两者匹配，我们的应用认定请求有效。</p>
+<p>由于第三方站点没有访问cookie数据的权限，他们将不能在请求中包含令牌cookie。这有效地防止了不可信网站发送未授权的请求。正如我们看到的，Tornado同样会让这个实现变得简单。</p>
+<hr>
+<p>在构造函数中包含xsrf_cookies参数开启XSRF保护：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">settings = &#123;</span><br><span class="line">    <span class="string">"cookie_secret"</span>: <span class="string">"bZJc2sWbQLKos6GkHn/VB9oXwQt8S0R0kRvJ5/xJ89E="</span>,</span><br><span class="line">    <span class="string">"xsrf_cookies"</span>: <span class="keyword">True</span></span><br><span class="line">&#125;</span><br><span class="line">application = tornado.web.Application([</span><br><span class="line">    (<span class="string">r'/'</span>, MainHandler),</span><br><span class="line">    (<span class="string">r'/purchase'</span>, PurchaseHandler),</span><br><span class="line">], **settings)</span><br></pre></td></tr></table></figure>
+<p>这个应用标识被设置时，Tornado将拒绝请求参数中不包含正确的_xsrf值的POST、PUT和DELETE请求。为了在提交时候自动加上_xsrf值信息，我们在模板中使用如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">form</span> <span class="attribute">action</span>=<span class="value">"/purchase"</span> <span class="attribute">method</span>=<span class="value">"POST"</span>&gt;</span></span><br><span class="line">    &#123;% raw xsrf_form_html() %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">name</span>=<span class="value">"title"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">name</span>=<span class="value">"quantity"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"submit"</span> <span class="attribute">value</span>=<span class="value">"Check Out"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>网页在浏览器中的源码形式一般如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"hidden"</span> <span class="attribute">name</span>=<span class="value">"_xsrf"</span> <span class="attribute">value</span>=<span class="value">"856ada5b160a9e27902f46631ce8e5d3"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Ajax请求也会需要_xsrf参数，通常是通过脚本在客户端查询浏览器获取cookie值。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCookie</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> c = <span class="built_in">document</span>.cookie.match(<span class="string">"\\b"</span> + name + <span class="string">"=([^;]*)\\b"</span>);</span><br><span class="line">    <span class="keyword">return</span> c ? c[<span class="number">1</span>] : <span class="literal">undefined</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">jQuery.postJSON = <span class="function"><span class="keyword">function</span>(<span class="params">url, data, callback</span>) </span>&#123;</span><br><span class="line">    data._xsrf = getCookie(<span class="string">"_xsrf"</span>);</span><br><span class="line">    jQuery.ajax(&#123;</span><br><span class="line">        url: url,</span><br><span class="line">        data: jQuery.param(data),</span><br><span class="line">        dataType: <span class="string">"json"</span>,</span><br><span class="line">        type: <span class="string">"POST"</span>,</span><br><span class="line">        success: callback</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      
+	<! -- 添加捐赠图标 -->
+<div class ="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+           &weierp;&weierp;&weierp;<br>
+		   得到的是侥幸，失去的是人生
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden" >
+		<!-- 支付宝打赏图案 -->
+		<img src="/img/zhifubao.jpg" alt="支付宝打赏"> 
+		<!-- 微信打赏图案 -->
+		<img src="/img/wx.jpg" alt="微信打赏">  
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			$('#donate_board').addClass('hidden');
+			$('#donate_guide').removeClass('hidden');
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+
+
+	
+			<! -- 添加版权信息 -->
+<div class="article-footer-copyright">
+<p>本文由<b><a href="/index.html" target="_blank" title="培豪">培豪</a></b>创作和发表于&nbsp<a href="http://peihao.space">培豪的博客</a>&nbsp,采用<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">署名-非商业性使用-禁止演绎 3.0</a>进行许可。</p>
+
+<p>非商业转载请注明作者及出处。商业转载请联系作者本人。</p>
+ 
+ <p>本文标题为: <a href="http://peihao.space/2016/11/24/tornado-secure/">tornado安全技巧</a> </p>
+ 
+ <p>本文链接为：<a href="http://peihao.space/2016/11/24/tornado-secure/">http://peihao.space/2016/11/24/tornado-secure/</a></p>
+</div>
+<! -- 添加版权信息 -->
+		
+    </div>
+    
+  </div>
+
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/11/16/tornado2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">tornado2</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+  
+		
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="tornado-secure" data-title="tornado安全技巧" data-url="http://peihao.space/2016/11/24/tornado-secure/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"chuangwailinjie"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 培豪
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<div id="totop" style="position:fixed;bottom:100px;right:30px;cursor: pointer;">
+<a title="返回顶部" ><img src="/img/scrollup.png"/></a>
+</div>
+<script src="/js/totop.js"></script>
+
+  </div>
+</body>
+</html>
