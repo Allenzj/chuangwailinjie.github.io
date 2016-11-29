@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://peihao.space/about/index.html</loc>
+    
+    <lastmod>2016-11-29T13:32:10.680Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peihao.space/tags/index.html</loc>
+    
+    <lastmod>2016-11-29T13:16:12.983Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peihao.space/categories/index.html</loc>
+    
+    <lastmod>2016-11-29T13:15:27.120Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://peihao.space/2016/11/24/tornado-secure/</loc>
     
     <lastmod>2016-11-24T15:22:40.594Z</lastmod>
