@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -92,10 +92,10 @@
 <meta property="og:url" content="http://peihao.space/2016/03/16/alter_torrent/index.html">
 <meta property="og:site_name" content="窗外临街">
 <meta property="og:description" content="写在前面接着上篇文章，torrent文件编码.在torrent文件编码这篇文章的开始我就说过，种子文件对于青年男士有着巨大的诱惑力。我也不例外，由于国内文化教育方面抓的比较紧，所以某些领域的文件信息无法通过种子文件离线下载、进入高速通道。这个实现的原理很简单，直接通过扫描种子文件的tracker、服务器地址显然不可取，那就遍历">
-<meta property="og:image" content="http://www.bt.com.au/images/homepage/panotile001.jpg">
+<meta property="og:image" content="http://img0.tech2ipo.com/upload/img/article/2015/01/1421913062966.jpg">
 <meta property="og:image" content="http://7xowaa.com1.z0.glb.clouddn.com/torrent1.png">
 <meta property="og:image" content="http://7xowaa.com1.z0.glb.clouddn.com/torrent2.png">
-<meta property="og:updated_time" content="2016-04-05T12:55:48.000Z">
+<meta property="og:updated_time" content="2016-11-30T09:37:53.593Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="洗白BT文件">
 <meta name="twitter:description" content="写在前面接着上篇文章，torrent文件编码.在torrent文件编码这篇文章的开始我就说过，种子文件对于青年男士有着巨大的诱惑力。我也不例外，由于国内文化教育方面抓的比较紧，所以某些领域的文件信息无法通过种子文件离线下载、进入高速通道。这个实现的原理很简单，直接通过扫描种子文件的tracker、服务器地址显然不可取，那就遍历">
@@ -106,7 +106,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Mist',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
@@ -231,6 +231,16 @@
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photos" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />
+            
+            相册
           </a>
         </li>
       
@@ -371,7 +381,7 @@
       
 
       
-        <p><img src="http://www.bt.com.au/images/homepage/panotile001.jpg" alt=""></p>
+        <p><img src="http://img0.tech2ipo.com/upload/img/article/2015/01/1421913062966.jpg" alt=""></p>
 <h1 id="写在前面">写在前面</h1><p>接着上篇文章，<a href="/2016/03/14/torrent/">torrent文件编码</a>.在<code>torrent文件编码</code>这篇文章的开始我就说过，种子文件对于青年男士有着巨大的诱惑力。我也不例外，由于国内文化教育方面抓的比较紧，所以某些领域的文件信息无法通过种子文件离线下载、进入高速通道。这个实现的原理很简单，直接通过扫描种子文件的tracker、服务器地址显然不可取，那就遍历<a id="more"></a>torrent包含的文件名吧，这些文件往往会有很多露骨的字眼，净网行动进行了这么多年，文化教育领域对付这一套显然很有心得。</p>
 <p>下面我们就先看一下torrent文件包含的文件吧，当然不是通过BT下载器：）</p>
 <h1 id="libtorrent">libtorrent</h1><p>不造轮子，从我做起。网络上已经有大牛们制作的torrent库，其中最流行的应该就是libtorrent。  </p>
@@ -379,6 +389,7 @@
 <p>libtorrent的python版本：</p>
 <p><strong>Building the libtorrent python bindings will produce a shared library (DLL) which is a python module that can be imported in a python program.</strong></p>
 <p>libtorrent API的中文翻译<a href="http://ksharpdabu.ctfile.com/file/18920987" target="_blank" rel="external">戳这里</a>,当然没有python版本的API文件，不过既然已经安装了libtorrent的python binding，熟悉C++的API也是必做的一步。有条件的筒子们还是建议去读英文版的API吧<a href="http://www.libtorrent.org/" target="_blank" rel="external">Here</a>，虽然我也不知道为什么这样推荐。</p>
+<h2 id="库安装">库安装</h2><p><a href="https://sourceforge.net/projects/libtorrent/files/py-libtorrent/" target="_blank" rel="external">win平台的msi文件</a>  推荐直接使用msi文件安装，libtorrent支持python2.x版本，直接使用libtorrent组织提供的python bind无法正常安装</p>
 <h1 id="torrent_info">torrent_info</h1><p>上篇文章已经介绍了torrent文件包含的基本结构，一般来讲，简单的torrent文件有以下内容:</p>
 <ul>
 <li>info</li>
@@ -690,7 +701,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#libtorrent"><span class="nav-number">2.</span> <span class="nav-text">libtorrent</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#torrent_info"><span class="nav-number">3.</span> <span class="nav-text">torrent_info</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单文件"><span class="nav-number">3.1.</span> <span class="nav-text">单文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多文件"><span class="nav-number">3.2.</span> <span class="nav-text">多文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#洗白"><span class="nav-number">4.</span> <span class="nav-text">洗白</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#效果"><span class="nav-number">5.</span> <span class="nav-text">效果</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#libtorrent"><span class="nav-number">2.</span> <span class="nav-text">libtorrent</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#库安装"><span class="nav-number">2.1.</span> <span class="nav-text">库安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#torrent_info"><span class="nav-number">3.</span> <span class="nav-text">torrent_info</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单文件"><span class="nav-number">3.1.</span> <span class="nav-text">单文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多文件"><span class="nav-number">3.2.</span> <span class="nav-text">多文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#洗白"><span class="nav-number">4.</span> <span class="nav-text">洗白</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#效果"><span class="nav-number">5.</span> <span class="nav-text">效果</span></a></li></ol></div>
             
 
           </div>
@@ -726,7 +737,7 @@
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow">
-    NexT.Muse
+    NexT.Mist
   </a>
 </div>
 

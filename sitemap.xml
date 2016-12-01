@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://peihao.space/album/edit.json</loc>
+    
+    <lastmod>2016-12-01T03:50:44.592Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peihao.space/photos/index.html</loc>
+    
+    <lastmod>2016-11-30T14:15:58.732Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peihao.space/2016/03/16/alter_torrent/</loc>
+    
+    <lastmod>2016-11-30T09:37:53.593Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peihao.space/2015/12/23/shadowsocks/</loc>
+    
+    <lastmod>2016-11-29T14:41:02.677Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://peihao.space/about/index.html</loc>
     
     <lastmod>2016-11-29T13:32:10.680Z</lastmod>
@@ -152,13 +180,6 @@
     <loc>http://peihao.space/404.html</loc>
     
     <lastmod>2016-10-15T13:41:31.094Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://peihao.space/album/edit.json</loc>
-    
-    <lastmod>2016-10-15T09:21:11.504Z</lastmod>
     
   </url>
   
@@ -765,13 +786,6 @@
   </url>
   
   <url>
-    <loc>http://peihao.space/2016/03/16/alter_torrent/</loc>
-    
-    <lastmod>2016-04-05T12:55:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://peihao.space/2016/01/25/spell_check/</loc>
     
     <lastmod>2016-04-05T12:54:26.000Z</lastmod>
@@ -1062,13 +1076,6 @@
     <loc>http://peihao.space/2016/01/25/python_cgi/</loc>
     
     <lastmod>2016-02-25T05:02:36.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://peihao.space/2015/12/23/shadowsocks/</loc>
-    
-    <lastmod>2016-02-25T05:00:48.000Z</lastmod>
     
   </url>
   
