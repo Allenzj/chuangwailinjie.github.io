@@ -1681,7 +1681,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #7fffd1;
+  background: #da9001;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2756,7 +2756,7 @@ hr {
 }
 .instagram .album ul {
   min-height: 250px;
-  padding-top: 17px;
+  padding-top: 13px;
   border-bottom: 1px solid #ddd;
   list-style: none;
 }
@@ -2771,7 +2771,7 @@ hr {
 }
 .instagram .album div.img-box {
   position: relative;
-  margin: 0 20px 10px;
+  margin: 0 15px 8px;
   -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.4), 0 1px 0 1px rgba(255,255,255,0.1);
   -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.4), 0 1px 0 1px rgba(255,255,255,0.1);
   box-shadow: 0 1px 0 rgba(255,255,255,0.4), 0 1px 0 1px rgba(255,255,255,0.1);
