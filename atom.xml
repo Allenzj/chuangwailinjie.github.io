@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://peihao.space/"/>
-  <updated>2017-02-28T12:16:11.996Z</updated>
+  <updated>2017-03-03T16:38:52.462Z</updated>
   <id>http://peihao.space/</id>
   
   <author>
@@ -16,11 +16,331 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>ML学习-SVM</title>
+    <link href="http://peihao.space/2017/03/05/ml-intro6/"/>
+    <id>http://peihao.space/2017/03/05/ml-intro6/</id>
+    <published>2017-03-05T05:18:42.000Z</published>
+    <updated>2017-03-03T16:38:52.462Z</updated>
+    
+    <content type="html">&lt;p&gt;支持向量机（Support Vector Machine）的求解通常是借助凸优化技术。&lt;/p&gt;
+&lt;h1 id=&quot;间隔与支持向量&quot;&gt;间隔与支持向量&lt;/h1&gt;&lt;p&gt;给定训练样本集$D={(x_1,y_1),(x_2,y_2),…,(x_m,y_m)},y_i \in (-1,+1 )$  分类学习最基本的思想就是基于训练集D在样本空间中找到一个划分超平面，将不同类别的样本分开。SVM就是帮助我们寻找到众多划分超平面中最符合的。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;怎样定义符合这个指标呢，作为分类问题，训练中能够尽可能划分出不同类别的样本是基本，然后在测试集中也能表现出来很好的分类能力，对未见示例泛化能力最强。在训练中表现的就是对训练样本局部扰动容忍度最高。&lt;/p&gt;
+&lt;h2 id=&quot;公式表示&quot;&gt;公式表示&lt;/h2&gt;&lt;p&gt;划分超平面可以用此式表示：&lt;/p&gt;
+&lt;p&gt;$\vec{\omega}^T \vec{x} + b=0$&lt;/p&gt;
+&lt;p&gt;其中$\vec{\omega}=(\omega_1;\omega_2;…;\omega_d)$为法向量，决定了超平面的方向；b为位向量，决定了超平面与原点之间的距离。&lt;/p&gt;
+&lt;p&gt;样本空间中任意点到超平面x到超平面$(\vec{\omega},b)$的距离可写为：&lt;/p&gt;
+&lt;p&gt;$r=\frac{\mid\vec{\omega}^T \vec{x}+b\mid}{\mid\mid \vec{\omega}\mid\mid}$&lt;/p&gt;
+&lt;p&gt;设置函数：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;$\omega^T x_i + b \geq +1 , y_i= +1$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;$\omega^T x_i + b \leq -1 , y_i= -1$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;简化两个式子：&lt;/p&gt;
+&lt;p&gt;$y_i(\omega^T x_i +b) \geq 1 , i=1,2,…,m$&lt;br&gt;这个是之后式子的约束条件&lt;/p&gt;
+&lt;p&gt;距离超平面最近的几个训练样本点使得上面的不等式等号成立，它们被称为支持向量(support vector)，两个异类支持向量到超平面的距离之和称为间隔(margin)&lt;/p&gt;
+&lt;p&gt;$\gamma = \frac{2}{\omega}$&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro6-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;为了使得间隔最大，也就是求$\max\limits_{w,b} \frac{2}{\mid\mid \omega \mid\mid}$&lt;/p&gt;
+&lt;p&gt;转换为$\min\limits_{w,b}\frac{\mid\mid \omega \mid\mid^2}{2}$&lt;/p&gt;
+&lt;p&gt;这就是支持向量机&lt;/p&gt;
+&lt;h1 id=&quot;对偶问题&quot;&gt;对偶问题&lt;/h1&gt;&lt;p&gt;模型$f(x)=\vec{\omega}^T \vec{x}+b$，参数$\omega b$是模型参数。而$\min\limits_{w,b}\frac{\mid\mid \omega \mid\mid^2}{2}$是一个凸二次规划，除了使用现成的优化计算包外，我们可以使用数学上的对偶关系更高效的求出结果。&lt;/p&gt;
+&lt;p&gt;对这个凸二次规划式子添加拉格朗日乘子$\alpha \geq 0$，则问题的拉格朗日函数可写为：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;$L(\vec{\omega},b,\vec{\alpha})=\frac{1}{2}\mid\mid \omega \mid\mid^2+\sum\limits_{i=1}^m\alpha_i(1-y_i(\omega^Tx_i+b))$&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;令L对$\omega b$的偏导为零可得：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;$\omega=\sum\limits_{i=1}^m \alpha_iy_ix_i$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;$0=\sum\limits_{i=1}^m\alpha_iy_i$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;式1代入拉格朗日式子，式2作为约束函数，得到上一小节式子的对偶问题：&lt;/p&gt;
+&lt;p&gt;$\max\limits_{\alpha}         \sum_{i=1}^m\alpha_i-\frac{1}{2}\sum_{i=1}^m\sum_{j=1}^m \alpha_i \alpha_j y_i y_jx_i^T x_j$&lt;/p&gt;
+&lt;p&gt;约束条件：$\sum\limits_{i=1}^m\alpha_iy_i=0$&lt;/p&gt;
+&lt;p&gt;上式是南教授《机器学习》书中记录的式子，这里认为下面式子可能更好理解&lt;/p&gt;
+&lt;p&gt;$\max\limits_{\alpha}         \sum_{i=1}^m\alpha_i+\frac{1}{2}\sum_{i=1}^m\sum_{j=1}^m \alpha_i \alpha_j y_i y_jx_i^T x_j$&lt;/p&gt;
+&lt;p&gt;从上式解出$\vec{\alpha}$之后，求出$\vec{\omega}$和b即可得到模型：&lt;/p&gt;
+&lt;p&gt;$f(\vec{x})=\vec{\omega}^T\vec{x}+b=\sum\limits_{i=1}^m \alpha_iy_ix_i^T\vec{x}+b$&lt;/p&gt;
+&lt;p&gt;支持向量机一个极其重要的特性就是：训练完成后，大部分的训练样本不需要保存，最终模型仅与支持向量有关。上式是一个二次规划问题，求解的高效办法是使用SMO。&lt;/p&gt;
+&lt;h2 id=&quot;使用SMO求解&quot;&gt;使用SMO求解&lt;/h2&gt;&lt;p&gt;SMO(Sequential Minimal Optimization)基本思路：固定$\alpha_i$之外的所有参数，然后求$\alpha_i$上的极值。&lt;/p&gt;
+&lt;p&gt;具体到这个问题，由于存在约束条件$\sum\limits_{i=1}^m\alpha_iy_i=0$，固定$\alpha$之外的值，则$\alpha$值都能导出。所以采用了部分的调整，每次固定两个变量$\alpha_i   \alpha_j$之外的其余参数，之后不断执行下述步骤直到收敛：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;选取一对需要更新的变量$\alpha_i \alpha_j$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;固定其余参数，求解上个小结推导出的式子更新$\alpha_i \alpha_j$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;对于两个需要更新参数$\alpha_i$和$\alpha_j$的选取，遵循一个规则，使选取的两变量所对应样本之间的间隔最大。&lt;/p&gt;
+&lt;h1 id=&quot;核函数&quot;&gt;核函数&lt;/h1&gt;&lt;p&gt;这个部分解决不能线性可分问题。&lt;/p&gt;
+&lt;p&gt;这类问题，一般是将样本从原始空间映射到更高维的特征空间，使得样本在高维度空间中线性可分。&lt;/p&gt;
+&lt;h2 id=&quot;引出&quot;&gt;引出&lt;/h2&gt;&lt;p&gt;令$\phi(\vec{x})$表示将$\vec{x}$映射后的特征向量，于是在特征空间中划分超平面对应的模型可以表示为：&lt;/p&gt;
+&lt;p&gt;$f(\vec{x})=\omega^T \phi(\vec{x})+b$&lt;/p&gt;
+&lt;p&gt;类似在线性可分情况下的式子：&lt;/p&gt;
+&lt;p&gt;$\min\limits_{\vec{w},b} \frac{\mid\mid \vec{\omega} \mid\mid^2}{2}$&lt;/p&gt;
+&lt;p&gt;约束条件：&lt;/p&gt;
+&lt;p&gt;$y_i(\vec{\omega}^T \phi(x_i)+b) \geq 1, i=1,2,…,m$&lt;/p&gt;
+&lt;p&gt;对偶问题：&lt;/p&gt;
+&lt;p&gt;$\max\limits_{\alpha}  \sum\limits_{i=1}^m\alpha_i-\frac{1}{2}\sum\limits_{i=1}^m\sum\limits_{j=1}^m \alpha_i\alpha_jy_iy_j \phi(x_i)^T\phi(x_j)$&lt;/p&gt;
+&lt;p&gt;约束条件：$\sum\limits_{i=1}^m \alpha_i y_i =0$&lt;/p&gt;
+&lt;p&gt;关键问题$\phi(x_i)^T\phi(x_j)$是映射到特征空间之后的内积。由于维度太高不易计算，构造这样的函数：&lt;/p&gt;
+&lt;p&gt;$\kappa(\vec{x}_i,\vec{x}_j)=\langle \phi(x_i),\phi(x_j) \rangle = \phi(x_i)^T\phi(x_j)$&lt;/p&gt;
+&lt;p&gt;原式求解得到：&lt;/p&gt;
+&lt;p&gt;$f(\vec{x})=\vec{\omega}^T\phi(\vec{x})+b$&lt;/p&gt;
+&lt;p&gt;$=\sum\limits_{i=1}^m\alpha_iy_i\phi(x_i)^T\phi(x)+b$&lt;/p&gt;
+&lt;p&gt;$=\sum\limits_{i=1}^m\alpha_iy_i\kappa(x,x_i)+b$&lt;/p&gt;
+&lt;p&gt;这里的\kappa就是核函数。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro6-2.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro6-3.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;核函数组合&quot;&gt;核函数组合&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;$\kappa_1$和$\kappa_2$都是核函数，则对于任意正数$\gamma_1$和$\gamma_2$的线性组合:$\gamma_1\kappa_1 + \gamma_2\kappa_2$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;核函数的内积： $\kappa_1 \bigotimes \kappa_2(\vec{x},\vec{z})=\kappa_1(\vec{x},\vec{z})\kappa_2(\vec{x},\vec{z})$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;对于任意函数$g(x)$，$\kappa(\vec{x},\vec{z})=g(x)\kappa_1(\vec{x},\vec{z})g(z)$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;都是核函数&lt;/p&gt;
+&lt;h1 id=&quot;软间隔&quot;&gt;软间隔&lt;/h1&gt;&lt;p&gt;为了缓解某些连核函数都无法有效处理的分类问题，需要允许SVM在一些样本上出错，即允许某些样本不满足约束$y_i(\vec{w}^Tx_i+b) \geq 1$，引入了软间隔概念。&lt;/p&gt;
+&lt;p&gt;优化目标可以修改为：&lt;/p&gt;
+&lt;p&gt;$\min\limits{\vec{\omega},b}\frac{\mid\mid \omega \mid\mid^2}{2}+C\sum\limits_{i=1}^m\ell_{0/1}(y_i(\vec{\omega}^Tx_i+b)-1)$&lt;/p&gt;
+&lt;p&gt;其中$C &amp;gt; 0$是一个常数，$\ell_{0/1}$是”0/1损失函数”&lt;/p&gt;
+&lt;p&gt;$\ell_{0/1}(z) = 1 if z&amp;lt;0 else 0$&lt;/p&gt;
+&lt;p&gt;当C无穷大时，所有样本均需要满足约束，等价于前面小结的式子；C为可数实数，则允许样本不满足约束&lt;/p&gt;
+&lt;p&gt;为了使得$\ell$容易求导，通常使用下面几个数学性质较好的式子替代：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro6-4.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;代入原式，然后使用松弛变量$\xi_i \geq 0$，松弛变量$\xi$替换原来C后面的部分，表示样本不满足约束的程度。&lt;/p&gt;
+&lt;p&gt;使用之前介绍的对偶问题求解出最终的答案。&lt;/p&gt;
+&lt;h1 id=&quot;支持向量回归&quot;&gt;支持向量回归&lt;/h1&gt;&lt;p&gt;支持向量回归（Support Vector Regression）假设我们能够容忍f(x)与y之间最多有$\epsilon$的误差，即仅当f(x)与y之间差别的绝对值大于$\epsilon$时才算损失。&lt;/p&gt;
+&lt;p&gt;相当于以f(x)为中心，构建了一个宽度为$2\epsilon$的间隔带，落在带内的样本是正确的。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-ml-intro6-4.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;SVR问题可用式子表示：&lt;/p&gt;
+&lt;p&gt;$\min\limits{\vec{\omega},b}\frac{\mid\mid \omega \mid\mid^2}{2}+C\sum\limits_{i=1}^m\ell_{\epsilon}(f(x_i-y_i))$&lt;/p&gt;
+&lt;p&gt;其中$\ell_{\epsilon}$：$\ell_{\epsilon} ==0 if \mid z\mid \leq \epsilon else (\mid z \mid - \epsilon)$&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;引入松弛变量$\xi_{i}$和$\hat{\xi_{i}}$，原式重写为$\min\limits_{\vec{\omega},b,\xi_{i},\hat{\xi_{i}}}\frac{\mid\mid \vec{\omega}\mid\mid^2}{2}+C\sum\limits_{i=1}^m(\xi_{i} + \hat{\xi_{i}})$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;引入拉格朗日乘子，求对偶问题&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;推导出带有核函数的算式&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;支持向量机（Support Vector Machine）的求解通常是借助凸优化技术。&lt;/p&gt;
+&lt;h1 id=&quot;间隔与支持向量&quot;&gt;间隔与支持向量&lt;/h1&gt;&lt;p&gt;给定训练样本集$D={(x_1,y_1),(x_2,y_2),…,(x_m,y_m)},y_i \in (-1,+1 )$  分类学习最基本的思想就是基于训练集D在样本空间中找到一个划分超平面，将不同类别的样本分开。SVM就是帮助我们寻找到众多划分超平面中最符合的。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
+    
+    
+      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ML学习-决策树</title>
+    <link href="http://peihao.space/2017/03/04/ml-intro4/"/>
+    <id>http://peihao.space/2017/03/04/ml-intro4/</id>
+    <published>2017-03-04T05:18:42.000Z</published>
+    <updated>2017-03-02T02:50:16.124Z</updated>
+    
+    <content type="html">&lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
+&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h1 id=&quot;信息熵&quot;&gt;信息熵&lt;/h1&gt;&lt;p&gt;信息熵（information entropy）是度量样本集合纯度最常用的一种指标。假设当前样本集合D中第k类样本比例为$p_{k}$(k=1,2,3,…,|y|)$，则D的信息熵为&lt;/p&gt;
+&lt;p&gt;$Ent(D)=-\sum\limits_{k=1}^{|y|}p_{k=1}log_2p_{k}$&lt;/p&gt;
+&lt;p&gt;Ent(D)的值越小，则D的纯度越高.&lt;/p&gt;
+&lt;h2 id=&quot;信息增益&quot;&gt;信息增益&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;假定离散属性a有V个可能的取指{$a^1,a^2,…,a^V$},若使用a来对样本集合D进行划分，则会产生V个分支结点，其中第v个节点包含了D中所有在属性a上取指为$a^V$的样本，记为$D^v$。根据上师酸楚$D^v$的信息熵，然后考虑不同分支结点包含的样本数目不同，给分支结点赋予权重$|D^v|/|D|$，即样本越多，分支结点的影响越大，此时使用一个统一的计算公式算得属性啊对样本集D进行划分得到的”信息增益”（information gain）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;$Gain(D,a)=Ent(D)-\sum\limits_{v=1}^{V}\frac{D^v}{D}Ent(D^v)$&lt;/p&gt;
+&lt;p&gt;一般而言，信息增益越大，意味着使用属性啊来划分所获得的纯度提升越大。所以，可以使用信息增益Gain作为属性划分的指标。&lt;/p&gt;
+&lt;h2 id=&quot;基尼指数&quot;&gt;基尼指数&lt;/h2&gt;&lt;p&gt;CART决策树使用“基尼指数”选择划分属性。&lt;/p&gt;
+&lt;p&gt;数据集D的纯度可用基尼值来度量：&lt;/p&gt;
+&lt;p&gt;$Gini(D)=\sum\limits_k^{|y|}\sum\limits_{j\neq k}p_kp_j$&lt;/p&gt;
+&lt;p&gt;$=1-\sum\limits_k^{|y|}p_{k}^2$&lt;/p&gt;
+&lt;p&gt;直观来讲，Gini（D）反映了从数据D中随机抽取两个样本，类别标记不一致的概率。因此Gini（D）越小，数据集D的纯度越高。&lt;/p&gt;
+&lt;p&gt;属性a的基尼指数定义为：&lt;/p&gt;
+&lt;p&gt;$Gini_index(D,a)=\sum\limits_v^{V}\frac{|D^v|}{|D|}Gini(D^v)$&lt;/p&gt;
+&lt;p&gt;计算属性集合A所有属性的基尼指数，取最小值得属性作为最优划分&lt;/p&gt;
+&lt;h1 id=&quot;剪枝处理&quot;&gt;剪枝处理&lt;/h1&gt;&lt;p&gt;剪枝（pruning）是决策树学习算法中对付“过拟合”的主要手段。过拟合的定义可以参考系列的第一篇。决策树算法经常会由于过拟合造成分支过多，在泛化性能上造成影响。&lt;/p&gt;
+&lt;p&gt;决策树剪枝基本策略有两种：预剪枝（prepruning）和后剪枝（postpruning）。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;预剪枝：在生成决策树的过程中，对每个结点在划分前进行估计，若当前划分不能对决策树带来泛化性能上的提升，则停止划分并将当前节点标记为叶结点。（训练开销短，保留子树少，易造成欠拟合）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;后剪枝：决策树生成后自底向上的对内部结点进行考察。如果当前结点子树替换成叶子结点可以在泛化能力上得到提升，则将子树替换。（训练开销长，保留子树多，欠拟合风险小）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这里使用集精度作为泛化能力的指标。&lt;/p&gt;
+&lt;p&gt;需要注意的是，虽然在当时结点的集精度没有下降（也就是泛化能力未降低），但是很可能在之后进一步的展开，有欠拟合的风险。&lt;/p&gt;
+&lt;h1 id=&quot;连续值与缺省值处理&quot;&gt;连续值与缺省值处理&lt;/h1&gt;&lt;h2 id=&quot;连续&quot;&gt;连续&lt;/h2&gt;&lt;p&gt;由于连续属性的可取值数目不再有限，因此，不能直接根据连续属性的可取值来对结点进行划分。此时可以使用连续属性离散化技术。&lt;/p&gt;
+&lt;p&gt;最简单的策略是采用二分法(bi-partition)对连续属性进行处理。&lt;/p&gt;
+&lt;p&gt;给定样本集D和连续属性a,假定在D上出现了n个不同的取值，将这些值从小到大进行排序，记为${a^1,a^2,…,a^n}$.基于划分点t可将D分为子集$D_t^-$和$D_t^+$其中$D_t^-$包含那些在属性上取值不大于t的样本，而$D_t^+$则包含那些在属性a上取值大于t的样本。&lt;/p&gt;
+&lt;p&gt;对相邻的属性取值[$a^i，a^{i+1}$]来说结果是相同的，因此在此区间都取值$\frac{a^i+a^{i+1}}{2}$&lt;/p&gt;
+&lt;p&gt;对n-1个区间取指作为划分点，分别测试选取最优。&lt;/p&gt;
+&lt;p&gt;$Gain(D,a)=\max\limits_{t\in T_a}Gain(D,a,t)$&lt;/p&gt;
+&lt;p&gt;$=\max\limits_{t\in T_a}Ent(D)-\sum\limits_{\lambda \in {-,+}}\frac{\mid D_t^{\lambda}\mid}{\mid D \mid}Ent(D_t^{\lambda})$&lt;/p&gt;
+&lt;p&gt;Gain(D,a,t)是样本集D基于划分点t二分后的信息增益，我们可以使用Gain(D,a,t)最大化的划分点&lt;/p&gt;
+&lt;h2 id=&quot;缺省&quot;&gt;缺省&lt;/h2&gt;&lt;p&gt;嗯，本部分也暂时缺省&lt;/p&gt;
+&lt;h1 id=&quot;多变量决策树&quot;&gt;多变量决策树&lt;/h1&gt;&lt;p&gt;我们把每个属性视为坐标空间的一个坐标轴，则d个属性描述的样本就对赢了d维空间中的一个数据点。对样本的分类也就是在这个坐标空间中寻找不同样本之间的分类边界。&lt;/p&gt;
+&lt;p&gt;决策树形成的分类边界有一个明显的特点：轴平行（axis-parallel），即分类边界由若干个与坐标轴平行的分段组成。&lt;/p&gt;
+&lt;p&gt;使用斜划分边界可以将决策树模型简化。此时，非叶节点不仅是针对某个属性，而是属性的线性组合进行测试。与传统的决策树不同，多变量决策树试图建立一个合适的线性分类器。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
+&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
+    
+    
+      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ML学习-神经网络</title>
+    <link href="http://peihao.space/2017/03/04/ml-intro5/"/>
+    <id>http://peihao.space/2017/03/04/ml-intro5/</id>
+    <published>2017-03-04T05:18:42.000Z</published>
+    <updated>2017-03-03T11:05:09.511Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;神经元&quot;&gt;神经元&lt;/h1&gt;&lt;p&gt;Neural Network神经网络：是由具有适应性的简单单元组成的广泛并进行互联的网络，他的组织能够模拟生物神经系统对真实的世界物体做出的交互反应&lt;/p&gt;
+&lt;p&gt;神经网络由一个个神经元（neuron）互联组成，神经元可以看作一个处理函数，当这个函数的输入超过某一个阈值，经过处理后单元会向其他单元发送信号。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;单元的输入来自其他单元传递过来的信号，这些信号通过带权重的连接进行传递。当前单元接受来自其余单元的带权重的信号和与阈值比较，符合条件的产生输出。&lt;/p&gt;
+&lt;h1 id=&quot;感知机&quot;&gt;感知机&lt;/h1&gt;&lt;p&gt;感知机由两层神经元组成，输入层接收外界输入信号后传递给输出层，输出层是阈值逻辑单元。&lt;/p&gt;
+&lt;p&gt;感知机通过简单的算术组合可以轻易的实现与或非逻辑运算。&lt;/p&gt;
+&lt;p&gt;实现逻辑类似于$y=f(\sum_i\omega_ix_i-\theta)$，其中w是权重向量，x是输入信号，$\theta$则是阈值。&lt;/p&gt;
+&lt;p&gt;阈值可看作是一个固定输入(x值)为-1的dummy node所对应的连接权重$\omega_{n+1}$，这样权重和阈值就可以统一学习。&lt;/p&gt;
+&lt;h2 id=&quot;学习规则&quot;&gt;学习规则&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;$\omega_i \leftarrow \omega_i + \Delta \omega_i$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;$\Delta \omega_i = \eta(y-\hat{y})x_i$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;其中$\eta \in (0,1)$称为学习率。若感知机对训练样例(x,y)预测正确，即$\hat{y}=y$，则感知机不改变，否则将根据错误的程度进行权重调整。&lt;/p&gt;
+&lt;h2 id=&quot;非线性与多重神经元&quot;&gt;非线性与多重神经元&lt;/h2&gt;&lt;p&gt;要解决非线性可分问题，需考虑多层功能神经元。例如异或问题。&lt;/p&gt;
+&lt;p&gt;一般的多层功能神经元都设置在输入层与输出层之间，也称作隐含层。每一层都有独立的激活函数功能神经元。&lt;/p&gt;
+&lt;p&gt;功能更强大的神经网络：每层神经元与下一层神经元完全互联，而同层之间不存在连接，也不存在跨层连接。要注意的是，这里的相邻层连接是双向的。这种分类型的神经网络通常被称为”多层前馈神经网络”(multi-layer feedforward neural networks)这种网络的输入层的功能仅仅是接受输入，隐层以及输出层有功能神经元，进行函数处理。&lt;/p&gt;
+&lt;h2 id=&quot;学习过程&quot;&gt;学习过程&lt;/h2&gt;&lt;p&gt;神经网络就是根据训练数据来调整神经元之间的连接权以及每个功能神经元的阈值。&lt;/p&gt;
+&lt;h1 id=&quot;误差逆传&quot;&gt;误差逆传&lt;/h1&gt;&lt;p&gt;多层神经网络中最著名的学习算法就是BP误差逆传算法（erroe BackPropagation）。&lt;/p&gt;
+&lt;p&gt;BP算法可以训练包括多层前馈神经网络、递归神经网络等。&lt;/p&gt;
+&lt;p&gt;BP算法的目标是要最小化训练集D上的累计误差。作为一个迭代类型的算法，，迭代的每一轮采用广义的感机学习规则对参数进行更新估计。其中学习率$\eta \in (0,1)$控制着算法中每次迭代的更新步长，$\eta$太大容易造成迭代的震荡，太小则会影响收敛速度，&lt;/p&gt;
+&lt;h2 id=&quot;算法流程&quot;&gt;算法流程&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;将输入示例提供给输入层神经元，然后逐层将信号前传，直到产生输出层的结果&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;计算输出层的无擦汗，将误差逆向传播至隐层神经元&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;根据隐层神经元的误差对连接券和阈值进行调整&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;迭代，直到达到某个停止条件，如训练误差小于某个数值&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;对过拟合的策略&quot;&gt;对过拟合的策略&lt;/h2&gt;&lt;p&gt;由于BP算法强大的学习能力，经常会在训练集上过度学习造成过拟合现象，反而在测试集上的表现不好。通常可以采用”早停”策略：将数据集分为训练集和验证集，训练集用来计算梯度、更新连接权以及阈值，验证集则用来估计误差。训练集误差降低但验证集误差升高时，停止训练，同时返回具有最小验证集误差的连接权和阈值。&lt;/p&gt;
+&lt;h2 id=&quot;全局与局部&quot;&gt;全局与局部&lt;/h2&gt;&lt;p&gt;用E表示神经网络在训练集上的误差，则E是关于连接权w和阈值$\theta$的函数，此时神经网络的训练过程可看作是一个参数的寻优过程，即在参数空间中找一组最优参数使得E最小。&lt;/p&gt;
+&lt;p&gt;直观的得看，局部最小解(local minimum)是参数空间中的某个点，它相邻的误差函数值均不小于该点的函数值；&lt;/p&gt;
+&lt;p&gt;全局最小解（global minimum）是指参数空间中所有的点误差函数值都不小于该店的误差函数值。&lt;/p&gt;
+&lt;p&gt;显然有全局最小解必然是局部最小解，反之未必。参数空间中梯度为零的点，其误差值小于临点的误差函数值，称为局部最小。&lt;/p&gt;
+&lt;h2 id=&quot;搜索方式&quot;&gt;搜索方式&lt;/h2&gt;&lt;p&gt;根据梯度的值决定参数最优搜索的方向是最广泛的办法。例如负梯度方向是函数值下降最快的方向，因此梯度下降法就是沿着负梯度方向搜索最优解。若误差函数在当前点的梯度为零，则已达到局部极小。&lt;/p&gt;
+&lt;p&gt;如果只有一个局部最小点，则为全局最小解。从局部最优找到全局最优的办法就是要从局部最优中挑出来，继续搜索下去。因为搜索到局部最优后，梯度为零，会造成搜索停滞。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;取多组不同参数值初始化多个神经网络，取其中误差最小的解作为最终的参数。相当于从不同的初始值开始搜索猜测。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;使用模拟退火法（在blog之前的文章中有介绍）。模拟退退火有一定的概率接受比当前解差的解，有助于跳出局部极小。而迭代过程，接受次优解的概率逐渐降低，从而保证了算法的稳定性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;随机梯度下降&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&quot;其余常见的神经网络&quot;&gt;其余常见的神经网络&lt;/h1&gt;&lt;h2 id=&quot;RBF网络&quot;&gt;RBF网络&lt;/h2&gt;&lt;p&gt;单隐层前馈神经网络的一种，输出层是对隐层神经元还输出的线性组合。假定输入为d维向量$\vec{x}$输出为实值，可表示为：&lt;/p&gt;
+&lt;p&gt;$\phi(x)=\sum_{i=1}^{q}\omega_i\rho(x,c_i)$&lt;/p&gt;
+&lt;p&gt;q为隐层神经元个数，$c_i$和$\omega_i$分别是第i个隐层神经元对应的中心和权重。$\rho(x,c_i)$是径向基函数，是某种沿径向对称的标量函数。通常定义为样本x到数据中心&lt;br&gt;$c_i$之间的欧式距离的单调函数。&lt;/p&gt;
+&lt;h2 id=&quot;ART网络&quot;&gt;ART网络&lt;/h2&gt;&lt;p&gt;竞争学习(competitive learning)是神经网络中常用的无监督学习策略。&lt;/p&gt;
+&lt;p&gt;网络的输出神经元相互竞争，每一时刻仅有一个竞争获胜的神经元被激活，其他神经元状态被抑制。&lt;/p&gt;
+&lt;h2 id=&quot;SOM网络&quot;&gt;SOM网络&lt;/h2&gt;&lt;p&gt;自组织映射，是一种竞争学习型的无监督神经网络。能将高位输入数据降维，同时保持输入数据的拓扑结构。即将高维空间中相似的样本点映射到网络输出层的邻近神经元。&lt;/p&gt;
+&lt;p&gt;在接受一个训练样本之后，每个输出层神经元会计算该样本与自身携带的权向量之间的距离，距离最近的神经元称为最佳匹配单元。然后调整最佳匹配单元及邻近神经元的权向量，使得这些权向量与当前输入样本距离缩小。这个过程不断迭代，知道收敛。&lt;/p&gt;
+&lt;h2 id=&quot;级连相关&quot;&gt;级连相关&lt;/h2&gt;&lt;p&gt;级联： 建立层次连接的层级结构。开始训练时，只有几本的输入输出层，随着训练的进行，新的隐层神经元逐渐加入。&lt;/p&gt;
+&lt;p&gt;相关： 通过最大化新神经元的输出与网络误差之间的相关性来训练相关的参数。&lt;/p&gt;
+&lt;h2 id=&quot;Elman&quot;&gt;Elman&lt;/h2&gt;&lt;p&gt;Elman网络是递归神经网络（recurrent neural networks）的一种。递归神经网络可以让一些神经元的输出反馈作为输入信号。&lt;/p&gt;
+&lt;h1 id=&quot;深度学习&quot;&gt;深度学习&lt;/h1&gt;&lt;p&gt;深度学习的概念源于人工神经网络的研究。含多隐层的多层感知器就是一种深度学习结构。深度学习通过组合低层特征形成更加抽象的高层表示属性类别或特征，以发现数据的分布式特征表示。&lt;/p&gt;
+&lt;p&gt;同机器学习方法一样，深度机器学习方法也有监督学习与无监督学习之分．不同的学习框架下建立的学习模型很是不同．例如，卷积神经网络（Convolutional neural networks，简称CNNs）就是一种深度的监督学习下的机器学习模型，而深度置信网（Deep Belief Nets，简称DBNs）就是一种无监督学习下的机器学习模型。&lt;/p&gt;
+&lt;p&gt;DBN每次训练一层隐节点，训练时将上一层隐节点的输出作为下一层隐节点的输入。整个网络完成后，再进程微调。&lt;/p&gt;
+&lt;p&gt;CNN节省训练开销的策略是”权共享”，让一组神经元使用相同的连接权。&lt;/p&gt;
+&lt;p&gt;无论是DBN还是CNN，其多隐层堆叠，每层对上层的处理机制，可以看作是对输入信号逐层加工，从而把初始的与输出目标联系不密切的输入转换呈密切。通过多层处理，逐渐的将初始的低层特征转转成高层特征表示，用简单模型完成复杂的分类任务。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;神经元&quot;&gt;神经元&lt;/h1&gt;&lt;p&gt;Neural Network神经网络：是由具有适应性的简单单元组成的广泛并进行互联的网络，他的组织能够模拟生物神经系统对真实的世界物体做出的交互反应&lt;/p&gt;
+&lt;p&gt;神经网络由一个个神经元（neuron）互联组成，神经元可以看作一个处理函数，当这个函数的输入超过某一个阈值，经过处理后单元会向其他单元发送信号。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
+    
+    
+      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>线性模型</title>
+    <link href="http://peihao.space/2017/03/03/ml-intro3/"/>
+    <id>http://peihao.space/2017/03/03/ml-intro3/</id>
+    <published>2017-03-03T04:05:50.000Z</published>
+    <updated>2017-03-02T02:41:36.666Z</updated>
+    
+    <content type="html">&lt;p&gt;示例有d个属性$(x_1 ; x_2 ; x_3… ; x_d)$描述，线性模型试图学得一个通过属性的线性组合来进行预测的函数。&lt;/p&gt;
+&lt;p&gt;$f(x)=w_1x_1+w_2x_2+…+w_dx_d+b$，w和b确定后，模型就确定了。w直观表达了各属性在预测中的重要性。&lt;/p&gt;
+&lt;h1 id=&quot;线性回归&quot;&gt;线性回归&lt;/h1&gt;&lt;p&gt;线性回归试图学得$f(x_i)=wx_i+b$，使得$f(x_i)≈y_i$&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;确定w和b的关键是衡量f(x)与y之间的关系。我们可以通过使用均方误差最小化作为衡量标准。&lt;/p&gt;
+&lt;h1 id=&quot;对数几率回归&quot;&gt;对数几率回归&lt;/h1&gt;&lt;p&gt;对数几率回归实际上针对的是分类任务，将分类任务的真实标记y和回归模型的预测值联系起来。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro3-1.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;分类任务，通过类阶跃函数（阶跃函数不连续），把连续的值近似的分成两类（0或1），并且在坐标原点处变得很陡。&lt;/p&gt;
+&lt;h1 id=&quot;线性判别分析&quot;&gt;线性判别分析&lt;/h1&gt;&lt;p&gt;Linear Discriminant Analysis是一种经典的线性学习方法：给定训练样例集，设法将样例投射到一条直线上，1. 使得同样样例的投影点尽可能的接近，2. 异类样例投射点尽可能远。对测试集预测时，将对象投射到直线上预测。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro3-2.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;要实现上面的两个目标，分别考虑：对于同类样本投射点接近，计算同类样本点的均值方差A；异类点则考虑两个样本簇中心点的距离差最大&lt;code&gt;|xa-xb|²&lt;/code&gt;，然后使用单一的数值，J=A/B，使J尽可能的大。&lt;/p&gt;
+&lt;h1 id=&quot;多分类策略&quot;&gt;多分类策略&lt;/h1&gt;&lt;p&gt;这里简单介绍通过二分策略实现多分类策略，常用的有三种方法，核心是拆解的策略区别：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;一对一（OvO）：任意两个对象亮亮配对，产生N*(N-1)/2个预测结果，在这些结果中投票，预测结果最多的视为最终结果&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;一对多（OvR）：每次从训练集中挑选一个不重复的样例作为正例，其余N-1个样例作为反例，进行N次训练。如果某次训练的结果预测为正类，此次训练的样例即为结果；若有多个样例被预测为正例，考虑事先设置的置信度，选择置信度最大的&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;多对多（MvM）：每次将若干类作为正类，若干类作为反类。这里提供一种常用的MvM拆分模式，就错输出吗ECOC。ECOC进行M次的划分，也就是M次分类器。分别对测试样本进行预测，这些预测标记组成一个编码，然后编码与每个类别各自的编码进行比较，返回其中距离和最小的作为最终预测结果。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;示例有d个属性$(x_1 ; x_2 ; x_3… ; x_d)$描述，线性模型试图学得一个通过属性的线性组合来进行预测的函数。&lt;/p&gt;
+&lt;p&gt;$f(x)=w_1x_1+w_2x_2+…+w_dx_d+b$，w和b确定后，模型就确定了。w直观表达了各属性在预测中的重要性。&lt;/p&gt;
+&lt;h1 id=&quot;线性回归&quot;&gt;线性回归&lt;/h1&gt;&lt;p&gt;线性回归试图学得$f(x_i)=wx_i+b$，使得$f(x_i)≈y_i$&lt;br&gt;
+    
+    </summary>
+    
+      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
+    
+    
+      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
+    
+  </entry>
+  
+  <entry>
     <title>模型评估与选择</title>
     <link href="http://peihao.space/2017/03/01/ml-intro2/"/>
     <id>http://peihao.space/2017/03/01/ml-intro2/</id>
     <published>2017-03-01T04:05:50.000Z</published>
-    <updated>2017-02-28T12:16:11.996Z</updated>
+    <updated>2017-03-01T02:54:56.183Z</updated>
     
     <content type="html">&lt;h1 id=&quot;误差与拟合&quot;&gt;误差与拟合&lt;/h1&gt;&lt;h2 id=&quot;误差&quot;&gt;误差&lt;/h2&gt;&lt;p&gt;学习器的实际预测输出与样本的真是输出之间的差异称为”误差”&lt;/p&gt;
 &lt;p&gt;学习器在训练集上的误差叫”训练误差”&lt;/p&gt;
@@ -28,7 +348,7 @@
 &lt;h2 id=&quot;拟合&quot;&gt;拟合&lt;/h2&gt;&lt;p&gt;我们实际希望的，是在新样本上能表现得很好的学习器.为了达到这个 目的，应该从训练样本中尽可能学出适用于所有潜在样本的“普遍规律”，这样才能在遇到新样本时做出正确的判别。&lt;/p&gt;
 &lt;p&gt;然而，当学习器把训练样本学得“太好”了的时候，很可能已经把训练样本自身的一些特点当作了所有潜在样本都会具有的普适性质，这样就会导致泛化性能下降。这种现象在机器学习中称为“过合”（overfitting).&lt;/p&gt;
 &lt;p&gt;与“过拟合”相对的是“欠拟合”（underfitting),这是指对训练样本的一般性质尚未学好。&lt;/p&gt;
-&lt;h1 id=&quot;评估方法&quot;&gt;评估方法&lt;/h1&gt;&lt;h2 id=&quot;留出法&quot;&gt;留出法&lt;/h2&gt;&lt;p&gt;将整体数据划分为两个互斥的数据集合，分别作为测试集与训练集。注意测试集与训练集要尽量保证层次、类别数量上的相似。可以进行多次留出法，然后取误差的平均值。一般取2/3或者3/4的数据作为训练集。&lt;/p&gt;
+&lt;h1 id=&quot;评估方法&quot;&gt;评估方法&lt;/h1&gt;&lt;h2 id=&quot;留出法&quot;&gt;留出法&lt;/h2&gt;&lt;p&gt;将整体数据划分为两个互斥的数据集合，分别作为测试集与训练集。注意测试集与训练集要尽量保证层次、类别上的相似。可以进行多次留出法，然后取误差的平均值。一般取2/3或者3/4的数据作为训练集。&lt;/p&gt;
 &lt;h2 id=&quot;交叉验证&quot;&gt;交叉验证&lt;/h2&gt;&lt;ol&gt;
 &lt;li&gt;同样是将数据集合互斥划分，这里互斥的划分为k份，相互之间保持层次分布的平衡。&lt;/li&gt;
 &lt;li&gt;每次使用k-1份数据作为训练集，余下的作为预测集&lt;/li&gt;
@@ -37,7 +357,15 @@
 &lt;h2 id=&quot;自助法&quot;&gt;自助法&lt;/h2&gt;&lt;p&gt;上述的两种方法有一个共同的缺陷就是都把训练集合与整体的样本集合规模有偏差，而且由于每次的偏差不同，造成无法预料的影响。&lt;/p&gt;
 &lt;p&gt;自助法：给定包含m个样本的数据集D，对他进行采样产生数据集d。每次随机的从D中跳一个样本复制到d中，进行m次，生成了包含m个样本的数据集d。显然，d中可能包含多个重复的样本数据。经过计算，m取无限大时，d中大概有D的63%数据。&lt;/p&gt;
 &lt;p&gt;之后我们使用d作为训练样本，而D\d作为测试集合。这样，实际的训练与测试都使用了m个样本，且保证了D\d有3成多的非训练样本。&lt;/p&gt;
-&lt;h1 id=&quot;性能度量&quot;&gt;性能度量&lt;/h1&gt;</content>
+&lt;h1 id=&quot;性能度量&quot;&gt;性能度量&lt;/h1&gt;&lt;p&gt;这里主要介绍两个属性：P（查准率precision）与R（查全率recall）&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;查全率＝（检索出的相关信息量/系统中的相关信息总量）*100%  用户感兴趣的信息中有多少被检索出来&lt;/li&gt;
+&lt;li&gt;查准率＝（检索出的相关信息量/检索出的信息总量）*100%  检索出的信息有多少比例是用户感兴趣的&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;查全率是衡量检索系统和检索者检出相关信息的能力，查准率是衡量检索系统和检索者拒绝非相关信息的能力。&lt;/p&gt;
+&lt;p&gt;实验证明，在查全率和查准率之间存在着相反的相互依赖关系–如果提高输出的查全率，就会降低其查准率，反之亦然。&lt;/p&gt;
+&lt;p&gt;以P作为纵轴，R作为横轴作图，简称”P-R曲线”。若一个学习方法的P-R曲线完全包括另外一个，则断言此学习方法更优秀。&lt;/p&gt;
+</content>
     
     <summary type="html">
     
@@ -1000,221 +1328,6 @@
     
     
       <category term="Scrapy" scheme="http://peihao.space/tags/Scrapy/"/>
-    
-      <category term="python" scheme="http://peihao.space/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Scrapy笔记</title>
-    <link href="http://peihao.space/2016/10/31/scrapy_notes/"/>
-    <id>http://peihao.space/2016/10/31/scrapy_notes/</id>
-    <published>2016-10-31T02:28:30.000Z</published>
-    <updated>2016-11-01T03:10:36.306Z</updated>
-    
-    <content type="html">&lt;p&gt;这里记录两种使用率最高的Spider：Spider和他的子类CrawlSpider.&lt;/p&gt;
-&lt;hr&gt;
-&lt;h1 id=&quot;组件梳理&quot;&gt;组件梳理&lt;/h1&gt;&lt;p&gt;先对整个Scrapy的部件进行梳理：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Scrapy Engine&lt;br&gt;引擎负责控制数据流在系统中所有组件中流动，并在相应动作发生时触发事件。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;调度器(Scheduler)&lt;br&gt;调度器从引擎接受request并将他们入队，以便之后引擎请求他们时提供给引擎。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;下载器(Downloader)&lt;br&gt;下载器负责获取页面数据并提供给引擎，而后提供给spider。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Spiders&lt;br&gt;Spider是Scrapy用户编写用于分析response并提取item(即获取到的item)或额外跟进的URL的类。 每个spider负责处理一个特定(或一些)网站。 更多内容请看 Spiders 。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Item Pipeline&lt;br&gt;Item Pipeline负责处理被spider提取出来的item。典型的处理有清理、 验证及持久化(例如存取到数据库中)。 更多内容查看 Item Pipeline 。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;下载器中间件(Downloader middlewares)&lt;br&gt;下载器中间件是在引擎及下载器之间的特定钩子(specific hook)，处理Downloader传递给引擎的response（也包括引擎传递给下载器的Request）。 其提供了一个简便的机制，通过插入自定义代码来扩展Scrapy功能。处理下载请求部分&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Spider中间件(Spider middlewares)&lt;br&gt;Spider中间件是在引擎及Spider之间的特定钩子(specific hook)，处理spider的输入(response)和输出(items及requests)。 其提供了一个简便的机制，通过插入自定义代码来扩展Scrapy功能，处理解析部分&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol&gt;
-&lt;li&gt;引擎打开一个网站(open a domain)，找到处理该网站的Spider并向该spider请求第一个要爬取的URL(s)。&lt;/li&gt;
-&lt;li&gt;引擎从Spider中获取到第一个要爬取的URL并在调度器(Scheduler)以Request调度。&lt;/li&gt;
-&lt;li&gt;引擎向调度器请求下一个要爬取的URL。&lt;/li&gt;
-&lt;li&gt;调度器返回下一个要爬取的URL给引擎，引擎将URL通过下载中间件(请求(request)方向)转发给下载器。&lt;/li&gt;
-&lt;li&gt;一旦页面下载完毕，下载器生成一个该页面的Response，并将其通过下载中间件(返回(response)方向)发送给引擎。&lt;/li&gt;
-&lt;li&gt;引擎从下载器中接收到Response并通过Spider中间件(输入方向)发送给Spider处理。&lt;/li&gt;
-&lt;li&gt;Spider处理Response并返回爬取到的Item及(跟进的)新的Request给引擎。&lt;/li&gt;
-&lt;li&gt;引擎将(Spider返回的)爬取到的Item给Item Pipeline，将(Spider返回的)Request给调度器。&lt;/li&gt;
-&lt;li&gt;(从第二步)重复直到调度器中没有更多地request，引擎关闭该网站。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h1 id=&quot;Spider&quot;&gt;Spider&lt;/h1&gt;&lt;p&gt;Scrapy中所有的Spider都是继承自scrapy.spiders.Spider这个类，所以他有爬虫类的一些共性，以及最常规符合我们思路的爬虫思想。&lt;/p&gt;
-&lt;p&gt;我们先看一下例子：&lt;br&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; scrapy&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; scrapy.linkextractors &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; LinkExtractor&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; douban.items &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; CsdnItem&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;CsdnSpider&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(scrapy.Spider)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	name=&lt;span class=&quot;string&quot;&gt;&#39;csdn&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	allowed_domains=[&lt;span class=&quot;string&quot;&gt;&#39;blog.csdn.net&#39;&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	start_urls=[&lt;span class=&quot;string&quot;&gt;&#39;http://blog.csdn.net/******/article/list/1&#39;&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self,response)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; info &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; response.xpath(&lt;span class=&quot;string&quot;&gt;&#39;//dl[@class=&quot;list_c clearfix&quot;]/dd&#39;&lt;/span&gt;):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			item=CsdnItem()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			item[&lt;span class=&quot;string&quot;&gt;&#39;title&#39;&lt;/span&gt;] = info.xpath(&lt;span class=&quot;string&quot;&gt;&#39;h3/a/text()&#39;&lt;/span&gt;).extract()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			item[&lt;span class=&quot;string&quot;&gt;&#39;url&#39;&lt;/span&gt;] = info.xpath(&lt;span class=&quot;string&quot;&gt;&#39;h3/a/@href&#39;&lt;/span&gt;).extract()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			item[&lt;span class=&quot;string&quot;&gt;&#39;description&#39;&lt;/span&gt;] = info.xpath(&lt;span class=&quot;string&quot;&gt;&#39;p[@class=&quot;list_c_c&quot;]/text()&#39;&lt;/span&gt;).extract()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			item[&lt;span class=&quot;string&quot;&gt;&#39;viewpoint&#39;&lt;/span&gt;]=info.xpath(&lt;span class=&quot;string&quot;&gt;&#39;div[@class=&quot;list_c_b&quot;]/div[@class=&quot;list_c_b_l&quot;]/span[1]/text()&#39;&lt;/span&gt;).extract()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			&lt;span class=&quot;keyword&quot;&gt;yield&lt;/span&gt; item&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		next_page = response.xpath(&lt;span class=&quot;string&quot;&gt;&#39;//div[@class=&quot;pagelist&quot;]/a[text()=&quot;下一页&quot;]/@href&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; next_page:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			url = &lt;span class=&quot;string&quot;&gt;&#39;http://blog.csdn.net&#39;&lt;/span&gt;+next_page[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;].extract()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			&lt;span class=&quot;keyword&quot;&gt;yield&lt;/span&gt; scrapy.Request(url, self.parse)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;上面的例子是我自己的某博客网站进行爬虫，获取所有文章的标题，url摘要和访问数信息。自定义的CsdnSpider类就是基类的子类，我们对name、allowed_domans和start_urls进行赋值，分别代表项目的唯一爬虫名称、此爬虫爬虫的站点范围和初始爬虫的入口url。&lt;/p&gt;
-&lt;p&gt;设置之后，当我们开始进行爬虫程序后，scrapy.Spider末默认开始调用start_requests方法，对每个start_urls中的连接使用make_requests_from_url方法，尝试request访问返回Request对象，scrapy的downloader对请求实现，并返回response对象。之后我们需要对response信息提取有用的信息。&lt;/p&gt;
-&lt;p&gt;在spider类中，默认使用的解析方法是parse，按我们的理解来说，他应该算是抽象方法，也就是必须实现的方法，否则直接抛出Error&lt;br&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self, response)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;raise&lt;/span&gt; NotImplementedError&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;response对象包含很多常用的属性，类似response.url、response.body等等都是能够直接返回数据，同时可以使用cssselector、xpath等方法对response深层的信息获取。item就是我们我们把需要获取的数据整合成的对象，包含一系列的Field属性保存爬取的数据；出现了yield说明这个函数是一个生成器，对比使用return，yield可以及时的将信息返回给pipline，更重要的是可以在一个生成器中同时生成一个Item和产生新的请求，return无法做到。&lt;/p&gt;
-&lt;p&gt;上面的例子执行的话可以使用&lt;br&gt;&lt;code&gt;scrapy crawl csdn -o xxx.json&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;-o参数标明使用者选择将所有Item信息输出的文件中保存，后面紧随的就是文件名。&lt;/p&gt;
-&lt;h1 id=&quot;CrawlSpider&quot;&gt;CrawlSpider&lt;/h1&gt;&lt;p&gt;对比基类，CrawlSpider应该是一种更通用爬虫方法，通过使用Rule结构，CrawlSpider能够自动的在我们爬取的页面中更迭新的url，不用我们提取url信息。&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; scrapy.selector &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; Selector&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; douban.items &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; CnBlogItem&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; scrapy&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; scrapy.spiders &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; CrawlSpider, Rule&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; scrapy.linkextractors &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; LinkExtractor&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&#39;&#39;&#39;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;平时在parse中return item即可返回item，return request则生成新的request请求。如果我们将return换为yield的话即可既返回item又生成新的request。注意一旦使用了yield，那么parse方法中就不能有return了。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&#39;&#39;&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;CnBlogSipder&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(CrawlSpider)&lt;/span&gt; :&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	name = &lt;span class=&quot;string&quot;&gt;&quot;cnblog&quot;&lt;/span&gt;   &lt;span class=&quot;comment&quot;&gt;#设置爬虫名称&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	allowed_domains = [&lt;span class=&quot;string&quot;&gt;&quot;blog.csdn.net&quot;&lt;/span&gt;] &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	start_urls = [&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	    &lt;span class=&quot;string&quot;&gt;&quot;http://blog.csdn.net/peihaozhu/article/list/1&quot;&lt;/span&gt;, &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	rules = (&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		Rule(LinkExtractor(allow=(&lt;span class=&quot;string&quot;&gt;&#39;/peihaozhu/article/list/\d+&#39;&lt;/span&gt;, ),),callback=&lt;span class=&quot;string&quot;&gt;&#39;parse_item&#39;&lt;/span&gt;,follow=&lt;span class=&quot;keyword&quot;&gt;True&lt;/span&gt;),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	)  &lt;span class=&quot;comment&quot;&gt;#制定规则&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;parse_item&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self, response)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		sel = response.selector&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		posts = sel.xpath(&lt;span class=&quot;string&quot;&gt;&#39;//dl[@class=&quot;list_c clearfix&quot;]/dd&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		items = []&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; p &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; posts:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			&lt;span class=&quot;comment&quot;&gt;#content = p.extract()&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			&lt;span class=&quot;comment&quot;&gt;#self.file.write(content.encode(&quot;utf-8&quot;))&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			item = CnBlogItem()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			item[&lt;span class=&quot;string&quot;&gt;&quot;title&quot;&lt;/span&gt;] = p.xpath(&lt;span class=&quot;string&quot;&gt;&#39;h3[@class=&quot;list_c_t&quot;]/a/text()&#39;&lt;/span&gt;).extract()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			item[&lt;span class=&quot;string&quot;&gt;&quot;url&quot;&lt;/span&gt;] = p.xpath(&lt;span class=&quot;string&quot;&gt;&#39;h3[@class=&quot;list_c_t&quot;]/a/@href&#39;&lt;/span&gt;).extract()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			item[&lt;span class=&quot;string&quot;&gt;&#39;description&#39;&lt;/span&gt;]= p.xpath(&lt;span class=&quot;string&quot;&gt;&#39;p[@class=&quot;list_c_c&quot;]/text()&#39;&lt;/span&gt;).extract()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			items.append(item)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; items&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;rules属性就是我们需要在页面中自动更迭url的提取规则，这里我简单的使用了LinkExtractor提取器，设置了允许规则，标明在匹配到allow字段的url加入到爬取队列，follow字段决定是否将匹配到的继续使用Rule，callback很明显，就是我们提取到的url之后的回调函数，这里要注意下，类似上面的方法名，千万不要写self.parse_item，否则scrapy无法找到对应的函数。也不要使用parse作为我们的回调函数&lt;br&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self, response)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; self._parse_response(response, self.parse_start_url, cb_kwargs=&amp;#123;&amp;#125;, follow=&lt;span class=&quot;keyword&quot;&gt;True&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;parse方法不是空方法，有其他的内置方法是需要依赖这个方法体做出相应动作的。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这里记录两种使用率最高的Spider：Spider和他的子类CrawlSpider.&lt;/p&gt;
-&lt;hr&gt;
-&lt;h1 id=&quot;组件梳理&quot;&gt;组件梳理&lt;/h1&gt;&lt;p&gt;先对整个Scrapy的部件进行梳理：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Scrapy Engine&lt;br&gt;引擎负责控制数据流在系统中所有组件中流动，并在相应动作发生时触发事件。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;调度器(Scheduler)&lt;br&gt;调度器从引擎接受request并将他们入队，以便之后引擎请求他们时提供给引擎。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;下载器(Downloader)&lt;br&gt;下载器负责获取页面数据并提供给引擎，而后提供给spider。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="python" scheme="http://peihao.space/categories/python/"/>
-    
-    
-      <category term="Scrapy" scheme="http://peihao.space/tags/Scrapy/"/>
-    
-      <category term="python" scheme="http://peihao.space/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Scrapy中关于Export Unicode字符集问题解决</title>
-    <link href="http://peihao.space/2016/10/28/scrapy-unicode/"/>
-    <id>http://peihao.space/2016/10/28/scrapy-unicode/</id>
-    <published>2016-10-28T02:28:30.000Z</published>
-    <updated>2016-10-28T03:59:27.601Z</updated>
-    
-    <content type="html">&lt;p&gt;使用命令行&lt;code&gt;scrapy crawl spider_name -o filename&lt;/code&gt;将制定内容的item信息输出时，scrapy使用默认的feed export对特定的file类型文件支持，例如json文件是&lt;code&gt;JsonLinesItemExporter&lt;/code&gt;，xml文件是&lt;code&gt;XmlItemExporter&lt;/code&gt;，有时候我们对export的形式或者内容不太满意时，可以自己继承上面的类，自定义export子类。&lt;/p&gt;
-&lt;p&gt;默认显示的中文是阅读性较差的Unicode字符，我们需要在settings文件中定义子类显示出原来的字符集。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; scrapy.exporters &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; JsonLinesItemExporter  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;CustomJsonLinesItemExporter&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(JsonLinesItemExporter)&lt;/span&gt;:&lt;/span&gt;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self, file, **kwargs)&lt;/span&gt;:&lt;/span&gt;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        super(CustomJsonLinesItemExporter, self).__init__(file, ensure_ascii=&lt;span class=&quot;keyword&quot;&gt;False&lt;/span&gt;, **kwargs)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#这里只需要将超类的ensure_ascii属性设置为False即可&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#同时要在setting文件中启用新的Exporter类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;FEED_EXPORTERS = &amp;#123;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;json&#39;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&#39;porject.settings.CustomJsonLinesItemExporter&#39;&lt;/span&gt;,  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;之后使用命令行&lt;code&gt;scrapy crawl spider_name -o filename.json&lt;/code&gt;就可以显示出正常可阅读的字符。&lt;/p&gt;
-&lt;p&gt;Pipeline在Doc中的定义如下：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;After an item has been scraped by a spider, it is sent to the Item Pipeline which processes it through several components that are executed sequentially&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;所以我们也可以在Pipeline类中直接定义输出：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; project.settings &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; CustomJsonLinesItemExporter&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;DoubanPipeline&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(object)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;comment&quot;&gt;#定义开始爬虫的行为&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;open_spider&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self,spider)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.file=open(&lt;span class=&quot;string&quot;&gt;&#39;xxx.json&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;wb&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.exporter=CustomJsonLinesItemExporter(self.file)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.exporter.start_exporting()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;comment&quot;&gt;#定义爬虫结束的行为&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;close_spider&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self,spider)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.exporter.finish_exporting()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.file.close()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;comment&quot;&gt;#定义爬虫过程中的行为&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;process_item&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self, item, spider)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.exporter.export_item(item)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; item&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;使用命令行&lt;code&gt;scrapy crawl spider_name -o filename&lt;/code&gt;将制定内容的item信息输出时，scrapy使用默认的feed export对特定的file类型文件支持，例如json文件是&lt;code&gt;JsonLinesItemExporter&lt;/code&gt;，xml文件是&lt;code&gt;XmlItemExporter&lt;/code&gt;，有时候我们对export的形式或者内容不太满意时，可以自己继承上面的类，自定义export子类。&lt;/p&gt;
-&lt;p&gt;默认显示的中文是阅读性较差的Unicode字符，我们需要在settings文件中定义子类显示出原来的字符集。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="python" scheme="http://peihao.space/categories/python/"/>
-    
-    
-      <category term="Scrapy" scheme="http://peihao.space/tags/Scrapy/"/>
-    
-      <category term="python" scheme="http://peihao.space/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>pyinstaller打包pyqt5问题解决</title>
-    <link href="http://peihao.space/2016/10/23/pyinstaller/"/>
-    <id>http://peihao.space/2016/10/23/pyinstaller/</id>
-    <published>2016-10-23T07:28:30.000Z</published>
-    <updated>2016-10-23T09:29:54.798Z</updated>
-    
-    <content type="html">&lt;p&gt;pyinstaller打包使用pyqt5模块的时候，在win平台下，由于pyinstaller无法准确获取QT动态库文件路径，会报错导致无法打开运行程序，并提示错误信息&lt;code&gt;pyinstaller failed to execute script pyi_rth_qt5plugins&lt;/code&gt;此时我们需要在打包的时候直接告诉pyinstaller到哪里去找，这个路径分隔符需要是unix形式：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;pyinstaller --paths C:/****/Python/Python35-32/Lib/site-packages/PyQt5/Qt/bin -F -w ****.py&lt;/code&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;pyinstaller打包使用pyqt5模块的时候，在win平台下，由于pyinstaller无法准确获取QT动态库文件路径，会报错导致无法打开运行程序，并提示错误信息&lt;code&gt;pyinstaller failed to execute script pyi_rth_qt
-    
-    </summary>
-    
-      <category term="python" scheme="http://peihao.space/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://peihao.space/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Django笔记</title>
-    <link href="http://peihao.space/2016/10/14/django_note/"/>
-    <id>http://peihao.space/2016/10/14/django_note/</id>
-    <published>2016-10-14T14:24:06.000Z</published>
-    <updated>2016-10-18T10:28:34.534Z</updated>
-    
-    <content type="html">&lt;h1 id=&quot;模式&quot;&gt;模式&lt;/h1&gt;&lt;p&gt;整个django大体上使用MTV架构：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;M–&amp;gt;Model&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Model主要是建立起实体关系，根据不同Model之间的联系创建数据库，Model是实体，Model的属性是实体的属性，实体间的联系主要由外键控制。&lt;/p&gt;
-&lt;p&gt;表数据的增删改查就是Model类对象的创建、删除、过滤查找。&lt;/p&gt;
-&lt;p&gt;Modelname.objects返回类的句柄&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;V–&amp;gt;View&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;在urls.py配置文件中通过re匹配，转到view.py文件相应的方法，通过获取数据库中数据，将数据通过属性参数列表传递到模板文件template中。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;T–&amp;gt;Template&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;模板文件一般就是html文件，我们使用正常的html语法编写文件，同时配合传递进来的参数使用&lt;/p&gt;
-&lt;p&gt;展示界面&lt;/p&gt;
-&lt;h1 id=&quot;filter&quot;&gt;filter&lt;/h1&gt;&lt;p&gt;过滤器我们常用的主要有2中类型：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;在view.py文件中使用&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;view文件中我们通过modelname.objects.filter方法，留下符合条件的对象列表&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;Article.objects.filter(title__icontains = s)&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;上面表示返回符合Article Model中对象title属性包含s的对象列表，s是字符串表达式。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;在template文件中使用 &lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;我们可以在template中调用过滤方法，对待处理的数据过滤处理返回，Django中template支持管道，上一个处理的结果直接作用为下一方法的输入：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;post.content|read_more|custom_markdown&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;上面的语句一次通过调用read_more()方法、之后将处理结果作为输出参数传递调用custom_markdown（）方法.&lt;/p&gt;
-&lt;p&gt;这里的filter方法是绑定到app本身的，不能其他app复用。在本app根目录创建tamplatetags包，里面包含&lt;strong&gt;init&lt;/strong&gt;.py文件。&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;register = template.Library() &lt;span class=&quot;comment&quot;&gt;#自定义filter时必须加上，一个文件只需调用一次&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;decorator&quot;&gt;@register.filter(is_safe=True) #注册template filter 必需&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;decorator&quot;&gt;@stringfilter #希望字符串作为参数 #非必需&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;custom_markdown&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(value)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; mark_safe(markdown.markdown(value,extensions =[&lt;span class=&quot;string&quot;&gt;&#39;markdown.extensions.fenced_code&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;markdown.extensions.codehilite&#39;&lt;/span&gt;],safe_mode=&lt;span class=&quot;keyword&quot;&gt;True&lt;/span&gt;,enable_attributes=&lt;span class=&quot;keyword&quot;&gt;True&lt;/span&gt;))&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h1 id=&quot;staticfile&quot;&gt;staticfile&lt;/h1&gt;&lt;p&gt;使用静态文件：&lt;/p&gt;
-&lt;p&gt;—-百度去吧&lt;/p&gt;
-&lt;h1 id=&quot;404&quot;&gt;404&lt;/h1&gt;&lt;p&gt;使用404&lt;/p&gt;
-&lt;p&gt;—-百度去&lt;/p&gt;
-&lt;p&gt;使用staticfile要求debug=true，而使用404.html要求debug=false。冲突，我们使用将debug设置为false，此时自带服务器默认不会记在静态文件中的js、css等类型文件，需要在启动server时&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;winpty python manage.py runserver --insecure&lt;/code&gt;&lt;/p&gt;
-&lt;h1 id=&quot;连接mysql&quot;&gt;连接mysql&lt;/h1&gt;&lt;p&gt;环境：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Django1.10&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Mysql5.5.47&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Pyhton3.5.x&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;首先安装第三方支持模块：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;pip install pymysql&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;在projec目录的setting.py中修改：&lt;/p&gt;
-&lt;figure class=&quot;highlight autoit&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;DATABASES = &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;default&#39;&lt;/span&gt;: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&#39;ENGINE&#39;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&#39;django.db.backends.mysql&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&#39;NAME&#39;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&#39;blog&#39;&lt;/span&gt;,&lt;span class=&quot;preprocessor&quot;&gt;#数据库名&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&#39;USER&#39;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&#39;root&#39;&lt;/span&gt;,&lt;span class=&quot;preprocessor&quot;&gt;#数据库用户名&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&#39;PASSWORD&#39;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&#39;&#39;&lt;/span&gt;,&lt;span class=&quot;preprocessor&quot;&gt;#数据库密码&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&#39;HOST&#39;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&#39;&#39;&lt;/span&gt;,&lt;span class=&quot;preprocessor&quot;&gt;#数据库地址不写为本地127.0.0.1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&#39;PORT&#39;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&#39;&#39;&lt;/span&gt; &lt;span class=&quot;preprocessor&quot;&gt;#数据库端口 默认3306&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;要注意的是，上面使用的数据库名是已经在mysql中创建好的databasename&lt;/p&gt;
-&lt;p&gt;最后使用&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;python manage.py migrate&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;数据库同步迁移&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;模式&quot;&gt;模式&lt;/h1&gt;&lt;p&gt;整个django大体上使用MTV架构：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;M–&amp;gt;Model&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Model主要是建立起实体关系，根据不同Model之间的联系创建数据库，Model是实体，Model的属性是实体的属性，实体间的联系主要由外键控制。&lt;/p&gt;
-&lt;p&gt;表数据的增删改查就是Model类对象的创建、删除、过滤查找。&lt;/p&gt;
-&lt;p&gt;Modelname.objects返回类的句柄&lt;br&gt;
-    
-    </summary>
-    
-      <category term="python" scheme="http://peihao.space/categories/python/"/>
-    
-    
-      <category term="django" scheme="http://peihao.space/tags/django/"/>
     
       <category term="python" scheme="http://peihao.space/tags/python/"/>
     

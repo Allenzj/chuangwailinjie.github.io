@@ -4,8 +4,108 @@
 
     
   <url>
+    <loc>http://peihao.space/2017/03/05/ml-intro6/</loc>
+    <lastmod>2017-03-03T16:38:52.462Z</lastmod>
+    <data>
+        <display>
+        <title>ML学习-SVM</title>
+        <pubTime>2017-03-05T05:18:42.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2017/03/04/ml-intro5/</loc>
+    <lastmod>2017-03-03T11:05:09.511Z</lastmod>
+    <data>
+        <display>
+        <title>ML学习-神经网络</title>
+        <pubTime>2017-03-04T05:18:42.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2016/09/21/polls/</loc>
+    <lastmod>2017-03-02T09:34:08.964Z</lastmod>
+    <data>
+        <display>
+        <title>蓄水池</title>
+        <pubTime>2016-09-21T14:24:06.000Z</pubTime>
+        
+        <tag>algorithm</tag>
+         
+         
+           
+             
+              <breadCrumb title="algorithm" url="http://peihao.space/categories/algorithm/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2017/03/04/ml-intro4/</loc>
+    <lastmod>2017-03-02T02:50:16.124Z</lastmod>
+    <data>
+        <display>
+        <title>ML学习-决策树</title>
+        <pubTime>2017-03-04T05:18:42.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2017/03/03/ml-intro3/</loc>
+    <lastmod>2017-03-02T02:41:36.666Z</lastmod>
+    <data>
+        <display>
+        <title>线性模型</title>
+        <pubTime>2017-03-03T04:05:50.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://peihao.space/2017/03/01/ml-intro2/</loc>
-    <lastmod>2017-02-28T12:16:11.996Z</lastmod>
+    <lastmod>2017-03-01T02:54:56.183Z</lastmod>
     <data>
         <display>
         <title>模型评估与选择</title>
@@ -884,26 +984,6 @@
            
              
               <breadCrumb title="java" url="http://peihao.space/categories/java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://peihao.space/2016/09/21/polls/</loc>
-    <lastmod>2016-09-21T13:26:36.182Z</lastmod>
-    <data>
-        <display>
-        <title>蓄水池</title>
-        <pubTime>2016-09-21T14:24:06.000Z</pubTime>
-        
-        <tag>algorithm</tag>
-         
-         
-           
-             
-              <breadCrumb title="algorithm、" url="http://peihao.space/categories/algorithm%E3%80%81/"/>
           
         </display>
     </data>

@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -96,7 +96,7 @@
 <meta property="og:description" content="误差与拟合误差学习器的实际预测输出与样本的真是输出之间的差异称为”误差”
 学习器在训练集上的误差叫”训练误差”
 学习器在新样本的误差叫”泛化误差”（重要）">
-<meta property="og:updated_time" content="2017-02-28T12:16:11.996Z">
+<meta property="og:updated_time" content="2017-03-01T02:54:56.183Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="模型评估与选择">
 <meta name="twitter:description" content="误差与拟合误差学习器的实际预测输出与样本的真是输出之间的差异称为”误差”
@@ -135,7 +135,7 @@
 
 
 
-  <title> 模型评估与选择 | 窗外临街 </title>
+  <title> 模型评估与选择 | 窗外临街 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -144,7 +144,7 @@
 
 
 
-  <script type="text/javascript">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -390,7 +390,7 @@
 <h2 id="拟合">拟合</h2><p>我们实际希望的，是在新样本上能表现得很好的学习器.为了达到这个 目的，应该从训练样本中尽可能学出适用于所有潜在样本的“普遍规律”，这样才能在遇到新样本时做出正确的判别。</p>
 <p>然而，当学习器把训练样本学得“太好”了的时候，很可能已经把训练样本自身的一些特点当作了所有潜在样本都会具有的普适性质，这样就会导致泛化性能下降。这种现象在机器学习中称为“过合”（overfitting).</p>
 <p>与“过拟合”相对的是“欠拟合”（underfitting),这是指对训练样本的一般性质尚未学好。</p>
-<h1 id="评估方法">评估方法</h1><h2 id="留出法">留出法</h2><p>将整体数据划分为两个互斥的数据集合，分别作为测试集与训练集。注意测试集与训练集要尽量保证层次、类别数量上的相似。可以进行多次留出法，然后取误差的平均值。一般取2/3或者3/4的数据作为训练集。</p>
+<h1 id="评估方法">评估方法</h1><h2 id="留出法">留出法</h2><p>将整体数据划分为两个互斥的数据集合，分别作为测试集与训练集。注意测试集与训练集要尽量保证层次、类别上的相似。可以进行多次留出法，然后取误差的平均值。一般取2/3或者3/4的数据作为训练集。</p>
 <h2 id="交叉验证">交叉验证</h2><ol>
 <li>同样是将数据集合互斥划分，这里互斥的划分为k份，相互之间保持层次分布的平衡。</li>
 <li>每次使用k-1份数据作为训练集，余下的作为预测集</li>
@@ -399,7 +399,15 @@
 <h2 id="自助法">自助法</h2><p>上述的两种方法有一个共同的缺陷就是都把训练集合与整体的样本集合规模有偏差，而且由于每次的偏差不同，造成无法预料的影响。</p>
 <p>自助法：给定包含m个样本的数据集D，对他进行采样产生数据集d。每次随机的从D中跳一个样本复制到d中，进行m次，生成了包含m个样本的数据集d。显然，d中可能包含多个重复的样本数据。经过计算，m取无限大时，d中大概有D的63%数据。</p>
 <p>之后我们使用d作为训练样本，而D\d作为测试集合。这样，实际的训练与测试都使用了m个样本，且保证了D\d有3成多的非训练样本。</p>
-<h1 id="性能度量">性能度量</h1>
+<h1 id="性能度量">性能度量</h1><p>这里主要介绍两个属性：P（查准率precision）与R（查全率recall）</p>
+<ol>
+<li>查全率＝（检索出的相关信息量/系统中的相关信息总量）*100%  用户感兴趣的信息中有多少被检索出来</li>
+<li>查准率＝（检索出的相关信息量/检索出的信息总量）*100%  检索出的信息有多少比例是用户感兴趣的</li>
+</ol>
+<p>查全率是衡量检索系统和检索者检出相关信息的能力，查准率是衡量检索系统和检索者拒绝非相关信息的能力。</p>
+<p>实验证明，在查全率和查准率之间存在着相反的相互依赖关系–如果提高输出的查全率，就会降低其查准率，反之亦然。</p>
+<p>以P作为纵轴，R作为横轴作图，简称”P-R曲线”。若一个学习方法的P-R曲线完全包括另外一个，则断言此学习方法更优秀。</p>
+
       
     </div>
 
@@ -446,6 +454,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/03/03/ml-intro3/" rel="prev" title="线性模型">
+                线性模型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -461,6 +473,25 @@
 
 
     <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/03/01/ml-intro2/"
+     data-title="模型评估与选择"
+     data-content=""
+     data-url="http://peihao.space/2017/03/01/ml-intro2/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
       
     </div>
   </div>
@@ -519,7 +550,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">163</span>
+              <span class="site-state-item-count">167</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -781,6 +812,26 @@
 
   
   
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
 
 
   
@@ -906,7 +957,24 @@
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(bp, s);
 })();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}},"messageStyle":"none"});
 </script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
   
