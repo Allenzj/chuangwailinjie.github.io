@@ -4,6 +4,86 @@
 
     
   <url>
+    <loc>http://peihao.space/2017/03/07/ml-integration/</loc>
+    <lastmod>2017-03-06T13:43:53.926Z</lastmod>
+    <data>
+        <display>
+        <title>集成学习</title>
+        <pubTime>2017-03-07T05:18:42.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2017/03/06/ml-intro7/</loc>
+    <lastmod>2017-03-06T04:14:39.128Z</lastmod>
+    <data>
+        <display>
+        <title>贝叶斯Bayesian</title>
+        <pubTime>2017-03-06T05:18:42.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2017/03/04/ml-intro4/</loc>
+    <lastmod>2017-03-05T04:33:47.459Z</lastmod>
+    <data>
+        <display>
+        <title>ML学习-决策树</title>
+        <pubTime>2017-03-04T05:18:42.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2017/03/03/ml-intro3/</loc>
+    <lastmod>2017-03-05T03:11:01.276Z</lastmod>
+    <data>
+        <display>
+        <title>线性模型</title>
+        <pubTime>2017-03-03T04:05:50.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://peihao.space/2017/03/05/ml-intro6/</loc>
     <lastmod>2017-03-03T16:38:52.462Z</lastmod>
     <data>
@@ -57,46 +137,6 @@
            
              
               <breadCrumb title="algorithm" url="http://peihao.space/categories/algorithm/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://peihao.space/2017/03/04/ml-intro4/</loc>
-    <lastmod>2017-03-02T02:50:16.124Z</lastmod>
-    <data>
-        <display>
-        <title>ML学习-决策树</title>
-        <pubTime>2017-03-04T05:18:42.000Z</pubTime>
-        
-        <tag>ML</tag>
-         
-         
-           
-             
-              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://peihao.space/2017/03/03/ml-intro3/</loc>
-    <lastmod>2017-03-02T02:41:36.666Z</lastmod>
-    <data>
-        <display>
-        <title>线性模型</title>
-        <pubTime>2017-03-03T04:05:50.000Z</pubTime>
-        
-        <tag>ML</tag>
-         
-         
-           
-             
-              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
           
         </display>
     </data>
