@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://peihao.space/"/>
-  <updated>2017-03-06T13:43:53.926Z</updated>
+  <updated>2017-03-10T07:14:08.844Z</updated>
   <id>http://peihao.space/</id>
   
   <author>
@@ -14,6 +14,276 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>周报(1)</title>
+    <link href="http://peihao.space/2017/03/10/week-report310/"/>
+    <id>http://peihao.space/2017/03/10/week-report310/</id>
+    <published>2017-03-10T04:00:13.000Z</published>
+    <updated>2017-03-10T07:14:08.844Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;周报3-10&quot;&gt;周报3.10&lt;/h1&gt;&lt;p&gt;这次周报，主要回顾从周一下午在公司开完会回来后的工作情况以及状态。&lt;/p&gt;
+&lt;h2 id=&quot;状态&quot;&gt;状态&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;时间：由于每天坚持健身锻炼，以及在临睡前习惯的观看某栏目的逻辑思维导论，拖拖拉拉的晚上会睡的比较迟。早上也是醒的蛮晚。这些习惯会在月底前的一周里改正。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;地点：现在每天宿舍里空调打孔，噪音比较大。除了早上在寝室学习之外，之前没在实验室的会议室学习前，都会到教三的三楼自习。周二开始在保密会议室内学习，晚上九点半离开。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;效率：工作效率方面，白天的学习效率很低，经常会被外界的环境影响；在封闭的实验室内效率提高不少，特别是晚上六点之后。deadline是第一生产力，那个时候开始有时间危机，想着不能又白白浪费一天时间，逐渐不去理会外界干扰。同时在会议室的办公桌上可以使用外接的大屏显示器辅助工作，感觉很棒。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;工作情况&quot;&gt;工作情况&lt;/h2&gt;&lt;p&gt;目前是三月份，导师要我们9月份之前确定论文的题目，留给我们几乎半年的时间。所以这一阶段的前几十天我主要目标是在导师的指引下，在自己感兴趣的、或者认为有前景的领域粗粗的学一学，领略一番，期望遇到自己有深入进去欲望的方向、点。&lt;/p&gt;
+&lt;p&gt;最近一直在看南大周教授的《机器学习》和李航老师的《统计学习方法》。第一遍读不求甚解，没有公示的推倒，只是在顺着作者的思路学习，目的就是了解这一领域的基础知识、原理与技术。&lt;/p&gt;
+&lt;p&gt;两本书都对数学有一定的要求。上学期的《概率论与随机过程》课程中的部分章节在这里派上了用场，但是还有一些需要用到本科时的内容，包括《概率论与数理统计》、《线性代数》甚至《高级数学》。由于我没有参加统考，没有对这几门课程有系统的复习，几年过去，说实话遗忘了很多。类似协方差$Cov(\vec{x},\vec{y})$，特征值$\lambda$，矩阵的秩、迹、线性空间、欧氏空间、超平面等等很多定义、用法都要用到。这些有的是我学过还记得，有的学过忘掉了，还有部分没有接触过的，往往一个书上式子的理解都需要很长时间。不过嘛，这是我必经的路。前天听了同学的介绍，准备在网络上听一些课程，期望有所好转。&lt;/p&gt;
+&lt;p&gt;这期间开始使用latex。&lt;/p&gt;
+&lt;p&gt;周四，也就是昨天参加了在《中欧在5G及物联网领域的合作》会议。主要内容就是5G的最新进展以及物联网领域的突飞猛进。会议基本以英文演说为主，很多由于英文水平有限没有很好的理解，不过几个突出表达的新技术名词记录下来，回来查看资料还是大开眼见。几个关键词：光通信LIFI、AIOTI物联网组织、ICT合作。&lt;/p&gt;
+&lt;p&gt;昨天拿到了上届学长学姐的开题报告，到写周报前，只是把题目、时间安排简单的浏览了一下。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;周报3-10&quot;&gt;周报3.10&lt;/h1&gt;&lt;p&gt;这次周报，主要回顾从周一下午在公司开完会回来后的工作情况以及状态。&lt;/p&gt;
+&lt;h2 id=&quot;状态&quot;&gt;状态&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;时间：由于每天坚持健身锻炼，以及在临睡前习惯的观看某栏目的逻辑思维导论，拖拖拉拉的晚上会睡的比较迟。早上也是醒的蛮晚。这些习惯会在月底前的一周里改正。&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="周报" scheme="http://peihao.space/categories/%E5%91%A8%E6%8A%A5/"/>
+    
+    
+      <category term="周报" scheme="http://peihao.space/tags/%E5%91%A8%E6%8A%A5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>降维</title>
+    <link href="http://peihao.space/2017/03/09/ml-dimension-reduction/"/>
+    <id>http://peihao.space/2017/03/09/ml-dimension-reduction/</id>
+    <published>2017-03-09T02:36:28.000Z</published>
+    <updated>2017-03-11T04:28:13.049Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;k近邻学习&quot;&gt;k近邻学习&lt;/h1&gt;&lt;p&gt;k近邻（k-Nearest Neighboor，KNN）是一种常用的监督学习方法：给定测试样本，基于某种距离距离度量找出训练集中与其最靠近的k个训练样本，然后基于这k个训练样本的信息对本样本进行预测。分类学习中通常使用投票法，少数服从多数；回归学习中则使用平均法。通常为了体现出靠近的距离指标，在分类学习与回归学习中使用加权法，越靠近样本的权值越大。&lt;/p&gt;
+&lt;p&gt;给定测试样本x，若其最近邻样本为z，则最近邻分类器出错的概率就是x与z类别标记不同的概率：$P(err)=1-\sum\limits_{c \in y}P(c \mid x)P(c \mid z)$&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;假设样本独立同分布，且对任意x和任意小正数$\delta$，在x附近$\delta$距离范围内找到一个训练样本z；令$c^T=arg \max\limits_{c \in y}P(c \mid x)$表示贝叶斯最优分类器的结果，有：&lt;/p&gt;
+&lt;p&gt;$$&lt;br&gt;P(err)=1-\sum\limits_{c \in y}P(c \mid x)P(c \mid z)&lt;br&gt;\approx1-\sum\limits_{c \in y}P^2(c \mid x)&lt;br&gt;\leq 1- P^2(c^T \mid x)&lt;br&gt;=(1+P(c^T \mid x))(1-P(c^T \mid x))&lt;br&gt;\leq 2 \times (1-p(c^T \mid x))&lt;br&gt;$$&lt;/p&gt;
+&lt;p&gt;可以看出，在这种理想条件下KNN分类器的泛化错误率不超过贝叶斯错误率的两倍。&lt;/p&gt;
+&lt;h1 id=&quot;降维&quot;&gt;降维&lt;/h1&gt;&lt;p&gt;上面的讨论的基础是在足够小的距离内都有相邻的样本作为参考，考虑到做个属性（也就是多个维度）的情况，需要的合适的样本数量回事天文数字。高维度空间会给距离计算带来很大麻烦。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro9-2.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;一般采用的方式是通过某种数学变换将原始高维属性空间转变为一个低维子空间。子空间中样本密度大幅提升。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro9-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;MDS&quot;&gt;MDS&lt;/h2&gt;&lt;p&gt;MDS即多维缩放(Multiple Dimensional Scaling)，是要就将原始空间中样本间的距离在低维空间中得以保持。&lt;/p&gt;
+&lt;p&gt;假定m个样本在原始空间的距离矩阵为$D \in R^{m \times m}$，在第i行j列的元素$dist_{ij}$为样本$x_i$到$s_j$的距离。目标是获得样本在$d^c$维空间的表示$Z \in R^{d^c \times m},d^c \leq d$，且任意两个样本在$d^c$维空间的欧式距离等于原始空间$\mid\mid z_i-z_j \mid\mid = dist_{ij}$&lt;/p&gt;
+&lt;p&gt;令$B=Z^TZ \in R^{m \times m}$，其中B为降维后样本的内积矩阵，$b_{ij}=b_{ji}=z_i^Tz_j$&lt;/p&gt;
+&lt;p&gt;$$&lt;br&gt;dist_{i.}^2=\frac{1}{m}\sum\limits_{j=1}^m dist_{ij}^2&lt;br&gt;dist_{.j}^2=\frac{1}{m}\sum\limits_{i=1}^m dist_{ij}^2&lt;br&gt;dist_{..}^2=\frac{1}{m^2}\sum\limits_{i=1}^m\sum\limits_{j=1}^m dist_{ij}^2&lt;br&gt;$$&lt;/p&gt;
+&lt;p&gt;由以上的式子推出：&lt;/p&gt;
+&lt;p&gt;$b_ij=-\frac{1}{2}(dist_{ij}^2-dist_{i.}^2-dist_{.j}^2+dist_{..}^2)$&lt;/p&gt;
+&lt;p&gt;依次求出矩阵B中所有的元素，然后对矩阵做特征值分解：$B=V\Lambda V^T$其中V为特征向量矩阵，$\Lambda$为特征值构成的对角矩阵。假定其中有$d^c$个非零特征值，构成对角矩阵$\Lambda_x=diag(\lambda_1,\lambda_2,…,\lambda_{dx})$，令$Vx$表示相应的特征向量矩阵，则：&lt;/p&gt;
+&lt;p&gt;$Z=\Lambda_c^{1/2}V_c^T \in R^(d^c \times m)$&lt;/p&gt;
+&lt;h1 id=&quot;主成分分析&quot;&gt;主成分分析&lt;/h1&gt;&lt;p&gt;通过正交变换将一组可能存在相关性的变量转换为一组线性不相关的变量，转换后的这组变量叫主成分。&lt;/p&gt;
+&lt;p&gt;主成份（Principal Component Analysis）分析是降维（Dimension Reduction）的重要手段。每一个主成分都是数据在某一个方向上的投影，在不同的方向上这些数据方差Variance的大小由其特征值（eigenvalue）决定。一般我们会选取最大的几个特征值所在的特征向量（eigenvector），这些方向上的信息丰富，一般认为包含了更多我们所感兴趣的信息。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在很多情形，变量之间是有一定的相关关系的，当两个变量之间有一定相关关系时，可以解释为这两个变量反映此课题的信息有一定的重叠。主成分分析是对于原先提出的所有变量，将重复的变量（关系紧密的变量）删去多余，建立尽可能少的新变量，使得这些新变量是两两不相关的，而且这些新变量在反映课题的信息方面尽可能保持原有的信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;设法将原来变量重新组合成一组新的互相无关的几个综合变量，同时根据实际需要从中可以取出几个较少的综合变量尽可能多地反映原来变量的信息的统计方法叫做主成分分析或称主分量分析，是数学上用来降维的一种方法。&lt;/p&gt;
+&lt;p&gt;先定义一些变量：&lt;/p&gt;
+&lt;p&gt;样本$(\vec{x_1},\vec{x_2},\vec{x_3},…,\vec{x_m})$&lt;/p&gt;
+&lt;p&gt;投影变换得到的 &lt;strong&gt;新坐标系&lt;/strong&gt;${ \vec{\omega_1},\vec{\omega_2},…,\vec{\omega_d}, }$&lt;/p&gt;
+&lt;p&gt;样本点在低维坐标系中的投影是$z_i=(z_{i1};z_{i2};z_{i3};…;z_{id_‘};)$&lt;/p&gt;
+&lt;p&gt;其中$z_{ij}=\vec{\omega}_j^T\vec{x_i}$是x在低维坐标系下的第j维坐标&lt;/p&gt;
+&lt;p&gt;投影点方差是$\sum_i W^Tx_ix_i^TW$ 优化目标是最大化这个方差，使得在投影之后尽可能的分散&lt;/p&gt;
+&lt;p&gt;PCA一般有以下几个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;数据减去均值：样本中心化$\sum_i \vec{x_i}=\vec{0}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;计算协方差矩阵：$C=\frac{XX^T}{N}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;计算协方差矩阵的特征矢量和特征值：对协方差矩阵$\frac{XX^T}{N}$特征分解$CU=U\Lambda$，其中C为方差矩阵，U为计算的特征矢量，$\Lambda$是对角线矩阵$\Lambda=diag(\lambda_1,\lambda_2,…,\lambda_d)$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;选择成分组成模式矢量&lt;/strong&gt;对应最大特征值的特征矢量就是数据的主成分：取最大的d个特征值所对应的特征向量$u_1,u_2,…,u_d$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;一般地，从协方差矩阵找到特征矢量以后，下一步就是按照特征值由大到小进行排列，这将给出成分的重要性级别。现在，如果你喜欢，可以忽略那些重要性很小的成分，当然这会丢失一些信息，但是如果对应的特征值很小，你不会丢失很多信息。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;获得投影的新数据$y_i=U_k^T x_i$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&quot;核化线性降维&quot;&gt;核化线性降维&lt;/h1&gt;&lt;p&gt;线性降维假设从高维空间到低维度空间的函数映射是线性的，然而在不少的现实任务中，可能需要非线性映射才能找到恰当的低维嵌入。&lt;/p&gt;
+&lt;p&gt;非线性降维的一种常用方法是基于核技巧对线性降维方法进行”核化”。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;http://zhanxw.com/blog/2011/02/kernel-pca-%E5%8E%9F%E7%90%86%E5%92%8C%E6%BC%94%E7%A4%BA/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;在KPCA中&lt;/a&gt;，除了在PCA中的一些先决条件外，我们认为原有的数据有更高的维数，我们可以在更高的维度空间中做PCA分析（即在更高维里，把原始数据向不同方向进行投影）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们拿到样本点，需要将它映射到高维空间中，然后使用PCA算法进行降维。&lt;/p&gt;
+&lt;p&gt;假定我们将在高维特征空间中把数据投影到由W确定的超平面上，即PCA欲求解$(\sum\limits_{i=1}^m)\vec(W)=\lambda \vec{W}$  （拉格朗日乘子法）&lt;/p&gt;
+&lt;p&gt;其中$z_i$是样本点在高维特征空间的像，有$\vec{W}=\sum\limits_{i=1}^m z_i \alpha _i$&lt;/p&gt;
+&lt;p&gt;$\alpha_i=\frac{1}{\lambda}z_i^T \vec{W}$&lt;/p&gt;
+&lt;p&gt;z是由原始属性空间中的样本点x通过映射$\phi$产生。但是在映射到高维空间这一步，一般情况下，我们并不知道映射函数$phi$的具体形，不知道要映射到哪重维度上，于是引入核函数$\kappa(x_i,x_j)=\phi(x_i)^T\phi(x_j)$&lt;/p&gt;
+&lt;p&gt;化简式子：$KA=\lambda A$，K为$\kappa$对应核矩阵，$A=(\alpha_1;\alpha_2;…;\alpha_m)$&lt;/p&gt;
+&lt;p&gt;上式是特征值分解问题，取K对应的最大的d个特征值对应的特征向量。&lt;/p&gt;
+&lt;p&gt;对于新样本x，投影的第j维坐标为$z_j=\omega_j^T \phi(x)=\sum\limits_{i=1}^m \alpha_i^j \kappa(x_i,x)$&lt;/p&gt;
+&lt;h1 id=&quot;流形学习&quot;&gt;流形学习&lt;/h1&gt;&lt;p&gt;流形是一类借鉴了拓扑流形概念的降维方法，在局部有欧式空间的性质，能用欧式距离来进行距离计算。&lt;/p&gt;
+&lt;p&gt;若低维流形嵌入到高维空间中，则数据样本在高维空间的分布虽然看上去非常复杂，但在局部上仍具有欧式空间的性质。因此可以容易的在局部建立降维映射关系，然后再设法将局部映射关系推广到全局。&lt;/p&gt;
+&lt;h2 id=&quot;等度量映射&quot;&gt;等度量映射&lt;/h2&gt;&lt;p&gt;等度量映射（Isometric Mapping）认为低维流形嵌入到高维空间后，直接在高维空间中计算直线距离具有误导性，因为高维空间中的直线距离往往在低维嵌入流形上是不可达的。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro9-3.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;对每个点基于欧式距离找出其近邻点，然后就能建立一个近邻连接图，图中近邻点之间存在连接，而非近邻之间不存在连接，于是计算两点间测地线距离的问题，转变为了计算近邻点之间最短路径问题。&lt;/p&gt;
+&lt;p&gt;步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;确定$x_i$的k近邻，并将$x_i$与k近邻之间的距离设置为欧氏距离，与其他点的距离设置为无穷大&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;调用最短路径算法计算任意来那个样本之间的距离$dist(x_i,dist_j)$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;将$dist(x_i,dist_j)$作为MDS算法的输入求解&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;局部线性嵌入&quot;&gt;局部线性嵌入&lt;/h2&gt;&lt;p&gt;局部线性嵌入（Locally Linear Embedding，LEE）试图保持邻域内样本之间的线性关系。假定样本点$x_i$的坐标能通过他的邻域样本$x_j,x_k,x_l$的坐标通过线性组合组成，$x_i=w_{ij}x_j+w_{ik}x_k+w_{il}x_l$&lt;/p&gt;
+&lt;p&gt;LLE希望关系在低维空间中得以保持。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro9-4.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;LLE算法的主要原理就是先在高维空间，计算出相应的重构系数序列$W={w_1,w_2,…,_m}$，随后在低维空间中通过相同的重构系数获取投影点。&lt;/p&gt;
+&lt;p&gt;令$Z=(z_1,z_2,…,z_m) \in R^{d^. \times m}$&lt;/p&gt;
+&lt;p&gt;$M = (I-W)^T(I-W)$则寻求最小化：$\min\limits_z tr(ZMZ^T)$，约束条件$ZZ^T=I$&lt;/p&gt;
+&lt;p&gt;上式通过特征值分解，M最小的$d^.$个特征值对应的特征向量组成的矩阵就是$Z^T$，即在低维的投影&lt;/p&gt;
+&lt;h1 id=&quot;度量学习&quot;&gt;度量学习&lt;/h1&gt;&lt;p&gt;对两个d维样本$x_i  x_j$，他们之间的平方欧式距离可写为：$dist^2(x_i,x_j)=dist_{ij,1}^2+dist_{ij,2}^2+…+dist_{ij,d}^2$&lt;/p&gt;
+&lt;p&gt;其中$dist_{ij,k}$表示$x_i,x_j$在第k维上的距离，若嘉定不同属性的重要程度不一样，可以引入属性权重$\omega$&lt;/p&gt;
+&lt;p&gt;$dist^2(w_i,x_j)=\omega_1\cdot dist_{ij,1}^2+\omega_2\cdot dist_{ij,2}^2+…+\omega_d\cdot dist_{ij,d}^2=(x_i-x_j)^T W(x_i-x_j)$&lt;/p&gt;
+&lt;p&gt;其中$\omega_i \geq 0,W=diag(\omega)$是一个对角矩阵&lt;/p&gt;
+&lt;p&gt;W是对角矩阵，坐标轴正交，属性之间无关；然而现实中并不是这样将W图换位一个普通的半正定对称矩阵M，得到马氏距离。&lt;/p&gt;
+&lt;p&gt;其中M称作“度量矩阵”，而度量学习是对M进行学习。M必须是正定对称的，即必有正交基P使得M能写成$M=PP^T$&lt;/p&gt;
+&lt;p&gt;对M的学习，我们需要把M直接嵌入到需要提高效率的评价指标中，通过优化指标求得M&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;k近邻学习&quot;&gt;k近邻学习&lt;/h1&gt;&lt;p&gt;k近邻（k-Nearest Neighboor，KNN）是一种常用的监督学习方法：给定测试样本，基于某种距离距离度量找出训练集中与其最靠近的k个训练样本，然后基于这k个训练样本的信息对本样本进行预测。分类学习中通常使用投票法，少数服从多数；回归学习中则使用平均法。通常为了体现出靠近的距离指标，在分类学习与回归学习中使用加权法，越靠近样本的权值越大。&lt;/p&gt;
+&lt;p&gt;给定测试样本x，若其最近邻样本为z，则最近邻分类器出错的概率就是x与z类别标记不同的概率：$P(err)=1-\sum\limits_{c \in y}P(c \mid x)P(c \mid z)$&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
+    
+    
+      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>聚类</title>
+    <link href="http://peihao.space/2017/03/08/ml-clustering/"/>
+    <id>http://peihao.space/2017/03/08/ml-clustering/</id>
+    <published>2017-03-08T05:18:42.000Z</published>
+    <updated>2017-03-08T02:33:48.630Z</updated>
+    
+    <content type="html">&lt;p&gt;机器学习可以根据样本是否有标签分类为有监督学习与无监督学习，前面介绍的基本都是有监督学习。无监督学习中，目标通过对无标记训练样本的学习来揭示数据的内在性质及规律。&lt;/p&gt;
+&lt;p&gt;聚类试图将数据集中的样本划分为若干个通常不相交的子集，每个子集称为一个簇（cluster）。通过这样的划分，每个簇可能对应与一些潜在的类别。这些类别两两不相交，并起来是整个数据集，聚类的结果就是产生一个标签结果序列。 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;性能度量&quot;&gt;性能度量&lt;/h1&gt;&lt;p&gt;对聚类来讲，我们需要通过某种性能来评估聚类效果的好坏；若明确了最终要使用的性能度量，可以直接将其作为聚类过程的优化目标。&lt;/p&gt;
+&lt;p&gt;聚类性能度量大致有两类，一类是将聚类结果与某个参考模型进行比较，称为外部指标；另一类是直接考察聚类结果而不利用任何参考模型，称为内部指标。&lt;/p&gt;
+&lt;h2 id=&quot;外部指标&quot;&gt;外部指标&lt;/h2&gt;&lt;p&gt;对数据集$D={x_1,x_2,…,x_m}$，假定通过聚类给出额簇划分为$C={C_1,C_2,…,C_k}$，参考模型给出的簇划分为$C^`={C_1^T,C_2^T,…,C_s^T}$。相应的，令$\lambda$与$\lambda^T$分别表示与C和$C^T$对应的簇标记向量。注意的是，参考模型给出的划分类别数量不一定等于通过聚类得到的数量。&lt;/p&gt;
+&lt;p&gt;样本两两配对：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;$a=\mid SS \mid ,SS={(x_i,x_j)\mid \lambda_i = \lambda_j,\lambda_i^T=\lambda_j^T,i&amp;lt;j}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;$b=\mid SS \mid ,SD={(x_i,x_j)\mid \lambda_i = \lambda_j,\lambda_i^T\neq \lambda_j^T,i&amp;lt;j}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;$c=\mid SS \mid ,DS={(x_i,x_j)\mid \lambda_i \neq \lambda_j,\lambda_i^T=\lambda_j^T,i&amp;lt;j}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;$a=\mid SS \mid ,DD={(x_i,x_j)\mid \lambda_i \neq \lambda_j,\lambda_i^T \neq \lambda_j^T,i&amp;lt;j}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;集合SS包含了C中隶属于相同簇且在$C^`$中也隶属于相同簇的样本对，集合SD包含了在C中隶属于相同簇但在$C^T$中隶属于不同簇的样本对&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Jaccard系数：$JC=\frac{a}{a+b+c}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;FM指数：$FMI=\sqrt{\frac{a}{a+b}\frac{a}{a+c}}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Rand指数：$RI=\frac{2(a+d)}{m(m-1)}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;上述性能度量的结果值均在[0,1]区间，值越大越好。&lt;/p&gt;
+&lt;h2 id=&quot;内部指标&quot;&gt;内部指标&lt;/h2&gt;&lt;p&gt;考虑聚类结果的簇划分$C={C_1,C_2,…,C_k}$，定义&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;$avg(C)=\frac{2}{\mid C \mid(\mid C \mid -1)}\sum_{1 \leq i &amp;lt; j \leq \mid C \mid}dist(x_i,x_j)$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;$diam(C)=\max_{1 \leq i &amp;lt;j \leq \mid C \mid}dist(x_i,x_j)$;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;$d_\min(C_i,C_j)=\min_{x_i \in C_i , x_j \in C_j} dist(x_i,x_j)$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;$d_cen(C_i,C_j)=dist(\mu_i,\mu_j)$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;上面的式子中，dist计算两个样本之间的距离；$\mu$代表簇的中心点$\mu=\frac{\sum_{1 \leq i \leq \mid C \mid x_i}}{\mid C \mid}$；avg(C)uiying与簇内样本间的平均距离，diam(C)对应与簇C内样本间的最远距离，$d_min(C_i,C&lt;em&gt;j)$对应与簇i和簇j最近样本间的距离；$d&lt;/em&gt;{cen}(C_i,C_j)$对应与簇i和j中心点间的距离。&lt;/p&gt;
+&lt;p&gt;基于上面的指标，推出下面几个内部指标：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;$DBI=\frac{1}{k}\sum\limits_{i=1}^k\max\limits_{j \neq i}(\frac{avg(C_i)+avg(C_j)}{d_{cen}(\mu_i,\mu_j)})$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;$DI=\min\limits_{1 \leq i \leq k}{ \min\limits_{j \neq i}(\frac{d_{min}(C_i,C_j)}{\max_{1\leq l \leq k diam(C_l)}}) }$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;显然，DBI的值越小越好，DI值越大越好&lt;/p&gt;
+&lt;h1 id=&quot;距离计算&quot;&gt;距离计算&lt;/h1&gt;&lt;p&gt;在讨论距离计算的时候，属性是否定义了”序”关系很重要。例如定义域为${ 1,2,3 }$能直接在属性值上计算距离，这样的属性成为有序属性；而定义域为{ 飞机、火车、轮船 }这样的离散属性则不能直接在属性值上计算距离，称为无序属性。&lt;/p&gt;
+&lt;p&gt;对有序属性的距离计算，通常使用Minkowski distance：$dist_{mk}(x_i,x_j)=(\sum\limits_{u=1}^n \mid x_{iu}-x_{ju} \mid^p)^{\frac{1}{p}}$&lt;/p&gt;
+&lt;p&gt;对无需属性采用VDM算式：$VDM_p(a,b)=\sum\limits_{i=1}^k\mid \frac{m_{u,a,i}}{m_{u,a}}-\frac{m_{u,b,i}}{m_u,b} \mid ^p$&lt;/p&gt;
+&lt;p&gt;其中$m_{u,a} m_{u,a,i}$分别表示在属性u上取值a的样本数以及在第i个样本簇中属性u上取值为a的样本数。k为样本簇数&lt;/p&gt;
+&lt;p&gt;混合处理，假定有$n_c$个有序属性以及$n-n_c$个无序属性：&lt;/p&gt;
+&lt;p&gt;$MinkorDM_p(x_i,x_j)=(\sum\limits_{u=1}^{n_c}\mid x_{iu}-x_{ju} \mid ^p +\sum\limits_{u=n_c+1}^n VDM_p(x_{iu},x_{ju}))^{\frac{1}{p}}$&lt;/p&gt;
+&lt;p&gt;属性重要性不同时，可以加权处理&lt;/p&gt;
+&lt;h1 id=&quot;原型聚类&quot;&gt;原型聚类&lt;/h1&gt;&lt;p&gt;原型聚类算法假设聚类结构能够通过一组原型刻画，通常情况下算法先对原型进行初始化，然后对原型进行迭代更新。&lt;/p&gt;
+&lt;h2 id=&quot;k均值算法&quot;&gt;k均值算法&lt;/h2&gt;&lt;p&gt;给定样本集$D={x_1,x_2,…,x_m}$，k均值算法针对聚类所得簇划分${ C_1,C_2,…,C_k }$最小化平方误差。$E=\sum\limits_{i=1}^k\sum\limits_{x \in C_i}\mid\mid x-\mu_i \mid\mid_2^2$&lt;/p&gt;
+&lt;p&gt;其中$\mu_i=\frac{\sum_{x \in C_i}\vec{x}}{\mid C_i \mid}$是簇$C_i$的均值向量。上式在一定程度上刻画了簇内样本围绕簇均值向量的紧密吃呢孤独，E值越小则簇内样本相似度越高。k均值采用贪心策略，通过迭代优化来近似求解上式。&lt;/p&gt;
+&lt;h2 id=&quot;学习向量量化&quot;&gt;学习向量量化&lt;/h2&gt;&lt;p&gt;学习向量量化（LVQ）试图找到一组原型向量来刻画聚类结构，它假设数据样本带有类别标记，学习过程利用样本的这些监督信息来辅助聚类。&lt;/p&gt;
+&lt;p&gt;算法首先对原型向量进行优化，然后对原型向量进行迭代优化。在每一轮的迭代中，算法随机选取一个有标记训练样本，找出与其距离最近的原型向量，并根据两者的类别标记是否一致来对原型向量进行更新。&lt;/p&gt;
+&lt;p&gt;在更新原型向量上，对样本$x_i$，若最近的原型向量$p_i$与$x_j$的类别标记相同，则令$p_i$向$x_j$方向靠拢；否则更新原型向量与$x_j$之间距离增大，远离$x_j$&lt;/p&gt;
+&lt;h2 id=&quot;高斯混合聚类&quot;&gt;高斯混合聚类&lt;/h2&gt;&lt;p&gt;统计学习的模型有两种，一种是概率模型，一种是非概率模型。所谓概率模型，是指训练模型的形式是P(Y|X)。输入是X，输出是Y，训练后模型得到的输出不是一个具体的值，而是一系列的概率值（对应于分类问题来说，就是输入X对应于各个不同Y（类）的概率），然后我们选取概率最大的那个类作为判决对象（软分类–soft assignment）。所谓非概率模型，是指训练模型是一个决策函数Y=f(X)，输入数据X是多少就可以投影得到唯一的Y，即判决结果（硬分类–hard assignment）。&lt;/p&gt;
+&lt;p&gt;高斯混合模型GMM就是指对样本的概率密度分布进行估计，而估计采用的模型（训练模型）就是几个高斯模型的加权和。每个高斯模型代表一个聚类。对样本中的数据分别在几个高斯模型上进行投影，就会分别得到在各个类上的概率，选取概率最大的类作为判决结果。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;理论上可以通过增加模型的数量，用GMM近似任何概率分布&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;混合高斯模型定义：$p(x)=\sum_{k=1}^k \pi_kp(x \mid k)$&lt;/p&gt;
+&lt;p&gt;其中k为模型的个数；$\pi_k$为第k个高斯的权重；$p(x\mid k)$则为第k个高斯概率密度，其均值为$\mu_k$，方差为$\theta_k$。对此概率密度的估计就是要求出$\pi_k,\mu_k,\theta_k$。当求出p(x)的表达式后，求和式的各项的结果就分别代表样本x属于各个类的概率。&lt;/p&gt;
+&lt;p&gt;在做参数估计的时候，常采用的是最大似然方法。最大似然法就是使样本点在估计的概率密度函数上的概率值最大。由于概率值一般都很小，N 很大的时候, 连乘的结果非常小，容易造成浮点数下溢。所以我们通常取log，将目标改写成：$\max\sum\limits_{i=1}^N log(\sum\limits_{k=1}^K\pi_kN(x_i \mid \mu_k,\theta_k))$&lt;/p&gt;
+&lt;p&gt;一般用来做参数估计的时候，我们都是通过对待求变量进行求导来求极值，在上式中，log函数中又有求和，你想用求导的方法算的话方程组将会非常复杂，没有闭合解。可以采用的求解方法是EM算法——将求解分为两步：第一步,假设知道各个高斯模型的参数（可以初始化一个，或者基于上一步迭代结果），去估计每个高斯模型的权值；第二步,基于估计的权值，回过头再去确定高斯模型的参数。重复这两个步骤，直到波动很小，近似达到极值（注意这里是极值不是最值，EM算法会陷入局部最优）。具体表达如下：&lt;/p&gt;
+&lt;p&gt;E：对滴i个样本$x_i$来说，它由第k个模型生成的概率为：$\vec{w_i}(k)=\frac{\pi_kN(x_i \mid \mu_k,\theta_k)}{\sum\limits_{j=1}^K \pi_jN(x_i \mid \mu_j,\theta_j)}$&lt;/p&gt;
+&lt;p&gt;在这一步，假设高斯模型的参数是已知的，有上一步迭代而来或者由初始值决定&lt;/p&gt;
+&lt;p&gt;M：得到每个点的生成概率以后，对样本$x_i$来说，他的$\vec{w}_i(k)x_i$的值是由第k个高斯模型产生的。换句话说，第k个高斯模型很产生了$\vec{w}_i(k)x_i(i=1……N)$这些数据。这样在估计第k个高斯模型参数时，我们就用$\vec{w}_i(k)x_i(i=1……N)$这些数据去做参数估计：&lt;/p&gt;
+&lt;p&gt;$\mu_k=\frac{\sum\limits_{i=1}^N \vec{w}_i (k)x_i}{N}$&lt;/p&gt;
+&lt;p&gt;$\theta_k=\frac{\sum\limits_{i=1}^N\vec{w}_i(k)(x_i-\mu_k)(x_i-\mu_k)^T}{N_k}$&lt;/p&gt;
+&lt;p&gt;$N_k=\sum\limits_{i=1}^N\vec{w}_i(k)$&lt;/p&gt;
+&lt;p&gt;重复E和M知道算法收敛&lt;/p&gt;
+&lt;h1 id=&quot;密度聚类&quot;&gt;密度聚类&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;$\epsilon$邻域：对象O的是与O为中心，$\epsilon$为半径的空间，参数$\epsilon &amp;gt; 0$，是用户指定每个对象的领域半径值。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;MinPts（领域密度阀值）：对象的$\epsilon$邻域的对象数量。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;核心对象：如果对象O的$\epsilon$邻域对象数量至少包含MinPts个对象，则该对象是核心对象。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;直接密度可达：如果对象p在核心对象q的$\epsilon$邻域内，则p是从q直接密度可达的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;密度可达：在DBSCAN中，p是从q(核心对象)密度可达的，如果存在对象链$(p_1,p_2,…,p_n)$，使得$p_1=x_i,p_n=x_j$,且有$p_{i+1}$由$p_i$直接密度直达&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;密度相连：对$x_i$和$x_j$，若存在$x_k$使得$x_i,x_j$均由$x_k$密度可达，则两者密度相连。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro8-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;DBSCAN算法先任选数据集中的一个核心对象为种子，再由此出发确定相应的聚类簇。具体的，现根据给定的邻域参数$(\epsilon,MinPys)$找出所有的核心对象；然后以任意核心对象为出发点，找出由其密度可达的样本生成聚类簇，知道所有核心对象均被访问过为止。&lt;/p&gt;
+&lt;h1 id=&quot;层次聚类&quot;&gt;层次聚类&lt;/h1&gt;&lt;p&gt;层次聚类试图在不同层次对数据集进行划分，从而形成树形的聚类结构。数据集的划分可采用自底向上的聚合策略，也可选择自顶下下的分析策略。&lt;/p&gt;
+&lt;p&gt;AGNES是一种自底向上聚合策略的层次聚合算法。他先将数据集合中每个样本看作一个初始聚类簇，然后再算法运行的每一步中找出距离最近的两个聚类簇合并，该过程不断重复，直至达到预设的聚类簇个数。&lt;/p&gt;
+&lt;p&gt;算法的关键是如何找到最近的两个聚类簇，然后不断的进行合并。给定聚类簇$C_i$和$C_j$，通过下面的式子计算距离：&lt;/p&gt;
+&lt;p&gt;最小距离： $d_min(C_i,C_j)=\min\limits_{x \in C_,z \in C_j} dist(x,z)$&lt;/p&gt;
+&lt;p&gt;最大距离： $d_max(C_i,C_j)=\max\limits_{x \in C_,z \in C_j} dist(x,z)$&lt;/p&gt;
+&lt;p&gt;平均距离： $d_avg(C_i,C_j)=\frac{\sum\limits_{x \in C_i}\sum\limits_{z \in C_j}dist(x,z)}{\mid C_i \mid \mid C_j \mid}$&lt;/p&gt;
+&lt;p&gt;当使用不同的距离公式作为算法的因数时，算法分别被称为单链接，全连接以及均链接。算法首先对仅含一个样本样本的初始聚类簇和相应的距离矩阵进行初始化；然后不断合并距离最近的聚类簇，并对合并得到的新聚类簇距离矩阵进行更新；不断重复，直到聚类簇数量减少到预设目标。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;机器学习可以根据样本是否有标签分类为有监督学习与无监督学习，前面介绍的基本都是有监督学习。无监督学习中，目标通过对无标记训练样本的学习来揭示数据的内在性质及规律。&lt;/p&gt;
+&lt;p&gt;聚类试图将数据集中的样本划分为若干个通常不相交的子集，每个子集称为一个簇（cluster）。通过这样的划分，每个簇可能对应与一些潜在的类别。这些类别两两不相交，并起来是整个数据集，聚类的结果就是产生一个标签结果序列。
+    
+    </summary>
+    
+      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
+    
+    
+      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
+    
+  </entry>
   
   <entry>
     <title>集成学习</title>
@@ -519,7 +789,7 @@
     <link href="http://peihao.space/2017/02/28/ml-intro/"/>
     <id>http://peihao.space/2017/02/28/ml-intro/</id>
     <published>2017-02-28T03:00:13.000Z</published>
-    <updated>2017-02-28T11:06:43.074Z</updated>
+    <updated>2017-03-09T15:15:36.909Z</updated>
     
     <content type="html">&lt;p&gt;机器学习：研究如何通过计算的手段，利用经验来改善系统自身的性能。&lt;/p&gt;
 &lt;p&gt;计算机系统中，“经验”通常以“data”形式存在，所以机器学习从数据中产生模型（model）的算法，称为学习算法。模型，即从数据中学到的结果。&lt;/p&gt;
@@ -534,6 +804,7 @@
 &lt;h1 id=&quot;归纳偏好&quot;&gt;归纳偏好&lt;/h1&gt;&lt;p&gt;由于训练样本的数据量无法代表整个样本空间，可能会存在这种情况：预测样本可以匹配到多个训练样本结果，而这些不同的训练结果有不同的输出。表现为分类中属不同类。&lt;/p&gt;
 &lt;p&gt;此时无法通过匹配的手段确定到底使用哪个训练样本结果，学习算法的”偏好”就很重要了。通过提前设置的偏好，在遇到这种情况时候，算法会自动根据偏好选择合适的预测结果。称为”归纳偏好”（inductive bias）&lt;/p&gt;
 &lt;h2 id=&quot;奥卡姆剃刀&quot;&gt;奥卡姆剃刀&lt;/h2&gt;&lt;p&gt;奥卡姆剃刀是一种常用的、自然科学研究中最基本的原则，即”若有多个假设与观察一直，则选择最简单的那个”。&lt;/p&gt;
+&lt;p&gt;如无必要，勿增实体&lt;/p&gt;
 &lt;h2 id=&quot;NFL定理&quot;&gt;NFL定理&lt;/h2&gt;&lt;p&gt;所有问题同等重要的前提下，任意两个学习算法的期望性能是相同的。就是说误差率是相同的。NFL定理的重要定义是要我们认识到，脱离具体问题，空泛的谈论”什么学习算法更好没有意义”。学习算法自身的归纳偏好与问题是否匹配，往往起到决定性作用。&lt;/p&gt;
 &lt;h1 id=&quot;历史进程&quot;&gt;历史进程&lt;/h1&gt;&lt;h2 id=&quot;机械学习&quot;&gt;机械学习&lt;/h2&gt;&lt;p&gt;将所有样例记住，并在需要预测的时候拿出，实际上是一种检索方法，没有涉及到学习。&lt;/p&gt;
 &lt;h2 id=&quot;符号主义学习&quot;&gt;符号主义学习&lt;/h2&gt;&lt;p&gt;这个阶段，代表的学习方法有决策树和基于逻辑学习。&lt;/p&gt;
@@ -1233,143 +1504,6 @@
       <category term="linux" scheme="http://peihao.space/tags/linux/"/>
     
       <category term="网络" scheme="http://peihao.space/tags/%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>阻塞/非阻塞&amp;同步/异步</title>
-    <link href="http://peihao.space/2016/11/14/asyn_loop/"/>
-    <id>http://peihao.space/2016/11/14/asyn_loop/</id>
-    <published>2016-11-14T15:28:30.000Z</published>
-    <updated>2016-11-15T15:23:58.982Z</updated>
-    
-    <content type="html">&lt;h1 id=&quot;同步/异步&quot;&gt;同步/异步&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;http://library.tebyan.net/en/Viewer/Text/164873/92&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;The Sockets Networking API&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;同步和异步的区别在于，做一件事情，消息通知的流程。在同步中，是由发起者（调用者）主动等待消息反应，而异步情况则是有被动者（被调用者）通过反馈机制通知发起者来处理返回的消息&lt;/p&gt;
-&lt;p&gt;所以区分同步与异步，主要是消息处理前的行为&lt;/p&gt;
-&lt;h1 id=&quot;阻塞/非阻塞&quot;&gt;阻塞/非阻塞&lt;/h1&gt;&lt;p&gt;阻塞是在调用结果返回之前，当前&lt;strong&gt;线程/进程&lt;/strong&gt;将会被挂起，直到结果返回才会继续执行。&lt;/p&gt;
-&lt;p&gt;非阻塞情况不会阻塞当前线程，该线程还可以执行。&lt;/p&gt;
-&lt;p&gt;所以阻塞与非阻塞的关注点应该在于发出请求之后，请求未返回之前这段时间，线程是否有能力（被允许）执行之后的任务&lt;/p&gt;
-&lt;p&gt;阻塞是由系统自动执行阻塞原语(block)，使自己由运行状态变为阻塞状态。进程进入阻塞状态之后，不会占用CPU资源&lt;/p&gt;
-&lt;h1 id=&quot;coroutine与异步回调&quot;&gt;coroutine与异步回调&lt;/h1&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h2 id=&quot;协程&quot;&gt;协程&lt;/h2&gt;&lt;p&gt;coroutine即协程，是实现类异步执行的一种方式。 协程是什么呢，协程实际上是一种比线程更小的执行单元，自带context，协程实现类异步也是通过不断的切换；相比线程，协程仅仅是保持着cpu context，而进程一直维持着cache、断点等很多消耗时间、内存的地方。&lt;/p&gt;
-&lt;p&gt;协程的一些缺点：虽然相比线程来讲，减少了很多cache等数据维持，实际上context与线程相比并没有太多的提升，如果task是CPU密集型，使用协程可以看到很好的效果，I/O密集型则不会有很大改观，因为依然是阻塞式；协程是非系统层面感知的，无法使用系统的进程调度，我们只能主动的在协程的上层线程中重造调度器来实现协程间的调度；&lt;/p&gt;
-&lt;p&gt;解决：低速I/O与高速CPU协调问题&lt;/p&gt;
-&lt;h2 id=&quot;异步回调&quot;&gt;异步回调&lt;/h2&gt;&lt;p&gt;这是一种比较常见的异步使用方式，发起方调用任务，并设置指定的回调函数；调用方和被调用处于不同的线程中，调用方发起并启动新的被调用线程后继续执行后面的task，新线程执行完指定的调用任务后，通过多种消息通知方法通知调用方，这样调用放就能够继续执行异步调用数据。&lt;/p&gt;
-&lt;p&gt;缺点：将原有逻辑上整体的蛋糕强行分成了两部分甚至更多，这样不是很符合人类的逻辑理解。多个回调之间耦合性太高&lt;/p&gt;
-&lt;p&gt;异步的实现可以使用多线程，也可以将任务交给其他进程处理&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;同步/异步&quot;&gt;同步/异步&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;http://library.tebyan.net/en/Viewer/Text/164873/92&quot;&gt;The Sockets Networking API&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;同步和异步的区别在于，做一件事情，消息通知的流程。在同步中，是由发起者（调用者）主动等待消息反应，而异步情况则是有被动者（被调用者）通过反馈机制通知发起者来处理返回的消息&lt;/p&gt;
-&lt;p&gt;所以区分同步与异步，主要是消息处理前的行为&lt;/p&gt;
-&lt;h1 id=&quot;阻塞/非阻塞&quot;&gt;阻塞/非阻塞&lt;/h1&gt;&lt;p&gt;阻塞是在调用结果返回之前，当前&lt;strong&gt;线程/进程&lt;/strong&gt;将会被挂起，直到结果返回才会继续执行。&lt;/p&gt;
-&lt;p&gt;非阻塞情况不会阻塞当前线程，该线程还可以执行。&lt;/p&gt;
-&lt;p&gt;所以阻塞与非阻塞的关注点应该在于发出请求之后，请求未返回之前这段时间，线程是否有能力（被允许）执行之后的任务&lt;/p&gt;
-&lt;p&gt;阻塞是由系统自动执行阻塞原语(block)，使自己由运行状态变为阻塞状态。进程进入阻塞状态之后，不会占用CPU资源&lt;/p&gt;
-&lt;h1 id=&quot;coroutine与异步回调&quot;&gt;coroutine与异步回调&lt;/h1&gt;
-    
-    </summary>
-    
-      <category term="网络" scheme="http://peihao.space/categories/%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="网络" scheme="http://peihao.space/tags/%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Tornodo入门</title>
-    <link href="http://peihao.space/2016/11/14/tornado/"/>
-    <id>http://peihao.space/2016/11/14/tornado/</id>
-    <published>2016-11-14T14:28:30.000Z</published>
-    <updated>2016-11-15T15:39:01.174Z</updated>
-    
-    <content type="html">&lt;h1 id=&quot;引言&quot;&gt;引言&lt;/h1&gt;&lt;p&gt;首先来谈谈c10k问题。所谓c10k问题，指的是服务器同时支持成千上万个客户端的问题，也就是concurrent 10000 connection。由于硬件成本的大幅度降低和硬件技术的进步，如果一台服务器同时能够服务更多的客户端，那么也就意味着服务每一个客户端的成本大幅度降低，从这个角度来看，c10k问题显得非常有意义。&lt;/p&gt;
-&lt;p&gt;Tornado在设计之初就考虑到了性能因素，旨在解决C10K问题，这样的设计使得其成为一个拥有非常高性能的框架。此外，它还拥有处理安全性、用户验证、社交网络以及与外部服务（如数据库和网站API）进行异步交互的工具。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;h1 id=&quot;推荐的平台&quot;&gt;推荐的平台&lt;/h1&gt;&lt;p&gt;在windows下实现tornado的异步并没有什么障碍，但由于在windows下的异步是靠select来支持的，鉴于windows的最大512的文件操作符限制，异步并行能力理论无法超过甚至接近这个上限（c10k更无从谈起），实际上如果你的tornado中有阻塞操作的话，这个数值还会进一步降低。这样完全发挥不出来tornado的优势。同理，nginx在windows下也有同样的性能尴尬。二来呢，tornado多进程机制在windows下无法使用，手动实现的话又需要多个端口。非常鸡肋，所以一般做测试、运行的话还是推荐在类Unix下，如linux或者max机上，开发时可以拿win平台开发&lt;/p&gt;
-&lt;h1 id=&quot;入门实例&quot;&gt;入门实例&lt;/h1&gt;&lt;p&gt;与Django类似，使用tornado开发同样是使用re这呢规则表达式对不同请求区分转发：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; textwrap&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.httpserver&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.ioloop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.options&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.web&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; tornado.options &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; define, options&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;define(&lt;span class=&quot;string&quot;&gt;&quot;port&quot;&lt;/span&gt;, default=&lt;span class=&quot;number&quot;&gt;8002&lt;/span&gt;, help=&lt;span class=&quot;string&quot;&gt;&quot;run on the given port&quot;&lt;/span&gt;, type=int)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;IndexHandler&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(tornado.web.RequestHandler)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        greeting = self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;greeting&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;Hello&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        self.write(greeting + &lt;span class=&quot;string&quot;&gt;&#39;, friendly user!\r\n&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;ReverseHandler&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(tornado.web.RequestHandler)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self, input)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        self.write(input[::-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;]+&lt;span class=&quot;string&quot;&gt;&quot;\r\n&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;WrapHandler&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(tornado.web.RequestHandler)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        text = self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;text&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        width = self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;width&#39;&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;40&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        self.write(textwrap.fill(text, int(width)))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; __name__ == &lt;span class=&quot;string&quot;&gt;&quot;__main__&quot;&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    tornado.options.parse_command_line()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    app = tornado.web.Application(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        handlers=[&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            (&lt;span class=&quot;string&quot;&gt;r&quot;/reverse/(\w+)&quot;&lt;/span&gt;, ReverseHandler),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            (&lt;span class=&quot;string&quot;&gt;r&quot;/wrap&quot;&lt;/span&gt;, WrapHandler),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			(&lt;span class=&quot;string&quot;&gt;r&#39;/&#39;&lt;/span&gt;，IndexHandler）&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        ]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    )&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    http_server = tornado.httpserver.HTTPServer(app)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    http_server.listen(options.port)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    tornado.ioloop.IOLoop.instance().start()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;上面的例子中，使用了两种最常用的http请求方式，get和post，get形式的request数据直接在url后面以&lt;code&gt;?&lt;/code&gt;开始&lt;code&gt;&amp;amp;&lt;/code&gt;连接&lt;code&gt;=&lt;/code&gt;匹配键值对,post方式以postdata的形式封装成数据发送给服务器&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;code&gt;IndexHandler&lt;/code&gt;获取url中key为’ge=reeting’的value并填充到后面返回给浏览器，请求形式:&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;code&gt;curl http://localhost:8002/?greeting=clinjie&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;返回：&lt;code&gt;clinjie, friendly user!&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;注意的是，如果没有获取到名为greeting的键值，则会使用默认字符串Hello&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;code&gt;ReverseHandler&lt;/code&gt;同样是处理get请求，不过在函数定义的时候有区别：&lt;code&gt;input&lt;/code&gt;，这个参数将包含匹配处理函数正则表达式第一个括号里的字符串。如果正则表达式中有一系列额外的括号，匹配的字符串将被按照在正则表达式中出现的顺序作为额外的参数传递进来。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;code&gt;curl http://localhost:8002/reverse/peihao.space&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;这里re正则parttern为&lt;code&gt;/reverse/(\w+)&lt;/code&gt;，显然匹配的是&lt;code&gt;peihao.space&lt;/code&gt;，input的值获取之后反转返回给client&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;code&gt;WrapHandler&lt;/code&gt;处理post请求，这里字符串的处理使用的是textwrap模块，可以方便的进行段落填充，并且设置每行的最大值&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;code&gt;curl http://localhost:8001/wrap -d text=Lorem+ipsum+dolor+sit+amet,+consectetuer+adipiscing+elit&lt;/code&gt;&lt;/p&gt;
-&lt;h1 id=&quot;异步执行&quot;&gt;异步执行&lt;/h1&gt;&lt;p&gt;上面的例子中，修改IndexHandler类：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; time&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;IndexHandler&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(tornado.web.RequestHandler)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(slef)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		time.sleep(&lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		greeting=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;greeting&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;Hello&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.write(ge=reeting+&lt;span class=&quot;string&quot;&gt;&#39;,*******&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;其他不用修改，此时我们按顺序在两个terminal中请求&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;curl http://localhost:8002/?greeting=clinjie&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;curl http://localhost:8002/reverse/home&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;可以发现，虽然我们执行的时间间隔非常小，不会超过3s，但是由于第一个请求被阻塞了，第二个很简单可以直接返回数据的请求也无法立刻执行，只能等待第一个请求执行完毕后开始执行后面的。&lt;/p&gt;
-&lt;p&gt;tornado与其他web framework最出彩的就是对于异步处理支持度很高。&lt;/p&gt;
-&lt;h2 id=&quot;tornado-web-asynchronous注解&quot;&gt;tornado.web.asynchronous注解&lt;/h2&gt;&lt;p&gt;在类前面使用&lt;code&gt;@tornado.web.asynchronous&lt;/code&gt;装饰注解，此后命中匹配这个类的连接将会被认为是长连接(long connection)，保持连接开启。注意这里很重要，tornado默认是在当前方法结束之后就会将连接关闭，但是使用异步情况下，我们将会使用callback function，必须要保持连接开启&lt;/p&gt;
-&lt;p&gt;直到某些到达状态（例如接受response）时都在等待。由于保证了长连接的状态，我们必须显式的执行self.finish关闭连接，否则连接是不会被关闭的，我们会一直等待，无法收到数据&lt;/p&gt;
-&lt;p&gt;在类前面加入装饰器之后这个程序还是不能达到我们想要的效果，还要在函数中定义回调函数并在下面实现&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;curl http://localhost:8002/?greeting=clinjie&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;修改下：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;IndexHandler&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(tornado.web.RequestHandler)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;decorator&quot;&gt;	@tornado.web.asynchronous&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		do sth...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		tornado.ioloop.IOLoop.instance().add_timeout(time.time() + &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;, callback=self.on_response)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;on_response&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;comment&quot;&gt;#self.write(self.greeting+&#39;,*******&#39;)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		do sth...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		self.finish()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;终于可以搞了！&lt;/p&gt;
-&lt;p&gt;新版本的tornado支持yield生成器，无需定义回调函数：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#@tornado.web.asynchronous不用了&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;decorator&quot;&gt;@tornado.gen.coroutine&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;yield&lt;/span&gt; tornado.gen.Task(tornado.ioloop.IOLoop.instance().add_timeout, time.time() + &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    self.write(&lt;span class=&quot;string&quot;&gt;&quot;when i sleep 5s&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;上面可以看到，要实现异步执行效果，都没有使用&lt;code&gt;time.sleep(m)&lt;/code&gt;方法，因为time.sleep方法是线程阻塞的，而我们使用asynchronous或者coroutine这类装饰器的就是将耗时的工作变成异步回调/协程状态保存的（否则根本就没有意义），这里只能另辟蹊径，使用异步的定时执行器：&lt;code&gt;tornado.ioloop.IOLoop.instance().add_timeout&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;基于IOLoop的，当我们get url进入get方法，耗时任务通过异步回调或者协程处理，底层通过epoll或者kqueue、select执行，但是你要来个time.sleep这种阻塞方法那就没得玩了，所以还是通过将定时器加入到IOLoop中实现类似sleep的效果&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;引言&quot;&gt;引言&lt;/h1&gt;&lt;p&gt;首先来谈谈c10k问题。所谓c10k问题，指的是服务器同时支持成千上万个客户端的问题，也就是concurrent 10000 connection。由于硬件成本的大幅度降低和硬件技术的进步，如果一台服务器同时能够服务更多的客户端，那么也就意味着服务每一个客户端的成本大幅度降低，从这个角度来看，c10k问题显得非常有意义。&lt;/p&gt;
-&lt;p&gt;Tornado在设计之初就考虑到了性能因素，旨在解决C10K问题，这样的设计使得其成为一个拥有非常高性能的框架。此外，它还拥有处理安全性、用户验证、社交网络以及与外部服务（如数据库和网站API）进行异步交互的工具。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="python" scheme="http://peihao.space/categories/python/"/>
-    
-    
-      <category term="Tornodo" scheme="http://peihao.space/tags/Tornodo/"/>
-    
-      <category term="python" scheme="http://peihao.space/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Today</title>
-    <link href="http://peihao.space/2016/11/05/today/"/>
-    <id>http://peihao.space/2016/11/05/today/</id>
-    <published>2016-11-05T06:36:28.000Z</published>
-    <updated>2016-11-05T07:30:56.520Z</updated>
-    
-    <content type="html">&lt;p&gt;每年今日都在回忆去年，看了上个日记，仿佛一切还在昨天。最悠闲的大四上，忙碌的室友，熟悉的街道，那个离开几个月的城市有着无法忘记的记忆。思念我与我思念，有人说要变成memory，有人讲每个人都有secret，还有一个偶然与巧合之间消失不恋。有理想，有期待，还有对未来些许的匆匆惶惶&lt;/p&gt;
-&lt;p&gt;这边挺好，朝气蓬勃的人群，车来车往的主道，举头能见的四个大门，纤细苗条的北方姑娘和朦朦胧胧的夜晚。每个人都有干劲，有理想，也有对未来的直白愿景。我会在这里成为怎样的人呢，4年前我在深夜问过自己，5岁的自己还是20岁的自己，可选择的不太多，这里的人和事不会让你挥霍，希望自己运气不错，活的纯粹简单。&lt;/p&gt;
-&lt;p&gt;渐渐融入，让自己改变一些。健身、摄影、读书、记录自己的生活，努力让自己拥有有趣的外壳有趣的人生。时间不多了，认真去做&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7xowaa.com1.z0.glb.clouddn.com/midnoght.jpg?imageView2/1/w/500/h/300&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;每年今日都在回忆去年，看了上个日记，仿佛一切还在昨天。最悠闲的大四上，忙碌的室友，熟悉的街道，那个离开几个月的城市有着无法忘记的记忆。思念我与我思念，有人说要变成memory，有人讲每个人都有secret，还有一个偶然与巧合之间消失不恋。有理想，有期待，还有对未来些许的匆匆
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://peihao.space/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-      <category term="随笔" scheme="http://peihao.space/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   

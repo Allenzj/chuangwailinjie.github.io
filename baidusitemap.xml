@@ -4,6 +4,86 @@
 
     
   <url>
+    <loc>http://peihao.space/2017/03/09/ml-dimension-reduction/</loc>
+    <lastmod>2017-03-11T04:28:13.049Z</lastmod>
+    <data>
+        <display>
+        <title>降维</title>
+        <pubTime>2017-03-09T02:36:28.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2017/03/10/week-report310/</loc>
+    <lastmod>2017-03-10T07:14:08.844Z</lastmod>
+    <data>
+        <display>
+        <title>周报(1)</title>
+        <pubTime>2017-03-10T04:00:13.000Z</pubTime>
+        
+        <tag>周报</tag>
+         
+         
+           
+             
+              <breadCrumb title="周报" url="http://peihao.space/categories/%E5%91%A8%E6%8A%A5/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2017/02/28/ml-intro/</loc>
+    <lastmod>2017-03-09T15:15:36.909Z</lastmod>
+    <data>
+        <display>
+        <title>ML相关术语</title>
+        <pubTime>2017-02-28T03:00:13.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2017/03/08/ml-clustering/</loc>
+    <lastmod>2017-03-08T02:33:48.630Z</lastmod>
+    <data>
+        <display>
+        <title>聚类</title>
+        <pubTime>2017-03-08T05:18:42.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://peihao.space/2017/03/07/ml-integration/</loc>
     <lastmod>2017-03-06T13:43:53.926Z</lastmod>
     <data>
@@ -150,26 +230,6 @@
         <display>
         <title>模型评估与选择</title>
         <pubTime>2017-03-01T04:05:50.000Z</pubTime>
-        
-        <tag>ML</tag>
-         
-         
-           
-             
-              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://peihao.space/2017/02/28/ml-intro/</loc>
-    <lastmod>2017-02-28T11:06:43.074Z</lastmod>
-    <data>
-        <display>
-        <title>ML相关术语</title>
-        <pubTime>2017-02-28T03:00:13.000Z</pubTime>
         
         <tag>ML</tag>
          
