@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://peihao.space/2017/03/13/ml-semi-supervised/</loc>
+    
+    <lastmod>2017-03-14T11:31:23.306Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peihao.space/2017/03/12/ml-feature-chosen/</loc>
+    
+    <lastmod>2017-03-13T06:20:30.487Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://peihao.space/2017/03/09/ml-dimension-reduction/</loc>
     
     <lastmod>2017-03-11T04:28:13.049Z</lastmod>
@@ -110,13 +124,6 @@
     <loc>http://peihao.space/2016/12/18/subprocess-pipe/</loc>
     
     <lastmod>2016-12-18T15:18:09.558Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://peihao.space/2016/12/11/valid/</loc>
-    
-    <lastmod>2016-12-11T12:13:17.555Z</lastmod>
     
   </url>
   
