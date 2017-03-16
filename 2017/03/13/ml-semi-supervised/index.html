@@ -95,7 +95,7 @@
 <meta property="og:description" content="主动学习与半监督假设我们有训练样本集$D_l={ (x_1,y_1),(x_2,y_2),…,(x_l,y_l) }$，l个样本的类别标记已知，称为有标记（labeled）；此外还有$D_u={ x_1,x_2,…,x_u },l \ll u$，这u个样本样本的类别标记未知，称为未标记的unlabeled样本。
 若直接使用之前一直介绍的监督学习，则仅有$D_l$能用于构建模型，剩余的未标记样本都浪">
 <meta property="og:image" content="http://peihao.space/img/article/ml/ml-intro10-2.png">
-<meta property="og:updated_time" content="2017-03-14T11:31:23.306Z">
+<meta property="og:updated_time" content="2017-03-15T02:14:29.490Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="半监督学习">
 <meta name="twitter:description" content="主动学习与半监督假设我们有训练样本集$D_l={ (x_1,y_1),(x_2,y_2),…,(x_l,y_l) }$，l个样本的类别标记已知，称为有标记（labeled）；此外还有$D_u={ x_1,x_2,…,x_u },l \ll u$，这u个样本样本的类别标记未知，称为未标记的unlabeled样本。
@@ -382,7 +382,7 @@
 <p>上式中，$(\omega,b)$确定了一个划分超平面；$\xi$为松弛向量，$\xi_i(i=1,2,…,l)$对应于有标记样本，$\xi_i(i=l+1,l+2,…,m)$对应与未标记样本；$C_l,C_u$是由用户指定的用于平衡模型复杂度、有标记样本与未标记样本重要程度的这种参数。</p>
 <p>它使用有标记样本学得一个SVM，然后使用这个SVM对未标记的数据进行标记指派，将SVM预测的结果作为伪标记赋予未标记样本。接下来TSVM找出两个标记指派为异类且很可能发生错误的未标记样本，交换标记，重新求得更新后SVM的划分超平面和松弛向量（在这一步中，因为SVM求得的伪标记往往是不准确的，所以需要设置好$C_l,C_u$，将$C_l$值大一点，标明有标记样本的作用更大)；然后再找两个标记指派为异类且很可能发生错误的未标记样本，交换。。标记指派完成后逐渐提高未标记样本对优化目标的影响，进行下一轮标记指派调整。。直到$C_u=C_l$</p>
 <h1 id="图半监督">图半监督</h1><p>思想：相似或者相关联的顶点尽可能的赋予相同标记连接，以保证图的标记尽可能的平滑。相似性或者关系度越高，连接的权值越大。</p>
-<p>定义相似矩阵$W=(w_{ij})$_{(l+u)(l+u)},w_{ij}=exp(-\frac{\mid\mid x_i-x_j \mid\mid^2}{2\sigma^2}) if e=(x_i,e_j) \in E else 0$其中$\sigma$是带宽系数，用于控制权值的减缓程度。$w_{ij}$随着欧式距离的增加会减少。</p>
+<p>定义相似矩阵$W=(w_{ij})_{(l+u)\times(l+u)},w_{ij}=exp(-\frac{\mid\mid x_i-x_j \mid\mid^2}{2\sigma^2})\ if\  e=(x_i,e_j) \in E\ else\ 0$其中$\sigma$是带宽系数，用于控制权值的减缓程度。$w_{ij}$随着欧式距离的增加会减少。</p>
 <p>标记传递算法：已标记数据$Rightarrow$近邻未标记数据$Rightarrow$次级近邻未标记数据</p>
 <h1 id="协同训练">协同训练</h1><p>协同训练（co-training）使用多学习器，学习器之间的分歧对未标记数据的利用很重要。</p>
 <p>一个数据对象往往同时拥有多个属性集，每个属性集构成一个视图。假设不同的试图有相容性，即其包含的关于输出空间的信息是一只的，当两个一起考虑就会有大概率使得与真实标记接近。不同视图信息的互补性会给学习器的构建带来很多便利。</p>
@@ -429,6 +429,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/16/lagrange-kkt/" rel="prev" title="乘子与KKT">
+                乘子与KKT <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -522,7 +526,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">173</span>
+              <span class="site-state-item-count">174</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -530,7 +534,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -539,7 +543,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-count">63</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

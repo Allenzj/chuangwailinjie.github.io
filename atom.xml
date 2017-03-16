@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://peihao.space/"/>
-  <updated>2017-03-14T11:31:23.306Z</updated>
+  <updated>2017-03-16T06:52:57.303Z</updated>
   <id>http://peihao.space/</id>
   
   <author>
@@ -16,11 +16,74 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>乘子与KKT</title>
+    <link href="http://peihao.space/2017/03/16/lagrange-kkt/"/>
+    <id>http://peihao.space/2017/03/16/lagrange-kkt/</id>
+    <published>2017-03-16T06:22:09.000Z</published>
+    <updated>2017-03-16T06:52:57.303Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;拉格朗日乘子法&quot;&gt;拉格朗日乘子法&lt;/h1&gt;&lt;p&gt;拉格朗日乘子法（Lagrange multipliers）是一种寻找多元函数在一组约束下的极值的方法。通过引入拉格朗日乘子，可将有$d$个变量与$k$个约束条件的最优化问题转化为具有$d+k$个变量的无约束优化问题求解&lt;/p&gt;
+&lt;p&gt;基本的拉格朗日乘子法就是求函数$f(x_1,x_2,…)$在$g(x_1,x_2,…)=0$的约束条件下的极值的方法。主要思想是将约束条件与原函数联系在一起，使能配成与变量数量相等的等式方程，从而求得原函数极值的各个变量的解。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;例子：假设需要求极值的目标函数为$f(x)$，约束条件为$\phi(x,y)=M$&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;设$g(x,y)=M-\phi(x,y)$，定义一个新函数$F(x,y,\lambda)=f(x,y)+\lambda g(x,y)$&lt;/p&gt;
+&lt;p&gt;求偏导：&lt;/p&gt;
+&lt;p&gt;$$&lt;br&gt;\begin{cases}&lt;br&gt;&amp;amp;\frac{\partial F}{\partial x}=0 \\&lt;br&gt;&amp;amp;\frac{\partial F}{\partial y}=0\\&lt;br&gt;&amp;amp;\frac{\partial F}{\partial \lambda}=0&lt;br&gt;\end{cases}&lt;br&gt;$$&lt;/p&gt;
+&lt;p&gt;求出$x,y,\lambda$的值，代入即可得到目标函数的极值。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;机器学习中的拉格朗日乘子法，一般用于求解约束优化问题的方法，当目标函数是凸函数时，求解最小值，使用拉格朗日乘子法求得的局部最优解就是全局最优解。类似的，在凹函数中，求得的最大值，局部最大解就是全局最大解。&lt;/p&gt;
+&lt;p&gt;在没有约束条件下，直接使用求导取指即可，但是有了约束条件后，就不能这样任意的小了，需要首先满足约束条件之后再求解。&lt;/p&gt;
+&lt;p&gt;在二维空间中求解，假设约束条件是一个曲线：&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro10-3.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;环线是目标函数的取值的等高线，需要紧贴约束线来满足约束条件求得理想值。&lt;/p&gt;
+&lt;p&gt;图中可以很清晰的看出来，与约束条件相切的等高线正合适。至于其他的与约束条件曲线相切的都不能考虑，因为这种取值一部分是符合约束条件的，一部分不能满足约束条件。&lt;/p&gt;
+&lt;p&gt;曲线相切，实际上就是法线向量平行，同方向或者反方向。最优解处，f和g的斜率平行。也就是说，存在一个非零实数与其中一个斜率相乘，等于另外一个曲线的斜率。这个实数称之为$\lambda$，或者$-\lambda$随便啦&lt;/p&gt;
+&lt;p&gt;$\nabla[f(x,y)+\lambda(g(x,y)-c)]=0$&lt;/p&gt;
+&lt;p&gt;一旦求出λ的值，将其套入下式，易求在无约束极值和极值所对应的点。&lt;/p&gt;
+&lt;p&gt; $F \left( x , y \right)  =  f \left( x , y \right) + \lambda \left( g \left( x , y \right) - c \right)$&lt;/p&gt;
+&lt;p&gt;新方程$F(x,y)$在达到极值时与$f(x,y)$相等，因为$F(x,y)$达到极值时$g(x,y)-c$总等于零。&lt;/p&gt;
+&lt;p&gt;定义拉格朗日函数：$L(x,\lambda)=f(x)+\lambda g(x)$ 将其对$x$的偏导数$\nabla_xL(x,\lambda)$置零即得式子$\nabla f(x)+\lambda g(x)=0$；同时对$\lambda$的偏导数$\nabla_{\lambda}L(x,\lambda)$置零即得约束条件$g(x)=0$。所以原约束问题转换成了对拉格朗日函数$L(x,\lambda)$的无约束优化问题。&lt;/p&gt;
+&lt;h1 id=&quot;KKT&quot;&gt;KKT&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro10-4.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/sddai/p/5730116.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;KKT&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;现在考虑不等式$g(x) \leq 0$，如上图，此时最优点$x$或者在$g(x)&amp;lt;0$也就是环形区域内；或者在$g(x)=0$环形线上。&lt;/p&gt;
+&lt;p&gt;对于$g(x)&amp;lt;0$的情况，约束$g(x) \leq 0$不起作用，可以直接通过条件$\nabla f(x)=0$来获得最优点，这里等价于将$\lambda=0$之后求解$\nabla _x L(x,\lambda)=0$&lt;/p&gt;
+&lt;p&gt;$g(x)=0$的情况类似与上图左侧，但是有一些区别。在拉格朗日乘子中，约束条件$g(x)$与$f(x)$保持梯度平行即可，可就是说参数$\lambda$无关正负；到了这里，我们好好分析一下，假设两者的梯度是同方向的，都是向外（就是环线区域外，相反方向当然也可以）。我们都知道，函数是按沿着梯度方向增大，所以$f(x)$在区域外的值是大于区域内的值，也就是说，区域内的值是小值。我们的目标就是在约束条件下求$\min f(x)$，这里区域内是满足约束条件的，所以最优值显然不在环线上取，而是在区域内取。如果我们非要在环线上取怎么办？两个函数的梯度方向相反。这样才符合我们的认知嘛，梯度相反，同一个方向一个变小一个变大，环线是临界值，很符合人们的罗辑思维。&lt;/p&gt;
+&lt;p&gt;接着说不等式约束条件，整合上面的两种情况：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$g(x)&amp;lt;0$，约束条件不起作用，使$\lambda=0$&lt;/li&gt;
+&lt;li&gt;$g(x)=0$，约束条件使得$\lambda &amp;gt; 0$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;所以必有$\lambda g(x)=0$&lt;/p&gt;
+&lt;p&gt;KKT条件推出来了：&lt;/p&gt;
+&lt;p&gt;$$&lt;br&gt;\begin{cases}&lt;br&gt;&amp;amp;g(x) \leq 0;\\&lt;br&gt;&amp;amp;\lambda \geq 0;\\&lt;br&gt;&amp;amp;\mu_jg_j(x)=0;\\&lt;br&gt;\end{cases}.&lt;br&gt;$$&lt;/p&gt;
+&lt;h1 id=&quot;推广&quot;&gt;推广&lt;/h1&gt;&lt;p&gt;推广到多个约束，考虑有m个等式约束和n个不等式约束，优化问题&lt;br&gt;$$&lt;br&gt;\begin{cases}&lt;br&gt;&amp;amp;\min\limits_x f(x)\\&lt;br&gt;&amp;amp;s.t. h_i(x)=0 \ \ (i=1,…,m),\\&lt;br&gt;&amp;amp;g_j(x) \leq 0 \  \ (j=1,…,n).\\&lt;br&gt;\end{cases}&lt;br&gt;$$&lt;/p&gt;
+&lt;p&gt;引入拉格朗日乘子$\lambda=(\lambda_1,\lambda_2,…,\lambda_m)^T$和$\mu=(\mu_1,\mu_2,…,\mu_n)^T$,相应的拉格朗日函数为&lt;br&gt;$$&lt;br&gt;L(x,\lambda,\mu)=f(x)+\sum\limits_{i=1}^m\lambda_ih_i(x)+\sum\limits_{j=1}^n\mu_jg_j(x)&lt;br&gt;$$&lt;/p&gt;
+&lt;p&gt;引入的拉格朗日乘子条件与KKT条件为：&lt;/p&gt;
+&lt;p&gt;$$&lt;br&gt;\begin{cases}&lt;br&gt;&amp;amp;h_i(x)=0;\\&lt;br&gt;&amp;amp;\lambda_i \neq 0;\\&lt;br&gt;&amp;amp;g_j(x) \leq 0;\\&lt;br&gt;&amp;amp;\mu_j \geq 0;\\&lt;br&gt;&amp;amp;\mu_jg_j(x)=0.\\&lt;br&gt;&amp;amp;\end{cases}&lt;br&gt;$$&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;拉格朗日乘子法&quot;&gt;拉格朗日乘子法&lt;/h1&gt;&lt;p&gt;拉格朗日乘子法（Lagrange multipliers）是一种寻找多元函数在一组约束下的极值的方法。通过引入拉格朗日乘子，可将有$d$个变量与$k$个约束条件的最优化问题转化为具有$d+k$个变量的无约束优化问题求解&lt;/p&gt;
+&lt;p&gt;基本的拉格朗日乘子法就是求函数$f(x_1,x_2,…)$在$g(x_1,x_2,…)=0$的约束条件下的极值的方法。主要思想是将约束条件与原函数联系在一起，使能配成与变量数量相等的等式方程，从而求得原函数极值的各个变量的解。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;例子：假设需要求极值的目标函数为$f(x)$，约束条件为$\phi(x,y)=M$&lt;br&gt;
+    
+    </summary>
+    
+      <category term="数学" scheme="http://peihao.space/categories/%E6%95%B0%E5%AD%A6/"/>
+    
+    
+      <category term="数学" scheme="http://peihao.space/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
     <title>半监督学习</title>
     <link href="http://peihao.space/2017/03/13/ml-semi-supervised/"/>
     <id>http://peihao.space/2017/03/13/ml-semi-supervised/</id>
     <published>2017-03-13T11:17:14.000Z</published>
-    <updated>2017-03-14T11:31:23.306Z</updated>
+    <updated>2017-03-15T02:14:29.490Z</updated>
     
     <content type="html">&lt;h1 id=&quot;主动学习与半监督&quot;&gt;主动学习与半监督&lt;/h1&gt;&lt;p&gt;假设我们有训练样本集$D_l={ (x_1,y_1),(x_2,y_2),…,(x_l,y_l) }$，l个样本的类别标记已知，称为有标记（labeled）；此外还有$D_u={ x_1,x_2,…,x_u },l \ll u$，这u个样本样本的类别标记未知，称为未标记的unlabeled样本。&lt;/p&gt;
 &lt;p&gt;若直接使用之前一直介绍的监督学习，则仅有$D_l$能用于构建模型，剩余的未标记样本都浪费了；另一方面远小于u数量的标记样本往往由于训练样本不足，学得模型的泛化能力往往不佳。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -40,7 +103,7 @@
 &lt;p&gt;上式中，$(\omega,b)$确定了一个划分超平面；$\xi$为松弛向量，$\xi_i(i=1,2,…,l)$对应于有标记样本，$\xi_i(i=l+1,l+2,…,m)$对应与未标记样本；$C_l,C_u$是由用户指定的用于平衡模型复杂度、有标记样本与未标记样本重要程度的这种参数。&lt;/p&gt;
 &lt;p&gt;它使用有标记样本学得一个SVM，然后使用这个SVM对未标记的数据进行标记指派，将SVM预测的结果作为伪标记赋予未标记样本。接下来TSVM找出两个标记指派为异类且很可能发生错误的未标记样本，交换标记，重新求得更新后SVM的划分超平面和松弛向量（在这一步中，因为SVM求得的伪标记往往是不准确的，所以需要设置好$C_l,C_u$，将$C_l$值大一点，标明有标记样本的作用更大)；然后再找两个标记指派为异类且很可能发生错误的未标记样本，交换。。标记指派完成后逐渐提高未标记样本对优化目标的影响，进行下一轮标记指派调整。。直到$C_u=C_l$&lt;/p&gt;
 &lt;h1 id=&quot;图半监督&quot;&gt;图半监督&lt;/h1&gt;&lt;p&gt;思想：相似或者相关联的顶点尽可能的赋予相同标记连接，以保证图的标记尽可能的平滑。相似性或者关系度越高，连接的权值越大。&lt;/p&gt;
-&lt;p&gt;定义相似矩阵$W=(w_{ij})$_{(l+u)(l+u)},w_{ij}=exp(-\frac{\mid\mid x_i-x_j \mid\mid^2}{2\sigma^2}) if e=(x_i,e_j) \in E else 0$其中$\sigma$是带宽系数，用于控制权值的减缓程度。$w_{ij}$随着欧式距离的增加会减少。&lt;/p&gt;
+&lt;p&gt;定义相似矩阵$W=(w_{ij})_{(l+u)\times(l+u)},w_{ij}=exp(-\frac{\mid\mid x_i-x_j \mid\mid^2}{2\sigma^2})\ if\  e=(x_i,e_j) \in E\ else\ 0$其中$\sigma$是带宽系数，用于控制权值的减缓程度。$w_{ij}$随着欧式距离的增加会减少。&lt;/p&gt;
 &lt;p&gt;标记传递算法：已标记数据$Rightarrow$近邻未标记数据$Rightarrow$次级近邻未标记数据&lt;/p&gt;
 &lt;h1 id=&quot;协同训练&quot;&gt;协同训练&lt;/h1&gt;&lt;p&gt;协同训练（co-training）使用多学习器，学习器之间的分歧对未标记数据的利用很重要。&lt;/p&gt;
 &lt;p&gt;一个数据对象往往同时拥有多个属性集，每个属性集构成一个视图。假设不同的试图有相容性，即其包含的关于输出空间的信息是一只的，当两个一起考虑就会有大概率使得与真实标记接近。不同视图信息的互补性会给学习器的构建带来很多便利。&lt;/p&gt;
@@ -64,7 +127,7 @@
     <link href="http://peihao.space/2017/03/12/ml-feature-chosen/"/>
     <id>http://peihao.space/2017/03/12/ml-feature-chosen/</id>
     <published>2017-03-12T08:10:23.000Z</published>
-    <updated>2017-03-13T06:20:30.487Z</updated>
+    <updated>2017-03-15T02:00:39.673Z</updated>
     
     <content type="html">&lt;h1 id=&quot;范数&quot;&gt;范数&lt;/h1&gt;&lt;ul&gt;
 &lt;li&gt;$L_0$范数表示向量中非零元素的个数：$\mid\mid x \mid\mid_0 = count(x_i) while x_i \neq 0$&lt;/li&gt;
@@ -75,12 +138,12 @@
 &lt;/ul&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;p&gt;$L_1$范数是$L_0$范数的最优凸优化，常用$L_1$代替$L_0$范数。&lt;/p&gt;
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;$L_2$范数即欧式距离：$\mid\mid x \mid\mid_2=\sqrt{\sum_{i=1}^n x_i^2}$&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Forbenius范数：$\mid\mid A \mid\mid_F = \sqrt{\sum\limits_{i=1}^m\sum\limits_{j=1}^n}\mid a_{ij} \mid^2$&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;Forbenius范数：$\mid\mid A \mid\mid_F = \sqrt{\sum\limits_{i=1}^m\sum\limits_{j=1}^n \mid a_{ij} \mid^2}$&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;h1 id=&quot;子图搜索与特征选择&quot;&gt;子图搜索与特征选择&lt;/h1&gt;&lt;p&gt;给定特征集合${a_1,a_2,…,a_d }$，我们可将每个特征看作一个候选子集，对这d个候选单特征子集进行评价，假定$a_2$最优，于是将$a_2$作为第一轮的选定集；然后，在上一轮的选定集中加入一个特征，构成包含两个特征的候选子集，假定在这d-1个候选两特征子集中$(a_2,a_4)$最优，且优于$(a_2)$，于是将$(a_2,a_4)$作为本轮的选定集；&lt;/p&gt;
 &lt;p&gt;……假定在第it+1轮时，最优的候选(k+1)特征子集不如上一轮的选定集，则停止生成候选子集，并将上一轮选定的k特征集合作为特征选择结果.这样逐渐增加相关特征的策略称为“前向”（forward)搜索。&lt;/p&gt;
 &lt;p&gt;类似的，若我们从完整的特征集合开始，每次尝试去掉一个无关特征，这样逐渐减少特征的策略称为“后向”（backward)搜索.还可将前向与后向搜索结合起来，每一轮逐渐增加选定相关特征(这些特征在后续轮中将确定不会被去除同时减少无关特征，这样的策略称为“双向”（bidirectional)搜索.&lt;/p&gt;
@@ -668,6 +731,74 @@
   </entry>
   
   <entry>
+    <title>ML学习-决策树</title>
+    <link href="http://peihao.space/2017/03/04/ml-intro4/"/>
+    <id>http://peihao.space/2017/03/04/ml-intro4/</id>
+    <published>2017-03-04T05:18:42.000Z</published>
+    <updated>2017-03-05T04:33:47.459Z</updated>
+    
+    <content type="html">&lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
+&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h1 id=&quot;信息熵&quot;&gt;信息熵&lt;/h1&gt;&lt;p&gt;信息熵（information entropy）是度量样本集合纯度最常用的一种指标。假设当前样本集合D中第k类样本比例为$p_{k}$(k=1,2,3,…,|y|)$，则D的信息熵为&lt;/p&gt;
+&lt;p&gt;$Ent(D)=-\sum\limits_{k=1}^{|y|}p_{k=1}log_2p_{k}$&lt;/p&gt;
+&lt;p&gt;Ent(D)的值越小，则D的纯度越高.&lt;/p&gt;
+&lt;h2 id=&quot;信息增益&quot;&gt;信息增益&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;假定离散属性a有V个可能的取指{$a^1,a^2,…,a^V$},若使用a来对样本集合D进行划分，则会产生V个分支结点，其中第v个节点包含了D中所有在属性a上取指为$a^V$的样本，记为$D^v$。根据上师酸楚$D^v$的信息熵，然后考虑不同分支结点包含的样本数目不同，给分支结点赋予权重$|D^v|/|D|$，即样本越多，分支结点的影响越大，此时使用一个统一的计算公式算得属性啊对样本集D进行划分得到的”信息增益”（information gain）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;$Gain(D,a)=Ent(D)-\sum\limits_{v=1}^{V}\frac{D^v}{D}Ent(D^v)$&lt;/p&gt;
+&lt;p&gt;一般而言，信息增益越大，意味着使用属性啊来划分所获得的纯度提升越大。所以，可以使用信息增益Gain作为属性划分的指标。&lt;/p&gt;
+&lt;h2 id=&quot;基尼指数&quot;&gt;基尼指数&lt;/h2&gt;&lt;p&gt;CART决策树使用“基尼指数”选择划分属性。&lt;/p&gt;
+&lt;p&gt;数据集D的纯度可用基尼值来度量：&lt;/p&gt;
+&lt;p&gt;$Gini(D)=\sum\limits_k^{|y|}\sum\limits_{j\neq k}p_kp_j$&lt;/p&gt;
+&lt;p&gt;$=1-\sum\limits_k^{|y|}p_{k}^2$&lt;/p&gt;
+&lt;p&gt;直观来讲，Gini（D）反映了从数据D中随机抽取两个样本，类别标记不一致的概率。因此Gini（D）越小，数据集D的纯度越高。&lt;/p&gt;
+&lt;p&gt;属性a的基尼指数定义为：&lt;/p&gt;
+&lt;p&gt;$Gini_index(D,a)=\sum\limits_v^{V}\frac{|D^v|}{|D|}Gini(D^v)$&lt;/p&gt;
+&lt;p&gt;计算属性集合A所有属性的基尼指数，取最小值得属性作为最优划分&lt;/p&gt;
+&lt;h1 id=&quot;剪枝处理&quot;&gt;剪枝处理&lt;/h1&gt;&lt;p&gt;剪枝（pruning）是决策树学习算法中对付“过拟合”的主要手段。过拟合的定义可以参考系列的第一篇。决策树算法经常会由于过拟合造成分支过多，在泛化性能上造成影响。&lt;/p&gt;
+&lt;p&gt;决策树剪枝基本策略有两种：预剪枝（prepruning）和后剪枝（postpruning）。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;预剪枝：在生成决策树的过程中，对每个结点在划分前进行估计，若当前划分不能对决策树带来泛化性能上的提升，则停止划分并将当前节点标记为叶结点。（训练开销短，保留子树少，易造成欠拟合）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;后剪枝：决策树生成后自底向上的对内部结点进行考察。如果当前结点子树替换成叶子结点可以在泛化能力上得到提升，则将子树替换。（训练开销长，保留子树多，欠拟合风险小）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这里使用集精度作为泛化能力的指标。&lt;/p&gt;
+&lt;p&gt;需要注意的是，虽然在当时结点的集精度没有下降（也就是泛化能力未降低），但是很可能在之后进一步的展开，有欠拟合的风险。&lt;/p&gt;
+&lt;h1 id=&quot;连续值与缺省值处理&quot;&gt;连续值与缺省值处理&lt;/h1&gt;&lt;h2 id=&quot;连续&quot;&gt;连续&lt;/h2&gt;&lt;p&gt;由于连续属性的可取值数目不再有限，因此，不能直接根据连续属性的可取值来对结点进行划分。此时可以使用连续属性离散化技术。&lt;/p&gt;
+&lt;p&gt;最简单的策略是采用二分法(bi-partition)对连续属性进行处理。&lt;/p&gt;
+&lt;p&gt;给定样本集D和连续属性a,假定在D上出现了n个不同的取值，将这些值从小到大进行排序，记为${a^1,a^2,…,a^n}$.基于划分点t可将D分为子集$D_t^-$和$D_t^+$其中$D_t^-$包含那些在属性上取值不大于t的样本，而$D_t^+$则包含那些在属性a上取值大于t的样本。&lt;/p&gt;
+&lt;p&gt;对相邻的属性取值[$a^i，a^{i+1}$]来说结果是相同的，因此在此区间都取值$\frac{a^i+a^{i+1}}{2}$&lt;/p&gt;
+&lt;p&gt;对n-1个区间取指作为划分点，分别测试选取最优。&lt;/p&gt;
+&lt;p&gt;$Gain(D,a)=\max\limits_{t\in T_a}Gain(D,a,t)$&lt;/p&gt;
+&lt;p&gt;$=\max\limits_{t\in T_a}Ent(D)-\sum\limits_{\lambda \in {-,+}}\frac{\mid D_t^{\lambda}\mid}{\mid D \mid}Ent(D_t^{\lambda})$&lt;/p&gt;
+&lt;p&gt;Gain(D,a,t)是样本集D基于划分点t二分后的信息增益，我们可以使用Gain(D,a,t)最大化的划分点&lt;/p&gt;
+&lt;h2 id=&quot;缺省&quot;&gt;缺省&lt;/h2&gt;&lt;p&gt;嗯，本部分也暂时缺省&lt;/p&gt;
+&lt;h1 id=&quot;多变量决策树&quot;&gt;多变量决策树&lt;/h1&gt;&lt;p&gt;我们把每个属性视为坐标空间的一个坐标轴，则d个属性描述的样本就对赢了d维空间中的一个数据点。对样本的分类也就是在这个坐标空间中寻找不同样本之间的分类边界。&lt;/p&gt;
+&lt;p&gt;决策树形成的分类边界有一个明显的特点：轴平行（axis-parallel），即分类边界由若干个与坐标轴平行的分段组成。&lt;/p&gt;
+&lt;p&gt;使用斜划分边界可以将决策树模型简化。此时，非叶节点不仅是针对某个属性，而是属性的线性组合进行测试。与传统的决策树不同，多变量决策树试图建立一个合适的线性分类器。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
+&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
+    
+    
+      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ML学习-神经网络</title>
     <link href="http://peihao.space/2017/03/04/ml-intro5/"/>
     <id>http://peihao.space/2017/03/04/ml-intro5/</id>
@@ -740,74 +871,6 @@
     
       &lt;h1 id=&quot;神经元&quot;&gt;神经元&lt;/h1&gt;&lt;p&gt;Neural Network神经网络：是由具有适应性的简单单元组成的广泛并进行互联的网络，他的组织能够模拟生物神经系统对真实的世界物体做出的交互反应&lt;/p&gt;
 &lt;p&gt;神经网络由一个个神经元（neuron）互联组成，神经元可以看作一个处理函数，当这个函数的输入超过某一个阈值，经过处理后单元会向其他单元发送信号。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
-    
-    
-      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ML学习-决策树</title>
-    <link href="http://peihao.space/2017/03/04/ml-intro4/"/>
-    <id>http://peihao.space/2017/03/04/ml-intro4/</id>
-    <published>2017-03-04T05:18:42.000Z</published>
-    <updated>2017-03-05T04:33:47.459Z</updated>
-    
-    <content type="html">&lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
-&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h1 id=&quot;信息熵&quot;&gt;信息熵&lt;/h1&gt;&lt;p&gt;信息熵（information entropy）是度量样本集合纯度最常用的一种指标。假设当前样本集合D中第k类样本比例为$p_{k}$(k=1,2,3,…,|y|)$，则D的信息熵为&lt;/p&gt;
-&lt;p&gt;$Ent(D)=-\sum\limits_{k=1}^{|y|}p_{k=1}log_2p_{k}$&lt;/p&gt;
-&lt;p&gt;Ent(D)的值越小，则D的纯度越高.&lt;/p&gt;
-&lt;h2 id=&quot;信息增益&quot;&gt;信息增益&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;假定离散属性a有V个可能的取指{$a^1,a^2,…,a^V$},若使用a来对样本集合D进行划分，则会产生V个分支结点，其中第v个节点包含了D中所有在属性a上取指为$a^V$的样本，记为$D^v$。根据上师酸楚$D^v$的信息熵，然后考虑不同分支结点包含的样本数目不同，给分支结点赋予权重$|D^v|/|D|$，即样本越多，分支结点的影响越大，此时使用一个统一的计算公式算得属性啊对样本集D进行划分得到的”信息增益”（information gain）&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;$Gain(D,a)=Ent(D)-\sum\limits_{v=1}^{V}\frac{D^v}{D}Ent(D^v)$&lt;/p&gt;
-&lt;p&gt;一般而言，信息增益越大，意味着使用属性啊来划分所获得的纯度提升越大。所以，可以使用信息增益Gain作为属性划分的指标。&lt;/p&gt;
-&lt;h2 id=&quot;基尼指数&quot;&gt;基尼指数&lt;/h2&gt;&lt;p&gt;CART决策树使用“基尼指数”选择划分属性。&lt;/p&gt;
-&lt;p&gt;数据集D的纯度可用基尼值来度量：&lt;/p&gt;
-&lt;p&gt;$Gini(D)=\sum\limits_k^{|y|}\sum\limits_{j\neq k}p_kp_j$&lt;/p&gt;
-&lt;p&gt;$=1-\sum\limits_k^{|y|}p_{k}^2$&lt;/p&gt;
-&lt;p&gt;直观来讲，Gini（D）反映了从数据D中随机抽取两个样本，类别标记不一致的概率。因此Gini（D）越小，数据集D的纯度越高。&lt;/p&gt;
-&lt;p&gt;属性a的基尼指数定义为：&lt;/p&gt;
-&lt;p&gt;$Gini_index(D,a)=\sum\limits_v^{V}\frac{|D^v|}{|D|}Gini(D^v)$&lt;/p&gt;
-&lt;p&gt;计算属性集合A所有属性的基尼指数，取最小值得属性作为最优划分&lt;/p&gt;
-&lt;h1 id=&quot;剪枝处理&quot;&gt;剪枝处理&lt;/h1&gt;&lt;p&gt;剪枝（pruning）是决策树学习算法中对付“过拟合”的主要手段。过拟合的定义可以参考系列的第一篇。决策树算法经常会由于过拟合造成分支过多，在泛化性能上造成影响。&lt;/p&gt;
-&lt;p&gt;决策树剪枝基本策略有两种：预剪枝（prepruning）和后剪枝（postpruning）。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;预剪枝：在生成决策树的过程中，对每个结点在划分前进行估计，若当前划分不能对决策树带来泛化性能上的提升，则停止划分并将当前节点标记为叶结点。（训练开销短，保留子树少，易造成欠拟合）&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;后剪枝：决策树生成后自底向上的对内部结点进行考察。如果当前结点子树替换成叶子结点可以在泛化能力上得到提升，则将子树替换。（训练开销长，保留子树多，欠拟合风险小）&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;这里使用集精度作为泛化能力的指标。&lt;/p&gt;
-&lt;p&gt;需要注意的是，虽然在当时结点的集精度没有下降（也就是泛化能力未降低），但是很可能在之后进一步的展开，有欠拟合的风险。&lt;/p&gt;
-&lt;h1 id=&quot;连续值与缺省值处理&quot;&gt;连续值与缺省值处理&lt;/h1&gt;&lt;h2 id=&quot;连续&quot;&gt;连续&lt;/h2&gt;&lt;p&gt;由于连续属性的可取值数目不再有限，因此，不能直接根据连续属性的可取值来对结点进行划分。此时可以使用连续属性离散化技术。&lt;/p&gt;
-&lt;p&gt;最简单的策略是采用二分法(bi-partition)对连续属性进行处理。&lt;/p&gt;
-&lt;p&gt;给定样本集D和连续属性a,假定在D上出现了n个不同的取值，将这些值从小到大进行排序，记为${a^1,a^2,…,a^n}$.基于划分点t可将D分为子集$D_t^-$和$D_t^+$其中$D_t^-$包含那些在属性上取值不大于t的样本，而$D_t^+$则包含那些在属性a上取值大于t的样本。&lt;/p&gt;
-&lt;p&gt;对相邻的属性取值[$a^i，a^{i+1}$]来说结果是相同的，因此在此区间都取值$\frac{a^i+a^{i+1}}{2}$&lt;/p&gt;
-&lt;p&gt;对n-1个区间取指作为划分点，分别测试选取最优。&lt;/p&gt;
-&lt;p&gt;$Gain(D,a)=\max\limits_{t\in T_a}Gain(D,a,t)$&lt;/p&gt;
-&lt;p&gt;$=\max\limits_{t\in T_a}Ent(D)-\sum\limits_{\lambda \in {-,+}}\frac{\mid D_t^{\lambda}\mid}{\mid D \mid}Ent(D_t^{\lambda})$&lt;/p&gt;
-&lt;p&gt;Gain(D,a,t)是样本集D基于划分点t二分后的信息增益，我们可以使用Gain(D,a,t)最大化的划分点&lt;/p&gt;
-&lt;h2 id=&quot;缺省&quot;&gt;缺省&lt;/h2&gt;&lt;p&gt;嗯，本部分也暂时缺省&lt;/p&gt;
-&lt;h1 id=&quot;多变量决策树&quot;&gt;多变量决策树&lt;/h1&gt;&lt;p&gt;我们把每个属性视为坐标空间的一个坐标轴，则d个属性描述的样本就对赢了d维空间中的一个数据点。对样本的分类也就是在这个坐标空间中寻找不同样本之间的分类边界。&lt;/p&gt;
-&lt;p&gt;决策树形成的分类边界有一个明显的特点：轴平行（axis-parallel），即分类边界由若干个与坐标轴平行的分段组成。&lt;/p&gt;
-&lt;p&gt;使用斜划分边界可以将决策树模型简化。此时，非叶节点不仅是针对某个属性，而是属性的线性组合进行测试。与传统的决策树不同，多变量决策树试图建立一个合适的线性分类器。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
-&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
     
     </summary>
     
@@ -1364,95 +1427,6 @@
     
     
       <category term="tornado" scheme="http://peihao.space/tags/tornado/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>uwsgi</title>
-    <link href="http://peihao.space/2016/11/16/uwsgi/"/>
-    <id>http://peihao.space/2016/11/16/uwsgi/</id>
-    <published>2016-11-16T03:27:38.000Z</published>
-    <updated>2016-11-18T12:17:35.350Z</updated>
-    
-    <content type="html">&lt;h1 id=&quot;wsgi&quot;&gt;wsgi&lt;/h1&gt;&lt;p&gt;先来讲讲Web应用，抛开dns、网络连接这些先不谈，我们只看服务器与浏览器client之间，静态Web应用一般是这样的流程：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;浏览器发送一个http请求&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;服务器收到request，生成或者找到请求的文件&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;服务器将html文件作为response的body部分返回/无需渲染文件直接返回&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;浏览器收到响应后，从response取出数据并填充、渲染&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;类似Apache、Nginx这类static server最擅长干的事情，就是我们提前将浏览器要访问的html页面、static文件（img、css、js）等放到静态服务器的指定位置，服务器接受请求返回文件&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;动态服务器的话因为要根据请求的url解析并生成数据返回给浏览器，上面的一些步骤就需要我们自己实现。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;不过，接受HTTP请求、解析HTTP请求、发送HTTP响应都是苦力活，如果我们自己来写这些底层代码，还没开始写动态HTML呢，就得花个把月去读HTTP规范。&lt;/p&gt;
-&lt;p&gt;正确的做法是底层代码由专门的服务器软件实现，我们用Python专注于生成HTML文档。因为我们不希望接触到TCP连接、HTTP原始请求和响应格式，所以，需要一个统一的接口，让我们专心用Python编写Web业务。&lt;/p&gt;
-&lt;p&gt;这个接口就是WSGI：Web Server Gateway Interface。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;WSGI接口定义非常简单，它只要求Web开发者实现一个函数，就可以响应HTTP请求。&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#app.py&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(environ,start_response)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	start_response(&lt;span class=&quot;string&quot;&gt;&#39;200 OK&#39;&lt;/span&gt;,[(&lt;span class=&quot;string&quot;&gt;&#39;Content-Type&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;text/html&#39;&lt;/span&gt;)])&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	body=&lt;span class=&quot;string&quot;&gt;&#39;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;hiahia&amp;lt;/title&amp;gt;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;Hello %s&amp;lt;/h1&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/head&amp;gt;&#39;&lt;/span&gt; % (environ[&lt;span class=&quot;string&quot;&gt;&#39;PATH_INFO&#39;&lt;/span&gt;][&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;:] &lt;span class=&quot;keyword&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;world&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; [body.encode(&lt;span class=&quot;string&quot;&gt;&#39;utf-8&#39;&lt;/span&gt;)]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;这个函数是被wsgi服务器调用，跑在wsgi服务器上的，接受两个参数：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;environ&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;包含所有HTTP请求信息的dict对象，上面使用的environ[‘PATH_INFO’]就是我们请求的服务器地址，例如服务器跑在本机端口8001上:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;curl http://localhost:8001/hiahiahia/hiahiahia&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;那么此时就会返回 Hello hiahiahia/hiahiahia，如果是直接请求/，会返回默认设置的’world’&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;start_response&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;发送HTTP响应的函数&lt;/p&gt;
-&lt;p&gt;application()函数中，调用：&lt;code&gt;start_response(&amp;#39;200 OK&amp;#39;, [(&amp;#39;Content-Type&amp;#39;, &amp;#39;text/html&amp;#39;)])&lt;/code&gt;&lt;br&gt;就发送了HTTP响应的Header，注意Header只能发送一次，也就是只能调用一次start_response()函数。start_response()函数接收两个参数，一个是HTTP响应码，一个是一组list表示的HTTP Header，每个Header用一个包含两个str的tuple表示。多个元祖之间以逗号分开，填充到list中&lt;/p&gt;
-&lt;p&gt;然后，函数的返回值b’&lt;/p&gt;&lt;h1&gt;Hello, web!&lt;/h1&gt;‘将作为HTTP响应的Body发送给浏览器。&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;有了WSGI，我们关心的就是如何从environ这个dict对象拿到HTTP请求信息，然后构造HTML，通过start_response()发送Header，最后返回Body。&lt;/p&gt;
-&lt;p&gt;整个application()函数本身没有涉及到任何解析HTTP的部分，也就是说，底层代码不需要我们自己编写，我们只负责在更高层次上考虑如何响应请求就可以了。&lt;/p&gt;
-&lt;p&gt;application()函数必须由WSGI服务器来调用，我们这里简单测试就用python自带的wsgiref&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#server.py&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; wsgiref.simple_server &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; make_server&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; app &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; application&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;httpd=make_server(&lt;span class=&quot;string&quot;&gt;&#39;&#39;&lt;/span&gt;,&lt;span class=&quot;number&quot;&gt;8001&lt;/span&gt;,application)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;httpd.serve_forever()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;无论多么复杂的Web应用程序，入口都是一个WSGI处理函数。HTTP请求的所有输入信息都可以通过environ获得，HTTP响应的输出都可以通过start_response()加上函数返回值作为Body。&lt;/p&gt;
-&lt;h1 id=&quot;uWSGI&quot;&gt;uWSGI&lt;/h1&gt;&lt;p&gt;uwsgi是uWSGI服务器自创的一种协议，是一种线路协议而非类似wsgi的通信协议。&lt;/p&gt;
-&lt;p&gt;uWSGI是实现了WSGI、uwsgi和http协议的服务器&lt;/p&gt;
-&lt;h2 id=&quot;django+uWSGI+nginx&quot;&gt;django+uWSGI+nginx&lt;/h2&gt;&lt;p&gt;这里吧django、uWSGI和nginx的关系梳理一下，网络上有大把的文章都是在描述这三者怎么搭载、怎么执行的，却没有好好介绍之间的联系：&lt;/p&gt;
-&lt;p&gt;Django实际上只是一个流行的开源框架，因为其高效、便捷全面的开发流程收到欢迎；&lt;/p&gt;
-&lt;p&gt;nginx为Django Project提供反向代理服务，是对外服务的接口，浏览器通过url请求服务器的时候，请求首先会经过nginx，nginx将请求分析，如果是静态文件则直接返回可用的静态文件，动态网页就转发给uwsgi；&lt;/p&gt;
-&lt;p&gt;uwsgi收到请求后处理成wsgi能够接受的格式，wsgi根据配置文件使用app的函数，然后把处理后的数据在打包成uwsgi接受的格式、转发给nginx-&amp;gt;传回给浏览器&lt;/p&gt;
-&lt;p&gt;从上面的流程中可以看到，实际上nginx做的处理静态文件请求这件事，uwsgi也是能做的，那么为什么还要用nginx呢？&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;对于静态文件的处理，nginx要比uwsgi好得多&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;程序不希望被浏览器访问到，而是通过nginx,nginx只开放某个接口，uwsgi本身则是内网接口，这样运维人员在nginx上加上安全性的限制，可以达到保护程序的作用&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;nginx可以做反向映射，一个uwsgi服务器可能不能保证程序的运行，放到多个服务器上，这样通过nginx配置文件中配置后，不同的app转发到不同的uwsgi上。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;关于反向映射，可以看这张图：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/proxy.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;对于普通代理来讲，代理机与client(browser)属于同一个域，服务器将他们视为整体，代理的是client；&lt;/p&gt;
-&lt;p&gt;反向代理与真正的服务器在一个域，属于同一局域网，client将他们视为整体，代理的是后面多台服务器，主要有cache、安全性以及负载平衡方面的考虑&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;wsgi&quot;&gt;wsgi&lt;/h1&gt;&lt;p&gt;先来讲讲Web应用，抛开dns、网络连接这些先不谈，我们只看服务器与浏览器client之间，静态Web应用一般是这样的流程：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;浏览器发送一个http请求&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;服务器收到request，生成或者找到请求的文件&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;服务器将html文件作为response的body部分返回/无需渲染文件直接返回&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;浏览器收到响应后，从response取出数据并填充、渲染&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;类似Apache、Nginx这类static server最擅长干的事情，就是我们提前将浏览器要访问的html页面、static文件（img、css、js）等放到静态服务器的指定位置，服务器接受请求返回文件&lt;br&gt;
-    
-    </summary>
-    
-      <category term="网络" scheme="http://peihao.space/categories/%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="网络" scheme="http://peihao.space/tags/%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
