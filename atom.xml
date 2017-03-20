@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://peihao.space/"/>
-  <updated>2017-03-16T06:52:57.303Z</updated>
+  <updated>2017-03-20T06:51:47.401Z</updated>
   <id>http://peihao.space/</id>
   
   <author>
@@ -14,6 +14,155 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MAP、SRM、ERM与MLE</title>
+    <link href="http://peihao.space/2017/03/20/MAP-MLE-SRM/"/>
+    <id>http://peihao.space/2017/03/20/MAP-MLE-SRM/</id>
+    <published>2017-03-20T03:22:09.000Z</published>
+    <updated>2017-03-20T06:51:47.401Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;最大似然与经验风险最小化&quot;&gt;最大似然与经验风险最小化&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;当模型是条件概率分布，损失函数是对数损失函数时，经验风险最小化就等价于极大似然估计&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;首先给出对数形式的ERM的公式：&lt;br&gt;$$\min \frac{1}{n}\sum\limits_{i=1}^n L(y_i,p(y_i\mid x_i))$$&lt;/p&gt;
+&lt;p&gt;其中$L(y_i,f(x_i))$是损失函数，输出预测值为$f(x_i)$，n是观察到的样本数。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;最大似然的前提是从模型总体随机抽取样本观测值，所有的采样都是独立同分布的。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;假设$x_1,x_2,…,x_n$为独立同分布的采样，$\theta$为模型参数，f为我们使用的模型，我们使用条件概率分布，遵循独立同分布。假设我们需要根据观察数据$x$估计没有观察到的总体参数$\theta$：&lt;/p&gt;
+&lt;p&gt;$$f(x_1,x_2,…,x_n \mid \theta)=f(x_1 \mid \theta)\times f(x_2 \mid \theta)\times…\times f(x_n \mid \theta)$$&lt;/p&gt;
+&lt;p&gt;此时似然定义为：&lt;/p&gt;
+&lt;p&gt;$$L(\theta \mid x_1,x_2,…,x_n)=P(x_1,x_2,…,x_n\mid \theta)=\prod\limits_{i=1}^n f(x_i \mid \theta)$$&lt;/p&gt;
+&lt;p&gt;在实际应用中常用的是取两边取对数，并取似然值得平均值：&lt;/p&gt;
+&lt;p&gt;$$\frac{1}{n} \log L(\theta \mid x_1,x_2,…,x_n)=\frac{1}{n} \sum\limits_{i=1}^n \log f(x_i \mid \theta)$$&lt;/p&gt;
+&lt;p&gt;去取极大似然估计MLE：&lt;/p&gt;
+&lt;p&gt;$$&lt;br&gt;\arg\max\limits_{\theta} \frac{1}{n} \sum\limits_{i=1}^n \log f(x_i\mid \theta)&lt;br&gt;= \min \frac{1}{n}\sum\limits_{i=1}^n - \log f(x_i \mid \theta)&lt;br&gt;$$&lt;/p&gt;
+&lt;p&gt;由于$f(\mid)$是是条件概率分布模型，那么$-\log f(x_i\mid \theta)$便可以看做是对数似然损失函数。可以明显看出此时的经验风险最小化就等价于极大似然估计。上式是要求参数$\theta$，在这个参数条件下，使得已知数据$x$出现的概率最大。&lt;/p&gt;
+&lt;h1 id=&quot;后验概率与结构风险最小化&quot;&gt;后验概率与结构风险最小化&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;当模型是条件概率分布、损失函数是对数损失函数、模型复杂度由模型的先验概率表示时，结构风险最小化就等价于最大后验概率估计。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;先来一段后验概率最大化MAP的推导，摘自&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Wiki&lt;/a&gt;：&lt;/p&gt;
+&lt;p&gt;假设我们需要根据观察数据$x$估计没有观察到的总体参数 $\theta$，让$f$作为$x$的采样分布，这样$f(x\mid \theta)$就是在那个题参数为$\theta$时$x$的概率。函数$\theta \to f(x \mid \theta)$，即为似然函数，其估计$\hat{\theta}_{ML}(x)=\arg\max\limits_{\theta}f(x\mid \theta)$，就是$\theta$的最大似然估计。&lt;/p&gt;
+&lt;p&gt;假设$\theta$存在一个先验分布$g$，这就允许我们将$\theta$作为贝叶斯分布中的随机变量，这样$\theta$的后验分布就是:&lt;/p&gt;
+&lt;p&gt;$$\theta \to \frac{f(x \mid \theta)g(\theta)}{\int_{\Theta}f(x \mid \theta_1)g(\theta_1)d\theta_1}$$&lt;/p&gt;
+&lt;p&gt;其中$\Theta$是$g$的域，上式分母的下部就相当于对已知数据$x$概率的估计，这里用的公式是贝叶斯公式，由先验概率去求后验概率$P(A\mid B)=(P(B\mid A)*P(A))/P(B)$。&lt;/p&gt;
+&lt;p&gt;最大后验估计方法估计$\theta$为这个随机变量的后验分布的众数：&lt;/p&gt;
+&lt;p&gt;$$\hat{\theta}_{MAP}(x)=\arg\max\limits_{\theta} \frac{f(x \mid \theta)g(\theta)}{\int_{\Theta}f(x \mid \theta_1)g(\theta_1)d\theta_1}=\arg\max\limits_{\theta}f(x\mid \theta)g(\theta)$$&lt;/p&gt;
+&lt;p&gt;后验分布的分母与$\theta$ 无关，在求解中分母不变，当成一个常数使用，所以在优化过程中不起作用。注意当前验$g$是常数函数时最大后验概率与最大似然估计的重合。&lt;/p&gt;
+&lt;p&gt;我们对上式进行一些变换(先加上对数，再将对数展开)，则上式等价于：&lt;/p&gt;
+&lt;p&gt;$$\hat{\theta}_{MAP}(x)=\arg\max\limits_{\theta} [\ln f(x\mid \theta)+\ln g(\theta)]$$&lt;/p&gt;
+&lt;p&gt;进一步的，有：&lt;/p&gt;
+&lt;p&gt;$$\hat{\theta}_{MAP}(x)=\arg\max\limits_{\theta} \ln f(x \mid \theta)+\arg\max\limits_{\theta} \ln g(\theta)$$&lt;br&gt;可以发现，等式右边第一部分刚好为最大似然估计的公式，我们将最大似然估计的公式写出：&lt;/p&gt;
+&lt;p&gt;$$\max \frac{1}{n}\sum\limits_{i=1}^n \ln f(x_i \mid \theta)$$&lt;br&gt;将最大似然估计的公式代入，然后通过增加负号将最大后验概率分布公式的max改为min。这样，最大后验概率估计的公式可以写成下面这样：&lt;/p&gt;
+&lt;p&gt;$$\hat{\theta}_{MAP}(x)=\arg\min\limits_{\theta}{[\frac{1}{n}\sum\limits_{i=1}^n-\ln f(x_i \mid \theta)]- g(\theta)}$$&lt;/p&gt;
+&lt;p&gt;对比结构风险最小化公式：&lt;/p&gt;
+&lt;p&gt;$$\min\limits_{f \in F}\frac{1}{n}\sum\limits_{i=1}^n L(y_i,f(x_i))+\lambda J(f)$$&lt;/p&gt;
+&lt;p&gt;由于$f(\mid)$是模型，可以是条件概率分布模型，那么$-\ln f(x_i\mid \theta)$便可以看做是对数似然损失函数。&lt;/p&gt;
+&lt;p&gt;$g(\theta)$表示模型的先验概率，且我们认为先验概率大的模型其复杂度小，所以$-g(\theta)$可以认为与复杂度成正比，$-g(\theta)$越大，复杂度越高。&lt;/p&gt;
+&lt;p&gt;此时，上式中的后半项就对应着结构风险最小化中的正则项。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;最大似然与经验风险最小化&quot;&gt;最大似然与经验风险最小化&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;当模型是条件概率分布，损失函数是对数损失函数时，经验风险最小化就等价于极大似然估计&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;首先给出对数形式的ERM的公式：&lt;br&gt;$$\min \frac{1}{n}\sum\limits_{i=1}^n L(y_i,p(y_i\mid x_i))$$&lt;/p&gt;
+&lt;p&gt;其中$L(y_i,f(x_i))$是损失函数，输出预测值为$f(x_i)$，n是观察到的样本数。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;最大似然的前提是从模型总体随机抽取样本观测值，所有的采样都是独立同分布的。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="数学" scheme="http://peihao.space/categories/%E6%95%B0%E5%AD%A6/"/>
+    
+    
+      <category term="数学" scheme="http://peihao.space/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>梯度坐标下降</title>
+    <link href="http://peihao.space/2017/03/17/lagrange-coordinate/"/>
+    <id>http://peihao.space/2017/03/17/lagrange-coordinate/</id>
+    <published>2017-03-17T03:22:09.000Z</published>
+    <updated>2017-03-17T01:53:01.284Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;梯度下降&quot;&gt;梯度下降&lt;/h1&gt;&lt;p&gt;梯度下降法是一种常用的一阶优化方法，是求解无约束优化问题方法之一。&lt;/p&gt;
+&lt;p&gt;原理：考虑无约束优化问题$$\min_x f(x)$$，其中$f(x)$为连续可微函数，若能构造一个序列$x^0,x^1,x^2,…$满足$$f(x^{t+1})  &amp;lt; f(x^t),\ t=0,1,2…$$&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;不断迭代执行该过程即可收敛到局部极小点。根据泰勒展开式：$$f(x+\Delta x) \approx f(x)+\Delta x^T \nabla f(x)$$&lt;/p&gt;
+&lt;p&gt;欲满足：$$f(x+\Delta x) \ &amp;lt; f(x)$$也就是近似满足&lt;br&gt;：$$f(x)+\Delta x^T \nabla f(x)\ &amp;lt;\ f(x)\ \rightleftharpoons \Delta x f(x) \ &amp;lt; 0$$&lt;/p&gt;
+&lt;p&gt;为了保证$\Delta x f(x) \ &amp;lt; \ 0$成立，这里一般设置$\Delta x\ = \ -\gamma \nabla f(x)$这就是梯度下降法。当连续的两次迭代结果差小于阈值或者到达一定的迭代次数后，得到极小点&lt;/p&gt;
+&lt;p&gt;通过选取合适的步长，保证通过梯度下降收敛到局部极小点。当目标函数为凸函数时，局部极小点就对应着函数的全局最小点。&lt;/p&gt;
+&lt;h1 id=&quot;坐标下降法&quot;&gt;坐标下降法&lt;/h1&gt;&lt;p&gt;坐标下降法是一种非梯度优化方法，在每次迭代中沿一个坐标方向进行搜索，通过循环使用不同的坐标方向来达到目标函数的局部极小值。&lt;/p&gt;
+&lt;p&gt;他的原理就是在各个维度上搜索当前维度上函数的最小值，知道维度循环完毕。&lt;/p&gt;
+&lt;p&gt;不妨假设目标是求解函数$f(x)$的极小值，其中$x=(x_1,x_2,…,x_d)^T \ \in R^d$是一个d维向量。从初始点$x_0$开始，坐标下降法通过迭代构造序列求解问题，$x^{t+1}$的第i个分量$x_i^{t+1}$构造为$$x_i^{t+1}= \arg\min\limits_{y \in R} f(x_1^(t+1),…,x_{i-1}^{t+1},y,x_{i+1}^t,…,x_d^t)$$&lt;/p&gt;
+&lt;p&gt;通过迭代执行过程显然有$$f(x^0)\geq f(x^1) \geq f(x^2)$$&lt;/p&gt;
+&lt;p&gt;这里要注意函数必须要可微，否则不成立。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;梯度下降&quot;&gt;梯度下降&lt;/h1&gt;&lt;p&gt;梯度下降法是一种常用的一阶优化方法，是求解无约束优化问题方法之一。&lt;/p&gt;
+&lt;p&gt;原理：考虑无约束优化问题$$\min_x f(x)$$，其中$f(x)$为连续可微函数，若能构造一个序列$x^0,x^1,x^2,…$满足$$f(x^{t+1})  &amp;lt; f(x^t),\ t=0,1,2…$$&lt;br&gt;
+    
+    </summary>
+    
+      <category term="数学" scheme="http://peihao.space/categories/%E6%95%B0%E5%AD%A6/"/>
+    
+    
+      <category term="数学" scheme="http://peihao.space/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>对偶问题</title>
+    <link href="http://peihao.space/2017/03/16/lagrange-dual/"/>
+    <id>http://peihao.space/2017/03/16/lagrange-dual/</id>
+    <published>2017-03-16T09:22:09.000Z</published>
+    <updated>2017-03-20T07:01:38.969Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;对偶问题&quot;&gt;对偶问题&lt;/h1&gt;&lt;p&gt;再来看不等式约束优化问题：&lt;/p&gt;
+&lt;p&gt;$$&lt;br&gt;\begin{aligned}&lt;br&gt;&amp;amp;\min\limits_{x} \ f(x)\\&lt;br&gt;&amp;amp;s.t.\ \ h_i(x)=0,\ i=1,2,…,m\\&lt;br&gt;&amp;amp;g_j(x) \leq 0,\ j=1,2,…,n\\&lt;br&gt;\end{aligned}&lt;br&gt;$$&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;定义Lagrange如下：&lt;br&gt;$$&lt;br&gt;L(x,\lambda,\mu)=f(x)+\sum\limits_{i=1}^m\lambda_ih_i(x)+\sum\limits_{j=1}^n\mu_jg_j(x)&lt;br&gt;$$&lt;/p&gt;
+&lt;p&gt;在优化理论中，目标函数 f(x) 会有多种形式：&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;如果目标函数和约束条件都为变量 x 的线性函数, 称该问题为线性规划； 如果目标函数为二次函数, 约束条件为线性函数, 称该最优化问题为二次规划; 如果目标函数或者约束条件均为非线性函数, 称该最优化问题为非线性规划。每个线性规划问题都有一个与之对应的对偶问题，对偶问题有非常良好的性质，以下列举几个：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对偶问题的对偶是原问题；&lt;/li&gt;
+&lt;li&gt;无论原始问题是否是凸的，对偶问题都是凸优化问题；&lt;/li&gt;
+&lt;li&gt;对偶问题可以给出原始问题一个下界；&lt;/li&gt;
+&lt;li&gt;当满足一定条件时，原始问题与对偶问题的解是完全等价的；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;上式的拉格朗日对偶函数：&lt;/p&gt;
+&lt;p&gt;$$&lt;br&gt;\begin{aligned}&lt;br&gt;\Gamma(\lambda,\mu)=&lt;br&gt;&amp;amp;\inf\limits_{x \in D}\ L(x,\lambda,\mu)\\&lt;br&gt;=&amp;amp;\inf\limits_{x \in D}\lbrace f(x)+\sum\limits_{i=1}^m \lambda_i h_i(x)+\sum\limits_{j=1}^n \mu_jg_j(x) \rbrace&lt;br&gt;\end{aligned}&lt;br&gt;$$&lt;/p&gt;
+&lt;p&gt;若$\hat{x} \in D$是约束问题可行域的点，则对任意的$\mu \geq 0$和$\lambda$都有$\sum\limits_{i=1}^m \lambda_i h_i(x) + \sum\limits_{j=1}^n\mu_j g_j(x) \leq 0$&lt;/p&gt;
+&lt;p&gt;进而有&lt;/p&gt;
+&lt;p&gt;$$\Gamma(\lambda,\mu)=\inf\limits_{x \in D}L(x,\lambda,\mu) \leq L(\hat{x},\lambda,\mu) \leq f(\hat{x})$$&lt;/p&gt;
+&lt;p&gt;若对上面约束优化问题的最优值为$p^*$，则对任意$\mu \geq 0$和$\lambda$都有&lt;/p&gt;
+&lt;p&gt;$$\Gamma(\lambda,\mu)\leq p^*$$&lt;/p&gt;
+&lt;p&gt;对偶函数的最大值对应着原来约束条件优化问题的最大值，也就是说对偶问题能给主问题最优值的下界。&lt;/p&gt;
+&lt;p&gt;那么对偶函数能获得的最好的下界是什么呢？&lt;/p&gt;
+&lt;p&gt;$$\max\limits_{\lambda,\mu}\ \Gamma(\lambda,\mu)\ s.t. \ \mu \geq 0$$&lt;/p&gt;
+&lt;p&gt;这就是原来约束问题对应的对偶问题，$\mu,\lambda$叫对偶变量。为了方便，我们把它称为对偶式，原来约束问题称为原式。&lt;/p&gt;
+&lt;h2 id=&quot;强弱对偶&quot;&gt;强弱对偶&lt;/h2&gt;&lt;p&gt;假设对偶式的最优值为$d^&lt;em&gt;$，显然有$d^&lt;/em&gt; \leq p^&lt;em&gt;$，这称为弱对偶性，如果$d^&lt;/em&gt; = p^*$，称为强对偶性。&lt;/p&gt;
+&lt;p&gt;如果主问题为凸优化问题（例如原式中$f(x),g_j(x)$都是凸函数，$h_i(x)$是仿射函数），且可行域中至少有一点使不等式约束严格成立，此时强对偶成立。&lt;/p&gt;
+&lt;p&gt;强对偶下，将拉格朗日函数分别对原变量和对偶变量求导，再令导数为零，即可得到原变量与对偶变量的数值关系。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;对偶问题&quot;&gt;对偶问题&lt;/h1&gt;&lt;p&gt;再来看不等式约束优化问题：&lt;/p&gt;
+&lt;p&gt;$$&lt;br&gt;\begin{aligned}&lt;br&gt;&amp;amp;\min\limits_{x} \ f(x)\\&lt;br&gt;&amp;amp;s.t.\ \ h_i(x)=0,\ i=1,2,…,m\\&lt;br&gt;&amp;amp;g_j(x) \leq 0,\ j=1,2,…,n\\&lt;br&gt;\end{aligned}&lt;br&gt;$$&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;定义Lagrange如下：&lt;br&gt;$$&lt;br&gt;L(x,\lambda,\mu)=f(x)+\sum\limits_{i=1}^m\lambda_ih_i(x)+\sum\limits_{j=1}^n\mu_jg_j(x)&lt;br&gt;$$&lt;/p&gt;
+&lt;p&gt;在优化理论中，目标函数 f(x) 会有多种形式：
+    
+    </summary>
+    
+      <category term="数学" scheme="http://peihao.space/categories/%E6%95%B0%E5%AD%A6/"/>
+    
+    
+      <category term="数学" scheme="http://peihao.space/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>乘子与KKT</title>
@@ -731,74 +880,6 @@
   </entry>
   
   <entry>
-    <title>ML学习-决策树</title>
-    <link href="http://peihao.space/2017/03/04/ml-intro4/"/>
-    <id>http://peihao.space/2017/03/04/ml-intro4/</id>
-    <published>2017-03-04T05:18:42.000Z</published>
-    <updated>2017-03-05T04:33:47.459Z</updated>
-    
-    <content type="html">&lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
-&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h1 id=&quot;信息熵&quot;&gt;信息熵&lt;/h1&gt;&lt;p&gt;信息熵（information entropy）是度量样本集合纯度最常用的一种指标。假设当前样本集合D中第k类样本比例为$p_{k}$(k=1,2,3,…,|y|)$，则D的信息熵为&lt;/p&gt;
-&lt;p&gt;$Ent(D)=-\sum\limits_{k=1}^{|y|}p_{k=1}log_2p_{k}$&lt;/p&gt;
-&lt;p&gt;Ent(D)的值越小，则D的纯度越高.&lt;/p&gt;
-&lt;h2 id=&quot;信息增益&quot;&gt;信息增益&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;假定离散属性a有V个可能的取指{$a^1,a^2,…,a^V$},若使用a来对样本集合D进行划分，则会产生V个分支结点，其中第v个节点包含了D中所有在属性a上取指为$a^V$的样本，记为$D^v$。根据上师酸楚$D^v$的信息熵，然后考虑不同分支结点包含的样本数目不同，给分支结点赋予权重$|D^v|/|D|$，即样本越多，分支结点的影响越大，此时使用一个统一的计算公式算得属性啊对样本集D进行划分得到的”信息增益”（information gain）&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;$Gain(D,a)=Ent(D)-\sum\limits_{v=1}^{V}\frac{D^v}{D}Ent(D^v)$&lt;/p&gt;
-&lt;p&gt;一般而言，信息增益越大，意味着使用属性啊来划分所获得的纯度提升越大。所以，可以使用信息增益Gain作为属性划分的指标。&lt;/p&gt;
-&lt;h2 id=&quot;基尼指数&quot;&gt;基尼指数&lt;/h2&gt;&lt;p&gt;CART决策树使用“基尼指数”选择划分属性。&lt;/p&gt;
-&lt;p&gt;数据集D的纯度可用基尼值来度量：&lt;/p&gt;
-&lt;p&gt;$Gini(D)=\sum\limits_k^{|y|}\sum\limits_{j\neq k}p_kp_j$&lt;/p&gt;
-&lt;p&gt;$=1-\sum\limits_k^{|y|}p_{k}^2$&lt;/p&gt;
-&lt;p&gt;直观来讲，Gini（D）反映了从数据D中随机抽取两个样本，类别标记不一致的概率。因此Gini（D）越小，数据集D的纯度越高。&lt;/p&gt;
-&lt;p&gt;属性a的基尼指数定义为：&lt;/p&gt;
-&lt;p&gt;$Gini_index(D,a)=\sum\limits_v^{V}\frac{|D^v|}{|D|}Gini(D^v)$&lt;/p&gt;
-&lt;p&gt;计算属性集合A所有属性的基尼指数，取最小值得属性作为最优划分&lt;/p&gt;
-&lt;h1 id=&quot;剪枝处理&quot;&gt;剪枝处理&lt;/h1&gt;&lt;p&gt;剪枝（pruning）是决策树学习算法中对付“过拟合”的主要手段。过拟合的定义可以参考系列的第一篇。决策树算法经常会由于过拟合造成分支过多，在泛化性能上造成影响。&lt;/p&gt;
-&lt;p&gt;决策树剪枝基本策略有两种：预剪枝（prepruning）和后剪枝（postpruning）。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;预剪枝：在生成决策树的过程中，对每个结点在划分前进行估计，若当前划分不能对决策树带来泛化性能上的提升，则停止划分并将当前节点标记为叶结点。（训练开销短，保留子树少，易造成欠拟合）&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;后剪枝：决策树生成后自底向上的对内部结点进行考察。如果当前结点子树替换成叶子结点可以在泛化能力上得到提升，则将子树替换。（训练开销长，保留子树多，欠拟合风险小）&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;这里使用集精度作为泛化能力的指标。&lt;/p&gt;
-&lt;p&gt;需要注意的是，虽然在当时结点的集精度没有下降（也就是泛化能力未降低），但是很可能在之后进一步的展开，有欠拟合的风险。&lt;/p&gt;
-&lt;h1 id=&quot;连续值与缺省值处理&quot;&gt;连续值与缺省值处理&lt;/h1&gt;&lt;h2 id=&quot;连续&quot;&gt;连续&lt;/h2&gt;&lt;p&gt;由于连续属性的可取值数目不再有限，因此，不能直接根据连续属性的可取值来对结点进行划分。此时可以使用连续属性离散化技术。&lt;/p&gt;
-&lt;p&gt;最简单的策略是采用二分法(bi-partition)对连续属性进行处理。&lt;/p&gt;
-&lt;p&gt;给定样本集D和连续属性a,假定在D上出现了n个不同的取值，将这些值从小到大进行排序，记为${a^1,a^2,…,a^n}$.基于划分点t可将D分为子集$D_t^-$和$D_t^+$其中$D_t^-$包含那些在属性上取值不大于t的样本，而$D_t^+$则包含那些在属性a上取值大于t的样本。&lt;/p&gt;
-&lt;p&gt;对相邻的属性取值[$a^i，a^{i+1}$]来说结果是相同的，因此在此区间都取值$\frac{a^i+a^{i+1}}{2}$&lt;/p&gt;
-&lt;p&gt;对n-1个区间取指作为划分点，分别测试选取最优。&lt;/p&gt;
-&lt;p&gt;$Gain(D,a)=\max\limits_{t\in T_a}Gain(D,a,t)$&lt;/p&gt;
-&lt;p&gt;$=\max\limits_{t\in T_a}Ent(D)-\sum\limits_{\lambda \in {-,+}}\frac{\mid D_t^{\lambda}\mid}{\mid D \mid}Ent(D_t^{\lambda})$&lt;/p&gt;
-&lt;p&gt;Gain(D,a,t)是样本集D基于划分点t二分后的信息增益，我们可以使用Gain(D,a,t)最大化的划分点&lt;/p&gt;
-&lt;h2 id=&quot;缺省&quot;&gt;缺省&lt;/h2&gt;&lt;p&gt;嗯，本部分也暂时缺省&lt;/p&gt;
-&lt;h1 id=&quot;多变量决策树&quot;&gt;多变量决策树&lt;/h1&gt;&lt;p&gt;我们把每个属性视为坐标空间的一个坐标轴，则d个属性描述的样本就对赢了d维空间中的一个数据点。对样本的分类也就是在这个坐标空间中寻找不同样本之间的分类边界。&lt;/p&gt;
-&lt;p&gt;决策树形成的分类边界有一个明显的特点：轴平行（axis-parallel），即分类边界由若干个与坐标轴平行的分段组成。&lt;/p&gt;
-&lt;p&gt;使用斜划分边界可以将决策树模型简化。此时，非叶节点不仅是针对某个属性，而是属性的线性组合进行测试。与传统的决策树不同，多变量决策树试图建立一个合适的线性分类器。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
-&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
-    
-    
-      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
-    
-  </entry>
-  
-  <entry>
     <title>ML学习-神经网络</title>
     <link href="http://peihao.space/2017/03/04/ml-intro5/"/>
     <id>http://peihao.space/2017/03/04/ml-intro5/</id>
@@ -871,6 +952,74 @@
     
       &lt;h1 id=&quot;神经元&quot;&gt;神经元&lt;/h1&gt;&lt;p&gt;Neural Network神经网络：是由具有适应性的简单单元组成的广泛并进行互联的网络，他的组织能够模拟生物神经系统对真实的世界物体做出的交互反应&lt;/p&gt;
 &lt;p&gt;神经网络由一个个神经元（neuron）互联组成，神经元可以看作一个处理函数，当这个函数的输入超过某一个阈值，经过处理后单元会向其他单元发送信号。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
+    
+    
+      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ML学习-决策树</title>
+    <link href="http://peihao.space/2017/03/04/ml-intro4/"/>
+    <id>http://peihao.space/2017/03/04/ml-intro4/</id>
+    <published>2017-03-04T05:18:42.000Z</published>
+    <updated>2017-03-05T04:33:47.459Z</updated>
+    
+    <content type="html">&lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
+&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h1 id=&quot;信息熵&quot;&gt;信息熵&lt;/h1&gt;&lt;p&gt;信息熵（information entropy）是度量样本集合纯度最常用的一种指标。假设当前样本集合D中第k类样本比例为$p_{k}$(k=1,2,3,…,|y|)$，则D的信息熵为&lt;/p&gt;
+&lt;p&gt;$Ent(D)=-\sum\limits_{k=1}^{|y|}p_{k=1}log_2p_{k}$&lt;/p&gt;
+&lt;p&gt;Ent(D)的值越小，则D的纯度越高.&lt;/p&gt;
+&lt;h2 id=&quot;信息增益&quot;&gt;信息增益&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;假定离散属性a有V个可能的取指{$a^1,a^2,…,a^V$},若使用a来对样本集合D进行划分，则会产生V个分支结点，其中第v个节点包含了D中所有在属性a上取指为$a^V$的样本，记为$D^v$。根据上师酸楚$D^v$的信息熵，然后考虑不同分支结点包含的样本数目不同，给分支结点赋予权重$|D^v|/|D|$，即样本越多，分支结点的影响越大，此时使用一个统一的计算公式算得属性啊对样本集D进行划分得到的”信息增益”（information gain）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;$Gain(D,a)=Ent(D)-\sum\limits_{v=1}^{V}\frac{D^v}{D}Ent(D^v)$&lt;/p&gt;
+&lt;p&gt;一般而言，信息增益越大，意味着使用属性啊来划分所获得的纯度提升越大。所以，可以使用信息增益Gain作为属性划分的指标。&lt;/p&gt;
+&lt;h2 id=&quot;基尼指数&quot;&gt;基尼指数&lt;/h2&gt;&lt;p&gt;CART决策树使用“基尼指数”选择划分属性。&lt;/p&gt;
+&lt;p&gt;数据集D的纯度可用基尼值来度量：&lt;/p&gt;
+&lt;p&gt;$Gini(D)=\sum\limits_k^{|y|}\sum\limits_{j\neq k}p_kp_j$&lt;/p&gt;
+&lt;p&gt;$=1-\sum\limits_k^{|y|}p_{k}^2$&lt;/p&gt;
+&lt;p&gt;直观来讲，Gini（D）反映了从数据D中随机抽取两个样本，类别标记不一致的概率。因此Gini（D）越小，数据集D的纯度越高。&lt;/p&gt;
+&lt;p&gt;属性a的基尼指数定义为：&lt;/p&gt;
+&lt;p&gt;$Gini_index(D,a)=\sum\limits_v^{V}\frac{|D^v|}{|D|}Gini(D^v)$&lt;/p&gt;
+&lt;p&gt;计算属性集合A所有属性的基尼指数，取最小值得属性作为最优划分&lt;/p&gt;
+&lt;h1 id=&quot;剪枝处理&quot;&gt;剪枝处理&lt;/h1&gt;&lt;p&gt;剪枝（pruning）是决策树学习算法中对付“过拟合”的主要手段。过拟合的定义可以参考系列的第一篇。决策树算法经常会由于过拟合造成分支过多，在泛化性能上造成影响。&lt;/p&gt;
+&lt;p&gt;决策树剪枝基本策略有两种：预剪枝（prepruning）和后剪枝（postpruning）。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;预剪枝：在生成决策树的过程中，对每个结点在划分前进行估计，若当前划分不能对决策树带来泛化性能上的提升，则停止划分并将当前节点标记为叶结点。（训练开销短，保留子树少，易造成欠拟合）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;后剪枝：决策树生成后自底向上的对内部结点进行考察。如果当前结点子树替换成叶子结点可以在泛化能力上得到提升，则将子树替换。（训练开销长，保留子树多，欠拟合风险小）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这里使用集精度作为泛化能力的指标。&lt;/p&gt;
+&lt;p&gt;需要注意的是，虽然在当时结点的集精度没有下降（也就是泛化能力未降低），但是很可能在之后进一步的展开，有欠拟合的风险。&lt;/p&gt;
+&lt;h1 id=&quot;连续值与缺省值处理&quot;&gt;连续值与缺省值处理&lt;/h1&gt;&lt;h2 id=&quot;连续&quot;&gt;连续&lt;/h2&gt;&lt;p&gt;由于连续属性的可取值数目不再有限，因此，不能直接根据连续属性的可取值来对结点进行划分。此时可以使用连续属性离散化技术。&lt;/p&gt;
+&lt;p&gt;最简单的策略是采用二分法(bi-partition)对连续属性进行处理。&lt;/p&gt;
+&lt;p&gt;给定样本集D和连续属性a,假定在D上出现了n个不同的取值，将这些值从小到大进行排序，记为${a^1,a^2,…,a^n}$.基于划分点t可将D分为子集$D_t^-$和$D_t^+$其中$D_t^-$包含那些在属性上取值不大于t的样本，而$D_t^+$则包含那些在属性a上取值大于t的样本。&lt;/p&gt;
+&lt;p&gt;对相邻的属性取值[$a^i，a^{i+1}$]来说结果是相同的，因此在此区间都取值$\frac{a^i+a^{i+1}}{2}$&lt;/p&gt;
+&lt;p&gt;对n-1个区间取指作为划分点，分别测试选取最优。&lt;/p&gt;
+&lt;p&gt;$Gain(D,a)=\max\limits_{t\in T_a}Gain(D,a,t)$&lt;/p&gt;
+&lt;p&gt;$=\max\limits_{t\in T_a}Ent(D)-\sum\limits_{\lambda \in {-,+}}\frac{\mid D_t^{\lambda}\mid}{\mid D \mid}Ent(D_t^{\lambda})$&lt;/p&gt;
+&lt;p&gt;Gain(D,a,t)是样本集D基于划分点t二分后的信息增益，我们可以使用Gain(D,a,t)最大化的划分点&lt;/p&gt;
+&lt;h2 id=&quot;缺省&quot;&gt;缺省&lt;/h2&gt;&lt;p&gt;嗯，本部分也暂时缺省&lt;/p&gt;
+&lt;h1 id=&quot;多变量决策树&quot;&gt;多变量决策树&lt;/h1&gt;&lt;p&gt;我们把每个属性视为坐标空间的一个坐标轴，则d个属性描述的样本就对赢了d维空间中的一个数据点。对样本的分类也就是在这个坐标空间中寻找不同样本之间的分类边界。&lt;/p&gt;
+&lt;p&gt;决策树形成的分类边界有一个明显的特点：轴平行（axis-parallel），即分类边界由若干个与坐标轴平行的分段组成。&lt;/p&gt;
+&lt;p&gt;使用斜划分边界可以将决策树模型简化。此时，非叶节点不仅是针对某个属性，而是属性的线性组合进行测试。与传统的决策树不同，多变量决策树试图建立一个合适的线性分类器。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
+&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
     
     </summary>
     
@@ -1153,280 +1302,6 @@
     
     
       <category term="python" scheme="http://peihao.space/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>系统结构读书笔记</title>
-    <link href="http://peihao.space/2016/12/05/architecturere-readnote/"/>
-    <id>http://peihao.space/2016/12/05/architecturere-readnote/</id>
-    <published>2016-12-05T09:08:08.000Z</published>
-    <updated>2016-12-06T15:00:57.047Z</updated>
-    
-    <content type="html">&lt;blockquote&gt;
-&lt;p&gt;《Computer Architecture A Quantitative Approach》部分读书笔记&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;本书的第二版，相比前面的版本，经过了一些修整。第一版的基础内容，第一章（Fundamentals of Computer Design）和第二章（Performance and Cost）在这个版本中，是在开篇第一章中（Fundamentals of Computer Design）介绍的，编者认为两者放在一起比独立的分开讲解效果更好一些。&lt;/p&gt;
-&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;&lt;p&gt;计算机出现的几十年间，从20世纪70年代开始，微处理器的性能增长率逐年增长，从最开始的每年25%左右，20世纪70年代末期的35%。&lt;/p&gt;
-&lt;p&gt;这样的增长速率以及大规模微处理器生产的成本优势，导致微处理器在计算机事业中的因素占比越来越大。同时，计算机市场的两个明显改变使得在一种新型的体系结构下实现了商业成功：&lt;/p&gt;
-&lt;p&gt;首先，虚拟技术消除了原本的编程语言的装配过程，减少了母必爱代码的兼容性要求；另外标准化的创作、独立的操作系统（例如Unix）以及更低的成本和风险带来了一种新型的体系结构。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;这些改变使得继往开来，开发了一种新的体系结构集合，我们称它RISC体系结构。&lt;/p&gt;
-&lt;p&gt;从RISC出现，80年代微处理器的性能增长率达到了50%以上，而且还在不断的提升。&lt;/p&gt;
-&lt;p&gt;这种亮眼的增长率影响是双重的，首先明显的增强了能够提供给用户的发挥空间，用户可以享受在更低的时间内得到相同的结果；其次，这种恐怖的增长率导致了在计算机设计领域微处理为基础的主导地位：工作站和PC开始成为计算机行业的主要产品，小型机甚至超级计算机也逐渐采用利用多个微处理器代替原本的处理器。&lt;/p&gt;
-&lt;h1 id=&quot;计算机设计的任务&quot;&gt;计算机设计的任务&lt;/h1&gt;&lt;p&gt;计算机设计者的任务客观来见是比较复杂的，一般有下面必须遵守：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;确定属性对于新机器的重要程度&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在成本约数条件下最大限度的提高性能、设计机器  &lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;虽然寥寥几个字，但是涉及到了很多方面：指令集的设计、功能组织、逻辑设计以及最后的实现部分。而实现部分又可能包括集成电路的设计、封装技术、电源甚至是温度管控等。&lt;/p&gt;
-&lt;p&gt;设计者们设计一台计算机需要同时满足功能需求以及价格和性能上的目标。通常，他们也是功能需求的决策者，这可能是主要的任务。功能需要也许是来自市场方面的特别的特性，也许是计算机应用反向的驱动设计者考虑如何设计计算机。&lt;/p&gt;
-&lt;p&gt;到之后的优化设计，需要的知识同样很多，编译器、操作系统、逻辑设计和包装等等，这些不仅需要计算机设计人员消耗大量的时间与精力，同时要求有很丰富的经验与知识广度。&lt;/p&gt;
-&lt;p&gt;优化设计的指标有很多，最常见的指标设计成本和性能，在某些领域中，可靠性和容错性往往时相比成本和性能有更重要的地位，这里我们专注于常规领域，着重考虑机器的成本和性能。&lt;/p&gt;
-&lt;h1 id=&quot;计算机与技术的使用趋势&quot;&gt;计算机与技术的使用趋势&lt;/h1&gt;&lt;p&gt;评判一个指令集的成功，一个重要的指标就是指令集必须能够在硬件技术、软件技术和应用特性的改变下表现不俗，所以设计师必须要特别了解计算机以及计算机技术的使用趋势。&lt;/p&gt;
-&lt;h2 id=&quot;计算机使用趋势&quot;&gt;计算机使用趋势&lt;/h2&gt;&lt;p&gt;计算机的设计受两个方面影响：使用方式以及底层的实现技术特性。&lt;/p&gt;
-&lt;p&gt;使用和实现技术的改变以不同的方式影响计算机设计，包括激励指令集的改变、流水方式还有类似缓存机制技术等等。&lt;/p&gt;
-&lt;p&gt;软件技术的趋势以及程序是如何使用计算机对指令集结构有着长期的影响。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;程序所需的内存每年以1.5倍以上的速率增长，这种快速增长由程序的需求以及DRAM技术驱动。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;高级语言逐渐替换汇编语言。这种趋势导致编译器承担更重要的作用，编译器的作者需要跟跟架构师们紧密的合作，构建一个更有竞争力的机器。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;实现技术的趋势&quot;&gt;实现技术的趋势&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;集成电路逻辑技术：晶体管集成度每年都会提高约50%（晶体管的摩尔定律），在三年内翻了四倍，尺寸的增加可预测性不高，一般不会超过25%，然而布线技术并没有得到改善，这导致了时钟周期方面的速度提升缓慢。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;半导体DRAM集成度每年增长不超过60%，周期改善的相当缓慢，十年里减少了约三分之一，而芯片的带宽随着延迟的减少以及DRAM接口的改善得到提升。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;磁盘技术：1990年以前，磁盘的单位密度每年增长只有四分之一，90年以后，磁盘技术有了长足的发展，90年以后每年都有约一半的增加。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;以上这些快速变化的技术影响着微处理器的设计，随着速度和技术的增强，有长达5年以上的使用寿命。即使在单个产品周期（两年设计两年生产）范围内，关键的技术也足以影响设计者的决定；实际上，设计者经常会为下一个可能出现的技术设计。&lt;/p&gt;
-&lt;h1 id=&quot;成本和成本趋势&quot;&gt;成本和成本趋势&lt;/h1&gt;&lt;h2 id=&quot;数目，商品化的影响&quot;&gt;数目，商品化的影响&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;数量是决定成本的关键因素，增加数量会在几个方面上影响成本。首先，他们减少了降低学习曲线（学习曲线学习曲线表示了经验与效率之间的关系，指的是越是经常地执行一项任务，每次所需的时间就越少。）所需的时间，减少时间的比率主要由使用的数目决定；其次，大批量的使用会降低成本，因为他增加了采购和制造的效率。根据经验，数目增加一倍，成本会降低一成。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;商品是由多个供应商大量销售并且基本相同的产品。不同的供应商对产品的高度竞争，降低了成本和售价之间的差距，同时也降低了计算机的成本。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;一个系统的成本分析&quot;&gt;一个系统的成本分析&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;http://7xowaa.com1.z0.glb.clouddn.com/architecture-cost.png&quot; alt=&quot;成本分布&quot;&gt;&lt;/p&gt;
-&lt;p&gt;上图是1990s末期彩色台式机的大致成本细目，虽然DRAM等设备的成本会随着时间的推移降低，但是部分设备的成本将会几乎没有变化。此外可以预期，未来的假期将会有更大的存储设备（内存或硬盘），这意味着价格下降比技术改进更慢。&lt;/p&gt;
-&lt;p&gt;处理器系统仅占成本的6%，虽然在中高端设计中，比例会增加，但是在主要的系统中是类似的。&lt;/p&gt;
-&lt;h1 id=&quot;性能的测量&quot;&gt;性能的测量&lt;/h1&gt;&lt;p&gt;当我们说一台电脑比另一台电脑快时，是什么意思？ 用户可以说，当程序以较少的时间运行时计算机更快；而计算机中心管理员可以说，在一小时内完成更多作业时计算机更快。计算机用户对减少事件的执行时间感兴趣。 大型数据处理中心的经理可能对增加吞吐量感兴趣。&lt;/p&gt;
-&lt;p&gt;用户每天运行相同程序将是评估计算机性能的理想选择。为了评估新系统，用户需比较工作负载执行时间（用户在机器上运行的程序和操作系统命令的混合）。 然而，这种方法是机器枯燥的，大多数人依靠其他方法来评估，希望这些方法能够预测机器的使用性能。在这种情况下使用四个级别的程序，下面按照预测精度的降序列出。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;真实程序。虽然不知道这些程序花费了多少时间，但知道用户可能会运行他们解决实际问题。例如C的编译器，文本处理软件或者CAD工具。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;内核。尝试从真实的程序中提取几个小的、关键的片段评估他们的性能。Livemore Loops和Linpack是最出名的例子。与真实的程序不同，没有用户会运行内核程序，因为他们只用于评估性能。这种方法好在隔离机器各个特性的性能，解释实际程序性能差距。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Toy benchmarks。这种方法通常在数十行代码之间，产生用户在运行当前程序前已经知道的结果。像Sieve of Erastosthenes，Puzzle和Quicksort这样的程序很受欢迎，因为它们体积小，易于输入，几乎可以在任何计算机上运行。一般在程序语言开始分配阶段运行。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Synthetic benchmarks。在原理上与内核很相似，这种方法试图匹配一个大的程序集里面的操作以及操作数平均值。Whetstone和Dhrystone是流行的产品。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h1 id=&quot;计算机设计的定量原理&quot;&gt;计算机设计的定量原理&lt;/h1&gt;&lt;h2 id=&quot;加快经常事例&quot;&gt;加快经常事例&lt;/h2&gt;&lt;p&gt;也许计算机设计的最重要和最普遍的原则是加快经常使用的cas额，这个原则也适用于确定如何使用资源，因为如果case发生频繁，对一些发生更快的影响想爱你然更大。 改进频繁事件，而不是罕见事件，也有助于性能提升。 此外，频繁的情况通常更简单，并且可以比不常见的情况更快地完成。&lt;/p&gt;
-&lt;h2 id=&quot;Amdahl定律&quot;&gt;Amdahl定律&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;Amdahl定律：系统中对某一部件采用更快执行方式所能获得的系统性能改进程度，取决于这种执行方式被使用的频率，或所占总执行时间的比例。阿姆达尔定律实际上定义了采取增强（加速）某部分功能处理的措施后可获得的性能改进或执行时间的加速比。简单来说是通过更快的处理器来获得加速是由慢的系统组件所限制。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;CPU性能方程&quot;&gt;CPU性能方程&lt;/h2&gt;&lt;p&gt;大多数计算机使用恒定速率运行的时钟构建。 这些离散时间事件称为时钟周期。计算机设计者通过其长度（例如，2ns）或其速率（例如，500MHz）来指代时钟周期的时间。一个程序的CPU时间可以表示为：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cpu time=时钟周期数 * 时钟周期时间&lt;/code&gt;&lt;/p&gt;
-&lt;h1 id=&quot;内存分层概念&quot;&gt;内存分层概念&lt;/h1&gt;&lt;p&gt;首先，让我们看看硬件设计的一个经验：较小的硬件运行更快。这种简单的经验特别适用于由相同技术构建的存储器，原因有两个。首先，在高速机器中，信号传播是延迟的主要原因; 较大的存储器有更多的信号延迟，并且需要更多的电平来解码地址。第二，大多数技术中，我们可以获得比 较大的存储器 更快的 更小的存储器。这主要是因为设计者可以在更小的设计中使用每个存储器单元更多的功率。&lt;/p&gt;
-&lt;p&gt;速表明有利于访问这样的数据将提高性能。 因此，我们应该尽量保持最近访问的项目在最快的内存中。 因为较小的存储器将更快，所以我们希望使用较小的存储器来尝试保持最近访问的项目靠近CPU，并且随着我们从CPU远离CPU而逐渐增大（和较慢）的存储器。 此外，对于更靠近CPU的那些存储器，我们还可以采用更昂贵和更高功率的存储器技术，因为它们小得多，并且由于存储器的小尺寸而降低了成本和功率影响。 这种类型的组织称为存储器层次结构。其中有两个重要的层次是缓存和虚拟内存。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7xowaa.com1.z0.glb.clouddn.com/architecture-memory.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;（上图是上个世纪的容量与速度，不过到现在依然有参考意义）&lt;/p&gt;
-&lt;p&gt;缓存是位于靠近CPU的小型快速存储器，其保存最近访问的代码或数据。 当CPU在高速缓存中找到所请求的数据项时，其被称为高速缓存命中。 当CPU在高速缓存中找不到它需要的数据项时，发生高速缓存未命中。 从主存储器检索包含所请求字的固定大小的称为块的数据块，并将其放入高速缓存中。 时间局部性告诉我们，我们可能在不久的将来需要这个词，因此将其放在可以被快速访问的缓存中是有用的。 由于空间局部性，块中的其他数据将很快需要的概率很高。&lt;/p&gt;
-&lt;p&gt;高速缓存未命中所需的时间取决于存储器的延迟及其带宽，其确定检索整个块的时间。 由硬件处理的高速缓存未命中通常导致CPU暂停或停止，直到数据可用。&lt;/p&gt;
-&lt;p&gt;同样，并非程序引用的所有对象都需要驻留在主存储器中。 如果计算机具有虚拟内存，则某些对象可能驻留在磁盘上。地址空间通常被分成固定大小的块，称为页面。&lt;/p&gt;
-&lt;p&gt;在任何时候，每个页面驻留在主内存或磁盘上。 当CPU引用在高速缓存或主存储器中不存在的页面内的项目时，发生apage fault，并且整个页面从磁盘移动到主存储器。由于页面故障需要长时间，因此它们由软件处理，CPU不会停止。发生磁盘访问时，CPU通常切换到其他任务。 高速缓存和主存储器与主存储器和磁盘具有相同的关系。&lt;/p&gt;
-&lt;h1 id=&quot;第二章部分介绍&quot;&gt;第二章部分介绍&lt;/h1&gt;&lt;p&gt;在本章中，我们专注于指令集架构。程序员或编译器写程序可见的机器部分。&lt;/p&gt;
-&lt;p&gt;本章介绍了指令集架构师可用的各种各样的设计替代方案。特别的，本章重点讨论四个主题。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;提出一个指令集替代品的分类，并给出一些定性评估各种方法的优缺点。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;提出和分析一些指令集测量，这些测量在很大程度上独立于特定的指令集。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;解决语言和编译器的问题，以及它们对指令集架构的影响。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;显示了以上想法如何反映在DLX指令集中。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;在本章中，研究了各种各样的结构测量方法。这些测量取决于测量的程序和用于进行测量的编译器。这些结果不是绝对的，因为如果使用不同的编译器或不同的程序集进行测量，可能会看到不同的数据。&lt;/p&gt;
-&lt;p&gt;作者认为，这些章节中所示的测量值合理地表示了一类典型应用。许多测量使用一小组基准来呈现，使得可以合理地显示数据，并且可以看到之间的差异。&lt;/p&gt;
-&lt;p&gt;一个新机器的架构师想要分析一个大的程序集合，来做出他的决策，所显示的所有测量都是动态的。也就是说，测量事件的频率是通过在执行测量程序期间事件发生的次数来加权计算得到。&lt;/p&gt;
-&lt;h1 id=&quot;指令集结构的分类&quot;&gt;指令集结构的分类&lt;/h1&gt;&lt;p&gt;CPU内部存储器类型是指令结构分类考虑的关键指标，因此在本节中，将重点介绍这部分的替代方案。主要的选择有堆栈，累加器或一组寄存器。&lt;/p&gt;
-&lt;p&gt;一种可以将存储器作为指令的一部分访问，称为寄存器-存储器架构，一种仅能够使用load/stroe指令访问主存的称之为寄存器-寄存器架构。第三类，目前流通的机器中还未出现，是将所有操作数保存在内存中，称为内存-内存架构。&lt;/p&gt;
-&lt;p&gt;虽然大多数早期机器使用的是堆栈或累加器式架构，但在1980年后设计的机器几乎无一例外都采用load-store寄存器架构。&lt;/p&gt;
-&lt;p&gt;出现通用目的寄存器机器的主要原因有两个。首先，CPU内部的寄存器的比存储器更快。第二，寄存器对于编译器来讲更容易使用，并且可以比其他形式的内部存储更有效地使用。&lt;/p&gt;
-&lt;p&gt;寄存器可以用来保存变量。当变量被分配给寄存器时，存储器的使用就会减少，程序运行速度提高（由于寄存器比存储器快），并且代码密度提高（因为寄存器可以用比存储器位置更少的位命名）。&lt;/p&gt;
-&lt;p&gt;两种主要的指令集特性划分了通用目的寄存器架构。这两个特性涉及典型算术与逻辑指令（ALU指令）的操作数的性质。第一个涉及ALU指令是否具有两个或三个操作数。在三操作数格式中，指令包含目的地址和两个源操作数。在双操作数格式中，操作数中的一个既是操作的源也是操作之后的结果。通用目的寄存器架构中的第二个区别涉及多少个操作数可以是ALU指令中的存储器地址。典型ALU指令支持的存储器操作数的数目从0到3。&lt;/p&gt;
-&lt;h1 id=&quot;内存地址&quot;&gt;内存地址&lt;/h1&gt;&lt;p&gt;有两种不同的模式用于排序字内的字节。大端模式与小端模式：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;大端模式，是指数据的高字节保存在内存的低地址中，而数据的低字节保存在内存的高地址中，这样的存储模式有点儿类似于把数据当作字符串顺序处理：地址由小向大增加，而数据从高位往低位放；这和我们的阅读习惯一致。&lt;/p&gt;
-&lt;p&gt;小端模式，是指数据的高字节保存在内存的高地址中，而数据的低字节保存在内存的低地址中，这种存储模式将地址的高低和数据位权有效地结合起来，高地址部分权值高，低地址部分权值低。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;在许多机器中，对大于一个字节的对象访问必须对齐。什么是对齐？&lt;code&gt;address of data % sizeof(data type)==0&lt;/code&gt;就是对齐，对齐跟数据在内存中的位置有关。如果一个变量的内存地址正好位于它长度的整数倍，他就被称做自然对齐。比如在32位cpu下，假设一个整型变量的地址为0x00000004，那它就是自然对齐的。。不对齐就会造成数据访问花费额外的时钟周期，和额外的指令(编译器或OS附加的)，并且数据经过更长的路径，比如pipeline才能到达CPU（从RAM）。这就是对齐问题。这里的重点是数据的起始地址与数据的大小。&lt;/p&gt;
-&lt;h2 id=&quot;寻址模式&quot;&gt;寻址模式&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;寄存器寻址模式&lt;/li&gt;
-&lt;li&gt;立即寻址&lt;/li&gt;
-&lt;li&gt;间接寻址&lt;/li&gt;
-&lt;li&gt;索引寻址&lt;/li&gt;
-&lt;li&gt;直接寻址或绝对寻址&lt;/li&gt;
-&lt;li&gt;内存间接寻址&lt;/li&gt;
-&lt;li&gt;变址寻址&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h1 id=&quot;小结&quot;&gt;小结&lt;/h1&gt;&lt;p&gt;本书第二版发型到现在虽然已经过了不短的时间，但是依然有很多值得我们细细品赏的地方。第一部分，作者没有像其他类似主题的书籍一样，上来就讲体系结构，而是拉着我们，从设计的趋势、设计的目的、设计架构需要考虑的诸多方面娓娓道来，读的过程中很有代入感，好像我们真的就是designer，特别是成本管控方面，原来基本上就没有考虑这一点，这里作者甚至从计算机制造业的视角分析了很多。这看起来跟我们没什么关系，但是实际上是为我们开辟了一个很棒的思路，以前很多模模糊糊的东西现在变得容易理解了。之后第二章开始讲了一些设计上的技术层面，第二章开始也说了，主要是关于指令集的知识，包括指令集结构划分的依据以及原因，字节存储模式、字节对齐的优势以及寻址模式等等，后面的内容由于时间关系没有看到，之后会继续品读，更新在这里。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;《Computer Architecture A Quantitative Approach》部分读书笔记&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;本书的第二版，相比前面的版本，经过了一些修整。第一版的基础内容，第一章（Fundamentals of Computer Design）和第二章（Performance and Cost）在这个版本中，是在开篇第一章中（Fundamentals of Computer Design）介绍的，编者认为两者放在一起比独立的分开讲解效果更好一些。&lt;/p&gt;
-&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;&lt;p&gt;计算机出现的几十年间，从20世纪70年代开始，微处理器的性能增长率逐年增长，从最开始的每年25%左右，20世纪70年代末期的35%。&lt;/p&gt;
-&lt;p&gt;这样的增长速率以及大规模微处理器生产的成本优势，导致微处理器在计算机事业中的因素占比越来越大。同时，计算机市场的两个明显改变使得在一种新型的体系结构下实现了商业成功：&lt;/p&gt;
-&lt;p&gt;首先，虚拟技术消除了原本的编程语言的装配过程，减少了母必爱代码的兼容性要求；另外标准化的创作、独立的操作系统（例如Unix）以及更低的成本和风险带来了一种新型的体系结构。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="体系结构" scheme="http://peihao.space/categories/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"/>
-    
-    
-      <category term="体系结构" scheme="http://peihao.space/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>tornado安全技巧</title>
-    <link href="http://peihao.space/2016/11/24/tornado-secure/"/>
-    <id>http://peihao.space/2016/11/24/tornado-secure/</id>
-    <published>2016-11-24T04:28:30.000Z</published>
-    <updated>2016-11-24T15:22:40.594Z</updated>
-    
-    <content type="html">&lt;h1 id=&quot;安全cookies&quot;&gt;安全cookies&lt;/h1&gt;&lt;p&gt;Tornado的安全cookie使用加密签名验证cookies的值是否被除了服务器之外的程序修改过，未被我们授权的（不知道安全密钥）程序无法在应用不知情下修改cookies&lt;/p&gt;
-&lt;h2 id=&quot;使用安全cookie&quot;&gt;使用安全cookie&lt;/h2&gt;&lt;p&gt;Tornado的&lt;code&gt;set_secure_cookie()&lt;/code&gt;和&lt;code&gt;get_secure_cookie()&lt;/code&gt;方法设置、请求浏览器的cookies，防止浏览器的恶意修改，在此之前，我们需要在构造函数中指定cookie_secure参数。&lt;/p&gt;
-&lt;p&gt;成功设定之后，应用在程序内部获取的cookie还是本身的值，在浏览器或抓包工具查看，发现cookie已经被加密，如果不知道密钥，无法获知cookie内容&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;如果通过恶意代码修改过cookie值，应用使用get_secure_cookie方法会获得None，此时我们可以在应用中判断，增加一些防范机制&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.httpserver&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.ioloop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.web&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.options&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; tornado.options &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; define, options&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;define(&lt;span class=&quot;string&quot;&gt;&quot;port&quot;&lt;/span&gt;, default=&lt;span class=&quot;number&quot;&gt;8001&lt;/span&gt;, help=&lt;span class=&quot;string&quot;&gt;&quot;run on the given port&quot;&lt;/span&gt;, type=int)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;MainHandler&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(tornado.web.RequestHandler)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        times = self.get_secure_cookie(&lt;span class=&quot;string&quot;&gt;&quot;count&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        count = int(times) + &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; times &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        countString = &lt;span class=&quot;string&quot;&gt;&quot;1 time&quot;&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; count == &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;%d times&quot;&lt;/span&gt; % count&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        self.set_secure_cookie(&lt;span class=&quot;string&quot;&gt;&quot;count&quot;&lt;/span&gt;, str(count))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        self.write(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;string&quot;&gt;&#39;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;Cookie Counter&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;string&quot;&gt;&#39;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;You’ve viewed this page %s times.&amp;lt;/h1&amp;gt;&#39;&lt;/span&gt; % countString + &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;string&quot;&gt;&#39;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        )&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; __name__ == &lt;span class=&quot;string&quot;&gt;&quot;__main__&quot;&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    tornado.options.parse_command_line()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    settings = &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&quot;cookie_secret&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;bZJc2sWbQLKos6GkHn/VB9oXwQt8S0R0kRvJ5/xJ89E=&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    application = tortnado.web.Application([&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        (&lt;span class=&quot;string&quot;&gt;r&#39;/&#39;&lt;/span&gt;, MainHandler)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ], **settings)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    http_server = tornado.httpserver.HTTPServer(application)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    http_server.listen(options.port)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    tornado.ioloop.IOLoop.instance().start()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;Tornado将cookie值编码为Base-64字符串&lt;/p&gt;
-&lt;h2 id=&quot;http-only&amp;amp;&amp;amp;ssl&quot;&gt;http-only&amp;amp;&amp;amp;ssl&lt;/h2&gt;&lt;p&gt;Tornado的cookie功能依附于Python内建的Cokie模块，现在有两种常规的方法增强cookie的安全性，减少被截获的可能。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;为cookie设置&lt;code&gt;secure&lt;/code&gt;属性只指示浏览器只通过SSL传递cookie&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;code&gt;self.set_cookie(&amp;#39;foo&amp;#39;,&amp;#39;bar&amp;#39;,secure=True)&lt;/code&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;开启Http-only功能&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;code&gt;self.set_cookie(&amp;#39;foo&amp;#39;,&amp;#39;bar&amp;#39;,httponly=True)&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;开启httponly之后，浏览器js不能访问cookie&lt;/p&gt;
-&lt;p&gt;以上两种模式可以同时工作&lt;/p&gt;
-&lt;h1 id=&quot;CSRF&quot;&gt;CSRF&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。CSRF通过伪装来自受信任用户的请求来利用受信任的网站。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;举例&quot;&gt;举例&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;攻击通过在授权用户访问的页面中包含链接或者脚本的方式工作。例如：一个网站用户Bob可能正在浏览聊天论坛，而同时另一个用户Alice也在此论坛中，并且后者刚刚发布了一个具有Bob银行链接的图片消息。设想一下，Alice编写了一个在Bob的银行站点上进行取款的form提交的链接，并将此链接作为图片src。如果Bob的银行在cookie中保存他的授权信息，并且此cookie没有过期，那么当Bob的浏览器尝试装载图片时将提交这个取款form和他的cookie，这样在没经Bob同意的情况下便授权了这次事务&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ol&gt;
-&lt;li&gt;假设Alice是Burt’s Books的一个普通顾客。当她在这个在线商店登录帐号后，网站使用一个浏览器cookie标识她。现在假设一个不择手段的作者，Melvin，想增加他图书的销量。在一个Alice经常访问的Web论坛中，他发表了一个带有HTML图像标签的条目，其源码初始化为在线商店购物的URL。比如：&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;code&gt;&amp;lt;img src=&amp;quot;http://store.burts-books.com/purchase?title=Melvins+Web+Sploitz&amp;quot; /&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;Alice的浏览器尝试获取这个图像资源，并且在请求中包含一个合法的cookies，并不知道取代小猫照片的是在线商店的购物URL,点击这个url，就会提交一个购买Melvin书籍的请求&lt;/p&gt;
-&lt;h2 id=&quot;防范措施&quot;&gt;防范措施&lt;/h2&gt;&lt;p&gt;有很多预防措施可以防止这种类型的攻击。首先你在开发应用时需要深谋远虑。任何会产生副作用的HTTP请求，比如点击购买按钮、编辑账户设置、改变密码或删除文档，都应该使用HTTP POST方法。&lt;/p&gt;
-&lt;p&gt;但是，这并不足够：一个恶意站点可能会通过其他手段，如HTML表单或XMLHTTPRequest API来向你的应用发送POST请求。保护POST请求需要额外的策略。&lt;/p&gt;
-&lt;p&gt;为了防范伪造POST请求，我们会要求每个请求包括一个参数值作为令牌来匹配存储在cookie中的对应值。我们的应用将通过一个cookie头和一个隐藏的HTML表单元素向页面提供令牌。当一个合法页面的表单被提交时，它将包括表单值和已存储的cookie。如果两者匹配，我们的应用认定请求有效。&lt;/p&gt;
-&lt;p&gt;由于第三方站点没有访问cookie数据的权限，他们将不能在请求中包含令牌cookie。这有效地防止了不可信网站发送未授权的请求。正如我们看到的，Tornado同样会让这个实现变得简单。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;在构造函数中包含xsrf_cookies参数开启XSRF保护：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;settings = &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;cookie_secret&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;bZJc2sWbQLKos6GkHn/VB9oXwQt8S0R0kRvJ5/xJ89E=&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;xsrf_cookies&quot;&lt;/span&gt;: &lt;span class=&quot;keyword&quot;&gt;True&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;application = tornado.web.Application([&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    (&lt;span class=&quot;string&quot;&gt;r&#39;/&#39;&lt;/span&gt;, MainHandler),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    (&lt;span class=&quot;string&quot;&gt;r&#39;/purchase&#39;&lt;/span&gt;, PurchaseHandler),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;], **settings)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;这个应用标识被设置时，Tornado将拒绝请求参数中不包含正确的_xsrf值的POST、PUT和DELETE请求。为了在提交时候自动加上_xsrf值信息，我们在模板中使用如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;form&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;action&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;/purchase&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;method&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;POST&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#123;% raw xsrf_form_html() %&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;title&quot;&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;quantity&quot;&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;value&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;Check Out&quot;&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;form&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;网页在浏览器中的源码形式一般如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;_xsrf&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;value&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;856ada5b160a9e27902f46631ce8e5d3&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;Ajax请求也会需要_xsrf参数，通常是通过脚本在客户端查询浏览器获取cookie值。&lt;/p&gt;
-&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;getCookie&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;name&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; c = &lt;span class=&quot;built_in&quot;&gt;document&lt;/span&gt;.cookie.match(&lt;span class=&quot;string&quot;&gt;&quot;\\b&quot;&lt;/span&gt; + name + &lt;span class=&quot;string&quot;&gt;&quot;=([^;]*)\\b&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; c ? c[&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;] : &lt;span class=&quot;literal&quot;&gt;undefined&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;jQuery.postJSON = &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;url, data, callback&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    data._xsrf = getCookie(&lt;span class=&quot;string&quot;&gt;&quot;_xsrf&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    jQuery.ajax(&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        url: url,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        data: jQuery.param(data),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        dataType: &lt;span class=&quot;string&quot;&gt;&quot;json&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        type: &lt;span class=&quot;string&quot;&gt;&quot;POST&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        success: callback&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;安全cookies&quot;&gt;安全cookies&lt;/h1&gt;&lt;p&gt;Tornado的安全cookie使用加密签名验证cookies的值是否被除了服务器之外的程序修改过，未被我们授权的（不知道安全密钥）程序无法在应用不知情下修改cookies&lt;/p&gt;
-&lt;h2 id=&quot;使用安全cookie&quot;&gt;使用安全cookie&lt;/h2&gt;&lt;p&gt;Tornado的&lt;code&gt;set_secure_cookie()&lt;/code&gt;和&lt;code&gt;get_secure_cookie()&lt;/code&gt;方法设置、请求浏览器的cookies，防止浏览器的恶意修改，在此之前，我们需要在构造函数中指定cookie_secure参数。&lt;/p&gt;
-&lt;p&gt;成功设定之后，应用在程序内部获取的cookie还是本身的值，在浏览器或抓包工具查看，发现cookie已经被加密，如果不知道密钥，无法获知cookie内容&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="python" scheme="http://peihao.space/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://peihao.space/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>tornado2</title>
-    <link href="http://peihao.space/2016/11/16/tornado2/"/>
-    <id>http://peihao.space/2016/11/16/tornado2/</id>
-    <published>2016-11-16T12:13:29.000Z</published>
-    <updated>2016-11-18T14:11:45.455Z</updated>
-    
-    <content type="html">&lt;h1 id=&quot;模板基础&quot;&gt;模板基础&lt;/h1&gt;&lt;p&gt;与之前的Django类似的是，tornado同样是使用了MVT模式，通过模板渲染网页，tornado服务器端提取数据填充到模板文件中返回给client&lt;/p&gt;
-&lt;p&gt;前面我们为了测试tornado异步框架以及最简单的request-response流程，没有使用Template，仅仅是简单的直接self.write写入到输出流返回给client&lt;/p&gt;
-&lt;h2 id=&quot;py流程&quot;&gt;py流程&lt;/h2&gt;&lt;p&gt;实际的开发流程中，都会用到template模板，类似下面：&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; os.path&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.ioloop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.options&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.web&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; tornado.httpserver&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; tornado.options &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; options,define&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;define(&lt;span class=&quot;string&quot;&gt;&#39;port&#39;&lt;/span&gt;,default=&lt;span class=&quot;number&quot;&gt;8001&lt;/span&gt;,helo=&lt;span class=&quot;string&quot;&gt;&#39;plz run on the given port&#39;&lt;/span&gt;,type=int)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;IndexHandler&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(tornado.web.RequestHandler)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        self.render(&lt;span class=&quot;string&quot;&gt;&#39;index.html&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;PoemHandler&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(tornado.web.RequestHandler)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        no1=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;no1&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        no2=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;no2&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        no3=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;no3&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        verb=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;verb&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        self.render(&lt;span class=&quot;string&quot;&gt;&#39;poem.html&#39;&lt;/span&gt;,no1=no1,no2=no2,no3=no3,verb-verb)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; __main__==&lt;span class=&quot;string&quot;&gt;&#39;__main__&#39;&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    tornodo.options.parse_command_line()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    app=tornado.web.Application(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    handler=[(&lt;span class=&quot;string&quot;&gt;r&#39;/&#39;&lt;/span&gt;,IndexHandler),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        (&lt;span class=&quot;string&quot;&gt;r&#39;/poem&#39;&lt;/span&gt;,PoemHandler)]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        template_path=os.path.join(os.path.dirname(__file__),&lt;span class=&quot;string&quot;&gt;&#39;templates&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    )&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    http_server=tornado.httpserver.HTTPServer(app)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    http_server.listen(options.port)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    tornado.ioloop.IOLoop.instance().start()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;使用template之后，使用self.render代替了原有的self.write,render，提交给指定的html模板文件，并在方法中设置会在htlm文件中用到的context，然后tornodo就会把数据添到html文件中，之后把这个转换后的html文件作为response的body部分返回。&lt;/p&gt;
-&lt;p&gt;这里用到了模板文件，发现这里是直接在render方法中使用文件名，也就是相对路径，因为我们在将所有需要监听的url加入到循环事件之前已经将template_path设置好了：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;tempalte_path=os.path.join(os.path.dirname(__file____),&amp;#39;templates&amp;#39;)&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&quot;模板文件&quot;&gt;模板文件&lt;/h2&gt;&lt;p&gt;前面的os.path.dirname(&lt;strong&gt;file&lt;/strong&gt;)是将当前文件的目录提取出来，如果我们在执行这个程序的时候使用的是相对文件路径，那么返回的当然也是相对路径，总之就是返回可以识别的路径，然后后面加上’templates’这个目录名称，这个目录是提前创建好的，里面有两个模板文件：index.html和poem.html&lt;/p&gt;
-&lt;p&gt;index.html文件是很简单的一个包含form表格的html:&lt;/p&gt;
-&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;&amp;lt;!--简单的写一个大题流程--&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;form&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;action&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;/poem&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;method&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;post&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;no1&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;no2&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;no3&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;verb&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;submit&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;form&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;可以看到，我们的表单action是/poem，也就是说同构submit按钮提交会转给server_adderss:port/poem这个路径处理，正好对用着我们在Application中设置的url，&lt;code&gt;(r&amp;#39;/poem&amp;#39;,PoemHandler)&lt;/code&gt;，这里，实际上index.html完全就是普通的html文件，跟正常的文件没有丝毫区别&lt;/p&gt;
-&lt;p&gt;然后是使用模板流程的poem.html&lt;br&gt;&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    no1 --- &amp;#123;&amp;#123;no1&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    no2 --- &amp;#123;&amp;#123;no2&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    no3 --- &amp;#123;&amp;#123;no3&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    verb --- &amp;#123;&amp;#123;verb&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;body&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;这里就用到了模板文件中常用的数据占位符号&lt;code&gt;{}&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;我们在往上面的PoemHandler类的post方法看看那：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    no1=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;no1&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    no2=self.get_argument(&lt;span class=&quot;string&quot;&gt;&#39;no2&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    self.render(&lt;span class=&quot;string&quot;&gt;&#39;poem.html&#39;&lt;/span&gt;,no1=no1,no2=no2,no3=no3,verb=verb)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;由于是使用的post方法提交的转到的/poem页面，我们这里使用的是post方法处理数据（其他方法没有用）&lt;/p&gt;
-&lt;p&gt;self.get_argument这个方法没什么好讲的，简单通俗，从post发来的信息中听过argument name提取数据，这里的参数名就是index.html表格中的input name=”…” 这个&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;self.render(&amp;#39;poem.html&amp;#39;,no1=no1....)&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;这里传递的context一定要设置好，即使我们在这里故意使用了相同的参数name，如果不在render方法中设置，服务器会认为你传递的是空的context，就像IndexHandler中的get方法一样，不需要使用context。&lt;/p&gt;
-&lt;p&gt;我们在模板文件中用两个大括号包裹的就是设置的context的左值，右值是我们之前处理的数据。&lt;/p&gt;
-&lt;h1 id=&quot;模板扩展&quot;&gt;模板扩展&lt;/h1&gt;&lt;p&gt;tornado中的模板扩展，包括extens和block块使用与Django都很相似，因为有前面的知识，这里我们简单过一下&lt;/p&gt;
-&lt;h2 id=&quot;extends&quot;&gt;extends&lt;/h2&gt;&lt;p&gt;原始的base文件base.html中使用的所有tag、layout、css、js内容都能够在使用扩展命令的其他模板文件中直接使用：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;{ % extends base.html % }&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;这一点与Django完全一致&lt;/p&gt;
-&lt;h2 id=&quot;block&quot;&gt;block&lt;/h2&gt;&lt;p&gt;只是继承原始的文件有什么用呢，一定要重写某些部分，够则与原始文件毫无二致，这需要2个步骤：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;在原始需要扩展的base.html中的某些需要替换部分使用&lt;code&gt;{ % block block_name % }{ % end % }&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在扩展的文件中&lt;code&gt;{ % extends base.html % }&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在扩展的文件中重写&lt;code&gt;block_name&lt;/code&gt;部分&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;base.html&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;&amp;lt;!--base.html--&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;hiahiahia&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123; % block content % &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    I am the base.html&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123; % end % &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;override.html&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;&amp;lt;!--override.html--&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123; % extends &quot;base.html&quot; % &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123; % block content % &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;I am the override.html&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123; % end % &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;override.html文件继承base.html文件内容，在content block块中修改相应的内容&lt;/p&gt;
-&lt;p&gt;Tips:因为在base.html中我们定义的是完整的html标签，我们不可能破坏了原有的整体布局，当然也可以在块中继续使用html标签、引用css、js等&lt;/p&gt;
-&lt;p&gt;这样我们在分别请求对应的url后会发现显示的不同的内容&lt;/p&gt;
-&lt;p&gt;与Django做对比，Django模板中也有block部分，使用也相当相似：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;{ % block content % }{ % endblock % }&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;在Django中因为要与for循环的结束符号&lt;code&gt;{ % endfor % }&lt;/code&gt;作出区别，没有直接使用end，而是选择了endblock，其他的毫无区别&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;模板基础&quot;&gt;模板基础&lt;/h1&gt;&lt;p&gt;与之前的Django类似的是，tornado同样是使用了MVT模式，通过模板渲染网页，tornado服务器端提取数据填充到模板文件中返回给client&lt;/p&gt;
-&lt;p&gt;前面我们为了测试tornado异步框架以及最简单的request-response流程，没有使用Template，仅仅是简单的直接self.write写入到输出流返回给client&lt;/p&gt;
-&lt;h2 id=&quot;py流程&quot;&gt;py流程&lt;/h2&gt;&lt;p&gt;实际的开发流程中，都会用到template模板，类似下面：&lt;br&gt;
-    
-    </summary>
-    
-      <category term="tornado" scheme="http://peihao.space/categories/tornado/"/>
-    
-    
-      <category term="tornado" scheme="http://peihao.space/tags/tornado/"/>
     
   </entry>
   
