@@ -2,16 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://peihao.space/2017/03/16/lagrange-dual/</loc>
+    <loc>http://peihao.space/2017/03/22/cnn/</loc>
     
-    <lastmod>2017-03-20T07:01:38.969Z</lastmod>
+    <lastmod>2017-03-22T15:32:40.866Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peihao.space/2017/03/04/ml-intro5/</loc>
+    
+    <lastmod>2017-03-22T15:25:46.620Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://peihao.space/2017/03/20/MAP-MLE-SRM/</loc>
     
-    <lastmod>2017-03-20T06:51:47.401Z</lastmod>
+    <lastmod>2017-03-20T13:02:45.331Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peihao.space/2017/03/16/lagrange-dual/</loc>
+    
+    <lastmod>2017-03-20T07:01:38.969Z</lastmod>
     
   </url>
   
@@ -103,13 +117,6 @@
     <loc>http://peihao.space/2017/03/05/ml-intro6/</loc>
     
     <lastmod>2017-03-03T16:38:52.462Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://peihao.space/2017/03/04/ml-intro5/</loc>
-    
-    <lastmod>2017-03-03T11:05:09.511Z</lastmod>
     
   </url>
   

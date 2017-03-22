@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://peihao.space/"/>
-  <updated>2017-03-20T06:51:47.401Z</updated>
+  <updated>2017-03-22T15:32:40.866Z</updated>
   <id>http://peihao.space/</id>
   
   <author>
@@ -16,11 +16,110 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>（转载）CNN卷积神经网络</title>
+    <link href="http://peihao.space/2017/03/22/cnn/"/>
+    <id>http://peihao.space/2017/03/22/cnn/</id>
+    <published>2017-03-22T14:18:42.000Z</published>
+    <updated>2017-03-22T15:32:40.866Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;先述&quot;&gt;先述&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;卷积神经网络-翻译&lt;/a&gt;&lt;a href=&quot;https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;    英文原文&lt;/a&gt;（ConvNets 或者 CNNs）属于神经网络的范畴，已经在诸如图像识别和分类的领域证明了其高效的能力。卷积神经网络可以成功识别人脸、物体和交通信号，从而为机器人和自动驾驶汽车提供视力。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/x3.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;上图中，ConvNet主要有四个操作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;卷积&lt;/li&gt;
+&lt;li&gt;非线性处理（ReLU）&lt;/li&gt;
+&lt;li&gt;池化pooling&lt;/li&gt;
+&lt;li&gt;分类&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;图像是像素值的矩阵&quot;&gt;图像是像素值的矩阵&lt;/h2&gt;&lt;p&gt;本质上来说，每张图像都可以表示为像素值的矩阵：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/x4.gif&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;通道 （chain）常用于表示图像的某种组成。一个标准数字相机拍摄的图像会有三通道 - 红、绿和蓝；你可以把它们看作是互相堆叠在一起的二维矩阵（每一个通道代表一个颜色），每个通道的像素值在 0 到 255 的范围内。&lt;/p&gt;
+&lt;p&gt;灰度图像，仅仅只有一个通道。在本篇文章中，我们仅考虑灰度图像，这样我们就只有一个二维的矩阵来表示图像。矩阵中各个像素的值在 0 到 255 的范围内——零表示黑色，255 表示白色。&lt;/p&gt;
+&lt;h2 id=&quot;卷积&quot;&gt;卷积&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;卷积的主要目的是为了从输入图像中提取特征。卷积可以通过从输入的一小块数据中学到图像的特征，并可以保留像素间的空间关系。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;每张图像都可以看作是像素值的矩阵。考虑一下一个 5 x 5 的图像，它的像素值仅为 0 或者 1（注意对于灰度图像而言，像素值的范围是 0 到 255，下面像素值为 0 和 1 的绿色矩阵仅为特例），同时，考虑下另一个 3 x 3 的矩阵。接下来，5 x 5 的图像和 3 x 3 的矩阵的卷积可以按下图所示的动画一样计算：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/x2.gif&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;现在停下来好好理解下上面的计算是怎么完成的。我们用橙色的矩阵在原始图像（绿色）上滑动，每次滑动一个像素（也叫做“步长”），在每个位置上，我们计算对应元素的乘积（两个矩阵间），并把乘积的和作为最后的结果，得到输出矩阵（粉色）中的每一个元素的值。注意，3 x 3 的矩阵每次步长中仅可以“看到”输入图像的一部分。&lt;/p&gt;
+&lt;p&gt;在 CNN 的术语中，3x3 的矩阵叫做“滤波器（filter）”或者“核（kernel）”或者“特征检测器（feature detector）”，通过在图像上滑动滤波器并计算点乘得到矩阵叫做“卷积特征（Convolved Feature）”或者“激活图（Activation Map）”或者“特征图（Feature Map）”。记住滤波器在原始输入图像上的作用是特征检测器。&lt;/p&gt;
+&lt;p&gt;不同滤波器对上图卷积的效果。通过在卷积操作前修改滤波矩阵的数值，我们可以进行诸如边缘检测、锐化和模糊等操作 —— 这表明不同的滤波器可以从图中检测到不同的特征，比如边缘、曲线等。&lt;/p&gt;
+&lt;p&gt;在实践中，CNN 会在训练过程中学习到这些滤波器的值（尽管我们依然需要在训练前指定诸如滤波器的个数、滤波器的大小、网络架构等参数）。我们使用的滤波器越多，提取到的图像特征就越多，网络所能在未知图像上识别的模式也就越好。&lt;/p&gt;
+&lt;p&gt;特征图的大小（卷积特征）由下面三个参数控制，我们需要在卷积前确定它们：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;深度（Depth）：深度对应的是卷积操作所需的滤波器个数。在下图的网络中，我们使用三个不同的滤波器对原始图像进行卷积操作，这样就可以生成三个不同的特征图。你可以把这三个特征图看作是堆叠的 2d 矩阵，那么，特征图的“深度”就是三。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;步长（Stride）：步长是我们在输入矩阵上滑动滤波矩阵的像素数。当步长为 1 时，我们每次移动滤波器一个像素的位置。当步长为 2 时，我们每次移动滤波器会跳过 2 个像素。步长越大，将会得到更小的特征图。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;零填充（Zero-padding）：有时，在输入矩阵的边缘使用零值进行填充，这样我们就可以对输入图像矩阵的边缘进行滤波。零填充的一大好处是可以让我们控制特征图的大小。使用零填充的也叫做泛卷积，不适用零填充的叫做严格卷积。这个概念在下面的参考文献 14 中介绍的非常详细。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;ReLU&quot;&gt;ReLU&lt;/h2&gt;&lt;p&gt;每次的卷积操作后都使用了一个叫做 ReLU 的操作。ReLU 表示修正线性单元（Rectified Linear Unit），是一个非线性操作。它的输入如下所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/x5.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;ReLU 是一个元素级别的操作（应用到各个像素），并将特征图中的所有小于 0 的像素值设置为零。ReLU 的目的是在 ConvNet 中引入非线性，因为在大部分的我们希望 ConvNet 学习的实际数据是非线性的（卷积是一个线性操作——元素级别的矩阵相乘和相加，所以我们需要通过使用非线性函数 ReLU 来引入非线性。&lt;/p&gt;
+&lt;h2 id=&quot;池化&quot;&gt;池化&lt;/h2&gt;&lt;p&gt;空间池化（Spatial Pooling）（也叫做亚采用或者下采样）降低了各个特征图的维度，但可以保持大部分重要的信息。空间池化有下面几种方式：最大化、平均化、加和等等。&lt;/p&gt;
+&lt;p&gt;对于最大池化（Max Pooling），我们定义一个空间邻域（比如，2x2 的窗口），并从窗口内的修正特征图中取出最大的元素。除了取最大元素，我们也可以取平均（Average Pooling）或者对窗口内的元素求和。在实际中，最大池化被证明效果更好一些。&lt;/p&gt;
+&lt;p&gt;我们以 2 个元素（也叫做“步长”）滑动我们 2x2 的窗口，并在每个区域内取最大值。如上图所示，这样操作可以降低我们特征图的维度。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/x6.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;池化函数可以逐渐降低输入表示的空间尺度。特别地，池化：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使输入表示（特征维度）变得更小，并且网络中的参数和计算的数量更加可控的减小，因此，可以控制过拟合&lt;/li&gt;
+&lt;li&gt;使网络对于输入图像中更小的变化、冗余和变换变得不变性（输入的微小冗余将不会改变池化的输出——因为我们在局部邻域中使用了最大化/平均值的操作。&lt;/li&gt;
+&lt;li&gt;帮助我们获取图像最大程度上的尺度不变性（准确的词是“不变性”）。它非常的强大，因为我们可以检测图像中的物体，无论它们位置在哪里（参考 18 和 19 获取详细信息）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;到目前为止我们了解了卷积、ReLU 和池化是如何操作的。理解这些层是构建任意 CNN 的基础是很重要的。我们有两组卷积、ReLU &amp;amp; 池化层 —— 第二组卷积层使用六个滤波器对第一组的池化层的输出继续卷积，得到一共六个特征图。接下来对所有六个特征图应用 ReLU。接着我们对六个修正特征图分别进行最大池化操作。&lt;/p&gt;
+&lt;p&gt;这些层一起就可以从图像中提取有用的特征，并在网络中引入非线性，减少特征维度，同时保持这些特征具有某种程度上的尺度变化不变性。&lt;/p&gt;
+&lt;p&gt;第二组池化层的输出作为全连接层的输入，我们会在下一部分介绍全连接层。&lt;/p&gt;
+&lt;h2 id=&quot;全连接层&quot;&gt;全连接层&lt;/h2&gt;&lt;p&gt;全连接层是传统的多层感知器，在输出层使用的是 softmax 激活函数（也可以使用其他像 SVM 的分类器，但在本文中只使用 softmax）。“全连接（Fully Connected）”这个词表明前面层的所有神经元都与下一层的所有神经元连接。&lt;/p&gt;
+&lt;p&gt;卷积和池化层的输出表示了输入图像的高级特征。全连接层的目的是为了使用这些特征把输入图像基于训练数据集进行分类。&lt;/p&gt;
+&lt;p&gt;除了分类，添加一个全连接层也（一般）是学习这些特征的非线性组合的简单方法。从卷积和池化层得到的大多数特征可能对分类任务有效，但这些特征的组合可能会更好。&lt;/p&gt;
+&lt;p&gt;从全连接层得到的输出概率和为 1。这个可以在输出层使用 softmax 作为激活函数进行保证。softmax 函数输入一个任意大于 0 值的矢量，并把它们转换为零一之间的数值矢量，其和为一。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;卷积 + 池化层的作用是从输入图像中提取特征，而全连接层的作用是分类器。&lt;/strong&gt;&lt;/p&gt;
+&lt;h1 id=&quot;小结&quot;&gt;小结&lt;/h1&gt;&lt;p&gt;完整的卷积网络的训练过程可以总结如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;第一步：我们初始化所有的滤波器，使用随机值设置参数/权重&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;第二步：网络接收一张训练图像作为输入，通过前向传播过程（卷积、ReLU 和池化操作，以及全连接层的前向传播），找到各个类的输出概率&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;我们假设船这张图像的输出概率是 [0.2, 0.4, 0.1, 0.3]&lt;/li&gt;
+&lt;li&gt;因为对于第一张训练样本的权重是随机分配的，输出的概率也是随机的&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;第三步：在输出层计算总误差（计算 4 类的和）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Total Error = ∑  ½ (target probability – output probability) ²&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;第四步：使用反向传播算法，根据网络的权重计算误差的梯度，并使用梯度下降算法更新所有滤波器的值/权重以及参数的值，使输出误差最小化&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;权重的更新与它们对总误差的占比有关&lt;/li&gt;
+&lt;li&gt;当同样的图像再次作为输入，这时的输出概率可能会是 [0.1, 0.1, 0.7, 0.1]，这就与目标矢量 [0, 0, 1, 0] 更接近了&lt;/li&gt;
+&lt;li&gt;这表明网络已经通过调节权重/滤波器，可以正确对这张特定图像的分类，这样输出的误差就减小了&lt;/li&gt;
+&lt;li&gt;像滤波器数量、滤波器大小、网络结构等这样的参数，在第一步前都是固定的，在训练过程中保持不变——仅仅是滤波器矩阵的值和连接权重在更新&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;第五步：对训练数据中所有的图像重复步骤 1 ~ 4&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;先述&quot;&gt;先述&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/&quot;&gt;卷积神经网络-翻译&lt;/a&gt;&lt;a href=&quot;https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/&quot;&gt;    英文原文&lt;/a&gt;（ConvNets 或者 CNNs）属于神经网络的范畴，已经在诸如图像识别和分类的领域证明了其高效的能力。卷积神经网络可以成功识别人脸、物体和交通信号，从而为机器人和自动驾驶汽车提供视力。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/x3.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
+    
+    
+      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
+    
+  </entry>
+  
+  <entry>
     <title>MAP、SRM、ERM与MLE</title>
     <link href="http://peihao.space/2017/03/20/MAP-MLE-SRM/"/>
     <id>http://peihao.space/2017/03/20/MAP-MLE-SRM/</id>
     <published>2017-03-20T03:22:09.000Z</published>
-    <updated>2017-03-20T06:51:47.401Z</updated>
+    <updated>2017-03-20T13:02:45.331Z</updated>
     
     <content type="html">&lt;h1 id=&quot;最大似然与经验风险最小化&quot;&gt;最大似然与经验风险最小化&lt;/h1&gt;&lt;blockquote&gt;
 &lt;p&gt;当模型是条件概率分布，损失函数是对数损失函数时，经验风险最小化就等价于极大似然估计&lt;/p&gt;
@@ -35,12 +134,13 @@
 &lt;p&gt;在实际应用中常用的是取两边取对数，并取似然值得平均值：&lt;/p&gt;
 &lt;p&gt;$$\frac{1}{n} \log L(\theta \mid x_1,x_2,…,x_n)=\frac{1}{n} \sum\limits_{i=1}^n \log f(x_i \mid \theta)$$&lt;/p&gt;
 &lt;p&gt;去取极大似然估计MLE：&lt;/p&gt;
-&lt;p&gt;$$&lt;br&gt;\arg\max\limits_{\theta} \frac{1}{n} \sum\limits_{i=1}^n \log f(x_i\mid \theta)&lt;br&gt;= \min \frac{1}{n}\sum\limits_{i=1}^n - \log f(x_i \mid \theta)&lt;br&gt;$$&lt;/p&gt;
-&lt;p&gt;由于$f(\mid)$是是条件概率分布模型，那么$-\log f(x_i\mid \theta)$便可以看做是对数似然损失函数。可以明显看出此时的经验风险最小化就等价于极大似然估计。上式是要求参数$\theta$，在这个参数条件下，使得已知数据$x$出现的概率最大。&lt;/p&gt;
+&lt;p&gt;$$\arg\max\limits_{\theta} \frac{1}{n} \sum\limits_{i=1}^n \log f(x_i\mid \theta)=\min \frac{1}{n}\sum\limits_{i=1}^n - \log f(x_i \mid \theta)$$&lt;/p&gt;
+&lt;p&gt;$-\log f(x_i\mid \theta)$可以看做是对数似然损失函数。可以明显看出此时的经验风险最小化就等价于极大似然估计。上式是要求参数$\theta$，在这个参数条件下，使得已知数据$x$出现的概率最大。&lt;/p&gt;
 &lt;h1 id=&quot;后验概率与结构风险最小化&quot;&gt;后验概率与结构风险最小化&lt;/h1&gt;&lt;blockquote&gt;
 &lt;p&gt;当模型是条件概率分布、损失函数是对数损失函数、模型复杂度由模型的先验概率表示时，结构风险最小化就等价于最大后验概率估计。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;先来一段后验概率最大化MAP的推导，摘自&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Wiki&lt;/a&gt;：&lt;/p&gt;
+&lt;p&gt;最大后验估计是根据经验数据获得对难以观察的量的点估计。与最大似然估计类似，但是最大的不同时，最大后验估计的融入了要估计量的先验分布在其中。故最大后验估计可以看做规则化的最大似然估计。&lt;/p&gt;
+&lt;h2 id=&quot;MAP推导&quot;&gt;MAP推导&lt;/h2&gt;&lt;p&gt;先来一段后验概率最大化MAP的推导，摘自&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Wiki&lt;/a&gt;：&lt;/p&gt;
 &lt;p&gt;假设我们需要根据观察数据$x$估计没有观察到的总体参数 $\theta$，让$f$作为$x$的采样分布，这样$f(x\mid \theta)$就是在那个题参数为$\theta$时$x$的概率。函数$\theta \to f(x \mid \theta)$，即为似然函数，其估计$\hat{\theta}_{ML}(x)=\arg\max\limits_{\theta}f(x\mid \theta)$，就是$\theta$的最大似然估计。&lt;/p&gt;
 &lt;p&gt;假设$\theta$存在一个先验分布$g$，这就允许我们将$\theta$作为贝叶斯分布中的随机变量，这样$\theta$的后验分布就是:&lt;/p&gt;
 &lt;p&gt;$$\theta \to \frac{f(x \mid \theta)g(\theta)}{\int_{\Theta}f(x \mid \theta_1)g(\theta_1)d\theta_1}$$&lt;/p&gt;
@@ -48,7 +148,23 @@
 &lt;p&gt;最大后验估计方法估计$\theta$为这个随机变量的后验分布的众数：&lt;/p&gt;
 &lt;p&gt;$$\hat{\theta}_{MAP}(x)=\arg\max\limits_{\theta} \frac{f(x \mid \theta)g(\theta)}{\int_{\Theta}f(x \mid \theta_1)g(\theta_1)d\theta_1}=\arg\max\limits_{\theta}f(x\mid \theta)g(\theta)$$&lt;/p&gt;
 &lt;p&gt;后验分布的分母与$\theta$ 无关，在求解中分母不变，当成一个常数使用，所以在优化过程中不起作用。注意当前验$g$是常数函数时最大后验概率与最大似然估计的重合。&lt;/p&gt;
-&lt;p&gt;我们对上式进行一些变换(先加上对数，再将对数展开)，则上式等价于：&lt;/p&gt;
+&lt;h2 id=&quot;先验概率&quot;&gt;先验概率&lt;/h2&gt;&lt;p&gt;这里我先对我理解的先验概率含义做个叙述。&lt;a href=&quot;http://blog.csdn.net/upon\_the\_yun/article/details/8915283&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;先验分布&lt;/a&gt;，我理解的就是在没有输入数据或者其他数据，根据经验主观或者频数客观的对整个模型的各个结果集占比的推测。&lt;/p&gt;
+&lt;p&gt;举例来说：假设有五个袋子，各袋中都有无限量的饼干(樱桃口味或柠檬口味)，已知五个袋子中两种口味的比例分别是&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;樱桃 100%&lt;/li&gt;
+&lt;li&gt;樱桃 75% + 柠檬 25%&lt;/li&gt;
+&lt;li&gt;樱桃 50% + 柠檬 50%&lt;/li&gt;
+&lt;li&gt;樱桃 25% + 柠檬 75%&lt;/li&gt;
+&lt;li&gt;柠檬 100%&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如果只有如上所述条件，那问从同一个袋子中连续拿到2个柠檬饼干，那么这个袋子最有可能是上述五个的哪一个？&lt;/p&gt;
+&lt;p&gt;我们首先采用MLE来解这个问题。假设从袋子中能拿出柠檬饼干的概率为p(我们通过这个概率p来确定是从哪个袋子中拿出来的)，则似然函数可以写作：&lt;/p&gt;
+&lt;p&gt;$$p(两个柠檬饼干 \mid 袋子)=p^2$$&lt;/p&gt;
+&lt;p&gt;由于p的取值是一个离散值，即上面描述中的0,25%，50%，75%，1。我们只需要评估一下这五个值哪个值使得似然函数最大即可，得到为袋子5。这里便是最大似然估计的结果。&lt;/p&gt;
+&lt;p&gt;上述最大似然估计有一个问题，就是没有考虑到模型本身的概率分布，下面我们扩展这个饼干的问题。&lt;/p&gt;
+&lt;p&gt;假设拿到袋子1或5的机率都是0.1，拿到2或4的机率都是0.2，拿到3的机率是0.4，那同样上述问题的答案呢？这个时候就变MAP了。我们根据公式&lt;br&gt;$$\hat{\theta}_{MAP}(x)=\arg\max\limits_{\theta} \frac{f(x \mid \theta)g(\theta)}{\int_{\Theta}f(x \mid \theta_1)g(\theta_1)d\theta_1}=\arg\max\limits_{\theta}f(x\mid \theta)g(\theta)$$&lt;br&gt;写出我们的MAP函数：$MAP=p^2 \times g$&lt;/p&gt;
+&lt;p&gt;根据题意的描述可知，p的取值分别为0,25%，50%，75%，1，g的取值分别为0.1，0.2,0.4,0.2,0.1.分别计算出MAP函数的结果为：0,0.0125,0.125,0.28125,0.1.由上可知，通过MAP估计可得结果是从第四个袋子中取得的最高。&lt;/p&gt;
+&lt;h2 id=&quot;SRM与MAP&quot;&gt;SRM与MAP&lt;/h2&gt;&lt;p&gt;我们对MAP进行一些变换(先加上对数，再将对数展开)，则上式等价于：&lt;/p&gt;
 &lt;p&gt;$$\hat{\theta}_{MAP}(x)=\arg\max\limits_{\theta} [\ln f(x\mid \theta)+\ln g(\theta)]$$&lt;/p&gt;
 &lt;p&gt;进一步的，有：&lt;/p&gt;
 &lt;p&gt;$$\hat{\theta}_{MAP}(x)=\arg\max\limits_{\theta} \ln f(x \mid \theta)+\arg\max\limits_{\theta} \ln g(\theta)$$&lt;br&gt;可以发现，等式右边第一部分刚好为最大似然估计的公式，我们将最大似然估计的公式写出：&lt;/p&gt;
@@ -57,7 +173,7 @@
 &lt;p&gt;对比结构风险最小化公式：&lt;/p&gt;
 &lt;p&gt;$$\min\limits_{f \in F}\frac{1}{n}\sum\limits_{i=1}^n L(y_i,f(x_i))+\lambda J(f)$$&lt;/p&gt;
 &lt;p&gt;由于$f(\mid)$是模型，可以是条件概率分布模型，那么$-\ln f(x_i\mid \theta)$便可以看做是对数似然损失函数。&lt;/p&gt;
-&lt;p&gt;$g(\theta)$表示模型的先验概率，且我们认为先验概率大的模型其复杂度小，所以$-g(\theta)$可以认为与复杂度成正比，$-g(\theta)$越大，复杂度越高。&lt;/p&gt;
+&lt;p&gt;$g(\theta)$表示模型的先验概率，&lt;strong&gt;模型的复杂度与模型的先验概率没有必然的正比反比关系&lt;/strong&gt;。这里我为了推导，暂且假定先验概率与模型复杂度成反比，$-g(\theta)$可以认为与复杂度成正比，$-g(\theta)$越大，复杂度越高。&lt;/p&gt;
 &lt;p&gt;此时，上式中的后半项就对应着结构风险最小化中的正则项。&lt;/p&gt;
 </content>
     
@@ -880,11 +996,79 @@
   </entry>
   
   <entry>
+    <title>ML学习-决策树</title>
+    <link href="http://peihao.space/2017/03/04/ml-intro4/"/>
+    <id>http://peihao.space/2017/03/04/ml-intro4/</id>
+    <published>2017-03-04T05:18:42.000Z</published>
+    <updated>2017-03-05T04:33:47.459Z</updated>
+    
+    <content type="html">&lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
+&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h1 id=&quot;信息熵&quot;&gt;信息熵&lt;/h1&gt;&lt;p&gt;信息熵（information entropy）是度量样本集合纯度最常用的一种指标。假设当前样本集合D中第k类样本比例为$p_{k}$(k=1,2,3,…,|y|)$，则D的信息熵为&lt;/p&gt;
+&lt;p&gt;$Ent(D)=-\sum\limits_{k=1}^{|y|}p_{k=1}log_2p_{k}$&lt;/p&gt;
+&lt;p&gt;Ent(D)的值越小，则D的纯度越高.&lt;/p&gt;
+&lt;h2 id=&quot;信息增益&quot;&gt;信息增益&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;假定离散属性a有V个可能的取指{$a^1,a^2,…,a^V$},若使用a来对样本集合D进行划分，则会产生V个分支结点，其中第v个节点包含了D中所有在属性a上取指为$a^V$的样本，记为$D^v$。根据上师酸楚$D^v$的信息熵，然后考虑不同分支结点包含的样本数目不同，给分支结点赋予权重$|D^v|/|D|$，即样本越多，分支结点的影响越大，此时使用一个统一的计算公式算得属性啊对样本集D进行划分得到的”信息增益”（information gain）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;$Gain(D,a)=Ent(D)-\sum\limits_{v=1}^{V}\frac{D^v}{D}Ent(D^v)$&lt;/p&gt;
+&lt;p&gt;一般而言，信息增益越大，意味着使用属性啊来划分所获得的纯度提升越大。所以，可以使用信息增益Gain作为属性划分的指标。&lt;/p&gt;
+&lt;h2 id=&quot;基尼指数&quot;&gt;基尼指数&lt;/h2&gt;&lt;p&gt;CART决策树使用“基尼指数”选择划分属性。&lt;/p&gt;
+&lt;p&gt;数据集D的纯度可用基尼值来度量：&lt;/p&gt;
+&lt;p&gt;$Gini(D)=\sum\limits_k^{|y|}\sum\limits_{j\neq k}p_kp_j$&lt;/p&gt;
+&lt;p&gt;$=1-\sum\limits_k^{|y|}p_{k}^2$&lt;/p&gt;
+&lt;p&gt;直观来讲，Gini（D）反映了从数据D中随机抽取两个样本，类别标记不一致的概率。因此Gini（D）越小，数据集D的纯度越高。&lt;/p&gt;
+&lt;p&gt;属性a的基尼指数定义为：&lt;/p&gt;
+&lt;p&gt;$Gini_index(D,a)=\sum\limits_v^{V}\frac{|D^v|}{|D|}Gini(D^v)$&lt;/p&gt;
+&lt;p&gt;计算属性集合A所有属性的基尼指数，取最小值得属性作为最优划分&lt;/p&gt;
+&lt;h1 id=&quot;剪枝处理&quot;&gt;剪枝处理&lt;/h1&gt;&lt;p&gt;剪枝（pruning）是决策树学习算法中对付“过拟合”的主要手段。过拟合的定义可以参考系列的第一篇。决策树算法经常会由于过拟合造成分支过多，在泛化性能上造成影响。&lt;/p&gt;
+&lt;p&gt;决策树剪枝基本策略有两种：预剪枝（prepruning）和后剪枝（postpruning）。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;预剪枝：在生成决策树的过程中，对每个结点在划分前进行估计，若当前划分不能对决策树带来泛化性能上的提升，则停止划分并将当前节点标记为叶结点。（训练开销短，保留子树少，易造成欠拟合）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;后剪枝：决策树生成后自底向上的对内部结点进行考察。如果当前结点子树替换成叶子结点可以在泛化能力上得到提升，则将子树替换。（训练开销长，保留子树多，欠拟合风险小）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这里使用集精度作为泛化能力的指标。&lt;/p&gt;
+&lt;p&gt;需要注意的是，虽然在当时结点的集精度没有下降（也就是泛化能力未降低），但是很可能在之后进一步的展开，有欠拟合的风险。&lt;/p&gt;
+&lt;h1 id=&quot;连续值与缺省值处理&quot;&gt;连续值与缺省值处理&lt;/h1&gt;&lt;h2 id=&quot;连续&quot;&gt;连续&lt;/h2&gt;&lt;p&gt;由于连续属性的可取值数目不再有限，因此，不能直接根据连续属性的可取值来对结点进行划分。此时可以使用连续属性离散化技术。&lt;/p&gt;
+&lt;p&gt;最简单的策略是采用二分法(bi-partition)对连续属性进行处理。&lt;/p&gt;
+&lt;p&gt;给定样本集D和连续属性a,假定在D上出现了n个不同的取值，将这些值从小到大进行排序，记为${a^1,a^2,…,a^n}$.基于划分点t可将D分为子集$D_t^-$和$D_t^+$其中$D_t^-$包含那些在属性上取值不大于t的样本，而$D_t^+$则包含那些在属性a上取值大于t的样本。&lt;/p&gt;
+&lt;p&gt;对相邻的属性取值[$a^i，a^{i+1}$]来说结果是相同的，因此在此区间都取值$\frac{a^i+a^{i+1}}{2}$&lt;/p&gt;
+&lt;p&gt;对n-1个区间取指作为划分点，分别测试选取最优。&lt;/p&gt;
+&lt;p&gt;$Gain(D,a)=\max\limits_{t\in T_a}Gain(D,a,t)$&lt;/p&gt;
+&lt;p&gt;$=\max\limits_{t\in T_a}Ent(D)-\sum\limits_{\lambda \in {-,+}}\frac{\mid D_t^{\lambda}\mid}{\mid D \mid}Ent(D_t^{\lambda})$&lt;/p&gt;
+&lt;p&gt;Gain(D,a,t)是样本集D基于划分点t二分后的信息增益，我们可以使用Gain(D,a,t)最大化的划分点&lt;/p&gt;
+&lt;h2 id=&quot;缺省&quot;&gt;缺省&lt;/h2&gt;&lt;p&gt;嗯，本部分也暂时缺省&lt;/p&gt;
+&lt;h1 id=&quot;多变量决策树&quot;&gt;多变量决策树&lt;/h1&gt;&lt;p&gt;我们把每个属性视为坐标空间的一个坐标轴，则d个属性描述的样本就对赢了d维空间中的一个数据点。对样本的分类也就是在这个坐标空间中寻找不同样本之间的分类边界。&lt;/p&gt;
+&lt;p&gt;决策树形成的分类边界有一个明显的特点：轴平行（axis-parallel），即分类边界由若干个与坐标轴平行的分段组成。&lt;/p&gt;
+&lt;p&gt;使用斜划分边界可以将决策树模型简化。此时，非叶节点不仅是针对某个属性，而是属性的线性组合进行测试。与传统的决策树不同，多变量决策树试图建立一个合适的线性分类器。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
+&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
+    
+    
+      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ML学习-神经网络</title>
     <link href="http://peihao.space/2017/03/04/ml-intro5/"/>
     <id>http://peihao.space/2017/03/04/ml-intro5/</id>
     <published>2017-03-04T05:18:42.000Z</published>
-    <updated>2017-03-03T11:05:09.511Z</updated>
+    <updated>2017-03-22T15:25:46.620Z</updated>
     
     <content type="html">&lt;h1 id=&quot;神经元&quot;&gt;神经元&lt;/h1&gt;&lt;p&gt;Neural Network神经网络：是由具有适应性的简单单元组成的广泛并进行互联的网络，他的组织能够模拟生物神经系统对真实的世界物体做出的交互反应&lt;/p&gt;
 &lt;p&gt;神经网络由一个个神经元（neuron）互联组成，神经元可以看作一个处理函数，当这个函数的输入超过某一个阈值，经过处理后单元会向其他单元发送信号。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;单元的输入来自其他单元传递过来的信号，这些信号通过带权重的连接进行传递。当前单元接受来自其余单元的带权重的信号和与阈值比较，符合条件的产生输出。&lt;/p&gt;
@@ -946,80 +1130,21 @@
 &lt;p&gt;DBN每次训练一层隐节点，训练时将上一层隐节点的输出作为下一层隐节点的输入。整个网络完成后，再进程微调。&lt;/p&gt;
 &lt;p&gt;CNN节省训练开销的策略是”权共享”，让一组神经元使用相同的连接权。&lt;/p&gt;
 &lt;p&gt;无论是DBN还是CNN，其多隐层堆叠，每层对上层的处理机制，可以看作是对输入信号逐层加工，从而把初始的与输出目标联系不密切的输入转换呈密切。通过多层处理，逐渐的将初始的低层特征转转成高层特征表示，用简单模型完成复杂的分类任务。&lt;/p&gt;
+&lt;h1 id=&quot;CNN卷积神经网络&quot;&gt;CNN卷积神经网络&lt;/h1&gt;&lt;p&gt;在图像处理中，往往把图像表示为像素的向量，比如一个1000×1000的图像，可以表示为一个1000000的向量。在上一节中提到的神经网络中，如果隐含层数目与输入层一样，即也是1000000时，那么输入层到隐含层的参数数据为1000000×1000000=10^12，这样就太多了，基本没法训练。所以图像处理要想练成神经网络大法，必先减少参数加快速度。&lt;/p&gt;
+&lt;p&gt;卷积神经网络有两种神器可以降低参数数目。第一种神器叫做局部感知野（卷积）。一般认为人对外界的认知是从局部到全局的，而图像的空间联系也是局部的像素联系较为紧密，而距离较远的像素相关性则较弱。因而，每个神经元其实没有必要对全局图像进行感知，只需要对局部进行感知，然后在更高层将局部的信息综合起来就得到了全局的信息。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/x1.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在上右图中，假如每个神经元只和10×10个像素值相连，那么权值数据为1000000×100个参数，减少为原来的千分之一。而那10×10个像素值对应的10×10个参数，其实就相当于卷积操作。&lt;/p&gt;
+&lt;p&gt;第二级神器，即权值共享（池化）。在上面的局部连接中，每个神经元都对应100个参数，一共1000000个神经元，如果这1000000个神经元的100个参数都是相等的，那么参数数目就变为100了。&lt;/p&gt;
+&lt;p&gt;怎么理解权值共享呢？我们可以这100个参数（也就是卷积操作）看成是提取特征的方式，该方式与位置无关。这其中隐含的原理则是：图像的一部分的统计特性与其他部分是一样的。这也意味着我们在这一部分学习的特征也能用在另一部分上，所以对于这个图像上的所有位置，我们都能使用同样的学习特征。&lt;/p&gt;
+&lt;p&gt;更直观一些，当从一个大尺寸图像中随机选取一小块，比如说 8×8 作为样本，并且从这个小块样本中学习到了一些特征，这时我们可以把从这个 8×8 样本中学习到的特征作为探测器，应用到这个图像的任意地方中去。特别是，我们可以用从 8×8 样本中所学习到的特征跟原本的大尺寸图像作卷积，从而对这个大尺寸图像上的任一位置获得一个不同特征的激活值。&lt;/p&gt;
+&lt;p&gt;如下图所示，展示了一个33的卷积核在55的图像上做卷积的过程。每个卷积都是一种特征提取方式，就像一个筛子，将图像中符合条件（激活值越大越符合条件）的部分筛选出来。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/x2.gif&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 </content>
     
     <summary type="html">
     
       &lt;h1 id=&quot;神经元&quot;&gt;神经元&lt;/h1&gt;&lt;p&gt;Neural Network神经网络：是由具有适应性的简单单元组成的广泛并进行互联的网络，他的组织能够模拟生物神经系统对真实的世界物体做出的交互反应&lt;/p&gt;
 &lt;p&gt;神经网络由一个个神经元（neuron）互联组成，神经元可以看作一个处理函数，当这个函数的输入超过某一个阈值，经过处理后单元会向其他单元发送信号。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
-    
-    
-      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ML学习-决策树</title>
-    <link href="http://peihao.space/2017/03/04/ml-intro4/"/>
-    <id>http://peihao.space/2017/03/04/ml-intro4/</id>
-    <published>2017-03-04T05:18:42.000Z</published>
-    <updated>2017-03-05T04:33:47.459Z</updated>
-    
-    <content type="html">&lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
-&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h1 id=&quot;信息熵&quot;&gt;信息熵&lt;/h1&gt;&lt;p&gt;信息熵（information entropy）是度量样本集合纯度最常用的一种指标。假设当前样本集合D中第k类样本比例为$p_{k}$(k=1,2,3,…,|y|)$，则D的信息熵为&lt;/p&gt;
-&lt;p&gt;$Ent(D)=-\sum\limits_{k=1}^{|y|}p_{k=1}log_2p_{k}$&lt;/p&gt;
-&lt;p&gt;Ent(D)的值越小，则D的纯度越高.&lt;/p&gt;
-&lt;h2 id=&quot;信息增益&quot;&gt;信息增益&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;假定离散属性a有V个可能的取指{$a^1,a^2,…,a^V$},若使用a来对样本集合D进行划分，则会产生V个分支结点，其中第v个节点包含了D中所有在属性a上取指为$a^V$的样本，记为$D^v$。根据上师酸楚$D^v$的信息熵，然后考虑不同分支结点包含的样本数目不同，给分支结点赋予权重$|D^v|/|D|$，即样本越多，分支结点的影响越大，此时使用一个统一的计算公式算得属性啊对样本集D进行划分得到的”信息增益”（information gain）&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;$Gain(D,a)=Ent(D)-\sum\limits_{v=1}^{V}\frac{D^v}{D}Ent(D^v)$&lt;/p&gt;
-&lt;p&gt;一般而言，信息增益越大，意味着使用属性啊来划分所获得的纯度提升越大。所以，可以使用信息增益Gain作为属性划分的指标。&lt;/p&gt;
-&lt;h2 id=&quot;基尼指数&quot;&gt;基尼指数&lt;/h2&gt;&lt;p&gt;CART决策树使用“基尼指数”选择划分属性。&lt;/p&gt;
-&lt;p&gt;数据集D的纯度可用基尼值来度量：&lt;/p&gt;
-&lt;p&gt;$Gini(D)=\sum\limits_k^{|y|}\sum\limits_{j\neq k}p_kp_j$&lt;/p&gt;
-&lt;p&gt;$=1-\sum\limits_k^{|y|}p_{k}^2$&lt;/p&gt;
-&lt;p&gt;直观来讲，Gini（D）反映了从数据D中随机抽取两个样本，类别标记不一致的概率。因此Gini（D）越小，数据集D的纯度越高。&lt;/p&gt;
-&lt;p&gt;属性a的基尼指数定义为：&lt;/p&gt;
-&lt;p&gt;$Gini_index(D,a)=\sum\limits_v^{V}\frac{|D^v|}{|D|}Gini(D^v)$&lt;/p&gt;
-&lt;p&gt;计算属性集合A所有属性的基尼指数，取最小值得属性作为最优划分&lt;/p&gt;
-&lt;h1 id=&quot;剪枝处理&quot;&gt;剪枝处理&lt;/h1&gt;&lt;p&gt;剪枝（pruning）是决策树学习算法中对付“过拟合”的主要手段。过拟合的定义可以参考系列的第一篇。决策树算法经常会由于过拟合造成分支过多，在泛化性能上造成影响。&lt;/p&gt;
-&lt;p&gt;决策树剪枝基本策略有两种：预剪枝（prepruning）和后剪枝（postpruning）。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;预剪枝：在生成决策树的过程中，对每个结点在划分前进行估计，若当前划分不能对决策树带来泛化性能上的提升，则停止划分并将当前节点标记为叶结点。（训练开销短，保留子树少，易造成欠拟合）&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;后剪枝：决策树生成后自底向上的对内部结点进行考察。如果当前结点子树替换成叶子结点可以在泛化能力上得到提升，则将子树替换。（训练开销长，保留子树多，欠拟合风险小）&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;这里使用集精度作为泛化能力的指标。&lt;/p&gt;
-&lt;p&gt;需要注意的是，虽然在当时结点的集精度没有下降（也就是泛化能力未降低），但是很可能在之后进一步的展开，有欠拟合的风险。&lt;/p&gt;
-&lt;h1 id=&quot;连续值与缺省值处理&quot;&gt;连续值与缺省值处理&lt;/h1&gt;&lt;h2 id=&quot;连续&quot;&gt;连续&lt;/h2&gt;&lt;p&gt;由于连续属性的可取值数目不再有限，因此，不能直接根据连续属性的可取值来对结点进行划分。此时可以使用连续属性离散化技术。&lt;/p&gt;
-&lt;p&gt;最简单的策略是采用二分法(bi-partition)对连续属性进行处理。&lt;/p&gt;
-&lt;p&gt;给定样本集D和连续属性a,假定在D上出现了n个不同的取值，将这些值从小到大进行排序，记为${a^1,a^2,…,a^n}$.基于划分点t可将D分为子集$D_t^-$和$D_t^+$其中$D_t^-$包含那些在属性上取值不大于t的样本，而$D_t^+$则包含那些在属性a上取值大于t的样本。&lt;/p&gt;
-&lt;p&gt;对相邻的属性取值[$a^i，a^{i+1}$]来说结果是相同的，因此在此区间都取值$\frac{a^i+a^{i+1}}{2}$&lt;/p&gt;
-&lt;p&gt;对n-1个区间取指作为划分点，分别测试选取最优。&lt;/p&gt;
-&lt;p&gt;$Gain(D,a)=\max\limits_{t\in T_a}Gain(D,a,t)$&lt;/p&gt;
-&lt;p&gt;$=\max\limits_{t\in T_a}Ent(D)-\sum\limits_{\lambda \in {-,+}}\frac{\mid D_t^{\lambda}\mid}{\mid D \mid}Ent(D_t^{\lambda})$&lt;/p&gt;
-&lt;p&gt;Gain(D,a,t)是样本集D基于划分点t二分后的信息增益，我们可以使用Gain(D,a,t)最大化的划分点&lt;/p&gt;
-&lt;h2 id=&quot;缺省&quot;&gt;缺省&lt;/h2&gt;&lt;p&gt;嗯，本部分也暂时缺省&lt;/p&gt;
-&lt;h1 id=&quot;多变量决策树&quot;&gt;多变量决策树&lt;/h1&gt;&lt;p&gt;我们把每个属性视为坐标空间的一个坐标轴，则d个属性描述的样本就对赢了d维空间中的一个数据点。对样本的分类也就是在这个坐标空间中寻找不同样本之间的分类边界。&lt;/p&gt;
-&lt;p&gt;决策树形成的分类边界有一个明显的特点：轴平行（axis-parallel），即分类边界由若干个与坐标轴平行的分段组成。&lt;/p&gt;
-&lt;p&gt;使用斜划分边界可以将决策树模型简化。此时，非叶节点不仅是针对某个属性，而是属性的线性组合进行测试。与传统的决策树不同，多变量决策树试图建立一个合适的线性分类器。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;决策树（decision tree）是一种常见的机器学习方法。目标是生成一个具有强泛化能力的（对未遇到的样本有很高的适应性）树形结构。&lt;/p&gt;
-&lt;p&gt;决策树包含一个根结点，若干内部结点以及若干叶子结点。叶子结点对应了确定的判断结果，其余的结点都是一个个的属性测试，属性测试分成的不同情况就是当前结点的子结点。决策树是一个递归的过程。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/ml-intro4-1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;决策树生成学习的过程中，最重要的就是如何选择最优的划分属性。一般而言，随着划分过程的不断进行，决策树分支结点包含的样本应该尽可能的靠近。&lt;/p&gt;
     
     </summary>
     
@@ -1246,62 +1371,6 @@
     
     
       <category term="随笔" scheme="http://peihao.space/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>subprocess模块的使用</title>
-    <link href="http://peihao.space/2016/12/18/subprocess-pipe/"/>
-    <id>http://peihao.space/2016/12/18/subprocess-pipe/</id>
-    <published>2016-12-18T14:09:48.000Z</published>
-    <updated>2016-12-18T15:18:09.558Z</updated>
-    
-    <content type="html">&lt;p&gt;最近在考虑如何在一个独立的程序上加一个GUI壳子，原来的程序是通过console接受输入输出的，查阅资料发现了subprocess模块，这里记录一下。&lt;/p&gt;
-&lt;h1 id=&quot;引入&quot;&gt;引入&lt;/h1&gt;&lt;p&gt;从名字就可以听出来，subprocess是python管理子进程的模块。运行python的时候，正常情况下我们都是在创建并运行一个进程。通过subprocess可以新建一个子进程执行程序，并通过subprocess提供的api与新创建的子进程联系。&lt;/p&gt;
-&lt;p&gt;subprocess中最基础也最重要的就是基于Popen()函数，Popen()方法根据参数新建一个进程并执行，后面的一些列参数是对这个新创建的进程的管理。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;会话消息也就是I/O流，正常情况下有三种stdin、stdout以及stderr。前两个都很好理解，第三个就是标准的错误输出信息。&lt;/p&gt;
-&lt;p&gt;Popen()方法通过对这三个参数的配置指定子进程I/O方式。一般支持的主要有两种方式：stdxx，这个也是默认的，就还是按原来的走；或者设置为Pipe，管道模式，这种模式下，子进程有一个缓冲区存储这输入输出信息，缓存等待着我们通过API进行数据的操作。这里实际上就是劫持了标准的I/O流。&lt;/p&gt;
-&lt;h1 id=&quot;一些常用方法&quot;&gt;一些常用方法&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;terminate()&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;停止(stop)子进程。在windows平台下，该方法将调用Windows API TerminateProcess（）来结束子进程。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;kill()&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;杀死子进程&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;communicate(input=None)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;与子进程进行交互。向stdin发送数据，或从stdout和stderr中读取数据。可选参数input指定发送到子进程的参数。Communicate()返回一个元组：(stdoutdata, stderrdata)。注意：如果希望通过进程的stdin向其发送数据，在创建Popen对象的时候，参数stdin必须被设置为PIPE。同样，如果希望从stdout和stderr获取数据，必须将stdout和stderr设置为PIPE，这个方法与之前将标准I/O流设置成管道PIPE不同，communicate方法是在进程运行结束返回后将输出信息以及错误信息返回，在程序运行期间，无法通信。&lt;/p&gt;
-&lt;h1 id=&quot;具体程序相关&quot;&gt;具体程序相关&lt;/h1&gt;&lt;p&gt;&lt;code&gt;p1=subprocess.Popen(cmd下执行程序的指令,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;将输入输出都设置为管道模式，错误信息重定向到输出，这样我们使用API获取输出信息时，能够直接拿到输出信息与错误信息。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;获取输出信息&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;code&gt;s=p1.stdout.readline()&lt;/code&gt;&lt;br&gt;&lt;code&gt;s=s.decode(&amp;#39;gbk&amp;#39;)&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;从缓冲区中读取一行输出&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;写入信息并实时的推送到原程序中&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;code&gt;p1.stdin.write(s.encode())&lt;/code&gt;&lt;br&gt;&lt;code&gt;p1.stdin.flush()&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;因为劫持的标准I/O流，里面都是byte信息，所以为了能够使用，我们需要将byte转换成str，至于编码解码的编码集，需要根据服务器返回信息的不同测试设置。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;实时的获取反馈信息&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;独立于GUI线程，也不是在主线程中，新建一个专门查询缓冲区的线程，如果缓冲区有未接受的信息，通过Qt的信号-槽模式，将需要传递的信息发给GUI处理函数。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近在考虑如何在一个独立的程序上加一个GUI壳子，原来的程序是通过console接受输入输出的，查阅资料发现了subprocess模块，这里记录一下。&lt;/p&gt;
-&lt;h1 id=&quot;引入&quot;&gt;引入&lt;/h1&gt;&lt;p&gt;从名字就可以听出来，subprocess是python管理子进程的模块。运行python的时候，正常情况下我们都是在创建并运行一个进程。通过subprocess可以新建一个子进程执行程序，并通过subprocess提供的api与新创建的子进程联系。&lt;/p&gt;
-&lt;p&gt;subprocess中最基础也最重要的就是基于Popen()函数，Popen()方法根据参数新建一个进程并执行，后面的一些列参数是对这个新创建的进程的管理。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="python" scheme="http://peihao.space/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://peihao.space/tags/python/"/>
     
   </entry>
   
