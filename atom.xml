@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://peihao.space/"/>
-  <updated>2017-03-22T15:32:40.866Z</updated>
+  <updated>2017-03-23T15:02:03.666Z</updated>
   <id>http://peihao.space/</id>
   
   <author>
@@ -16,11 +16,53 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Dropout</title>
+    <link href="http://peihao.space/2017/03/23/dropout/"/>
+    <id>http://peihao.space/2017/03/23/dropout/</id>
+    <published>2017-03-23T14:18:42.000Z</published>
+    <updated>2017-03-23T15:02:03.666Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;&lt;p&gt;训练神经网络模型时，如果&lt;strong&gt;训练样本较少，为了防止模型过拟合&lt;/strong&gt;，Dropout可以作为一种trikc供选择。Dropout是hintion最近2年提出的，源于其文章&lt;a href=&quot;https://arxiv.org/abs/1207.0580&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Improving neural networks by preventing co-adaptation of feature detectors&lt;/a&gt;.中文大意为：通过阻止特征检测器的共同作用来提高神经网络的性能。本篇博文就是按照这篇论文简单介绍下Dropout的思想。&lt;/p&gt;
+&lt;p&gt;大部分内容来源&lt;a href=&quot;http://www.cnblogs.com/tornadomeet/p/3258122.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;tornadomeet&lt;/a&gt;，先记录，之后填充。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;基础知识&quot;&gt;基础知识&lt;/h1&gt;&lt;p&gt;　Dropout是指在模型训练时随机让网络某些隐含层节点的权重不工作，不工作的那些节点可以暂时认为不是网络结构的一部分，但是它的权重得保留下来（只是暂时不更新而已），因为下次样本输入时它可能又得工作了（有点抽象，具体实现看后面的实验部分）。&lt;/p&gt;
+&lt;p&gt;　　按照hinton的文章，他使用Dropout时训练阶段和测试阶段做了如下操作：&lt;/p&gt;
+&lt;p&gt;　　在样本的训练阶段，在没有采用pre-training的网络时（Dropout当然可以结合pre-training一起使用），hintion并不是像通常那样对权值采用L2范数惩罚，而是对每个隐含节点的权值L2范数设置一个上限bound，当训练过程中如果该节点不满足bound约束，则用该bound值对权值进行一个规范化操作（即同时除以该L2范数值），说是这样可以让权值更新初始的时候有个大的学习率供衰减，并且可以搜索更多的权值空间。&lt;/p&gt;
+&lt;p&gt;　　在模型的测试阶段，使用”mean network(均值网络)”来得到隐含层的输出，其实就是在网络前向传播到输出层前时隐含层节点的输出值都要减半（如果dropout的比例为50%），其理由文章说了一些，可以去查看（没理解）。&lt;/p&gt;
+&lt;p&gt;　　关于Dropout，文章中没有给出任何数学解释，Hintion的直观解释和理由如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;由于每次用输入网络的样本进行权值更新时，隐含节点都是以一定概率随机出现，因此不能保证每2个隐含节点每次都同时出现，这样权值的更新不再依赖于有固定关系隐含节点的共同作用，阻止了某些特征仅仅在其它特定特征下才有效果的情况。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;可以将dropout看作是模型平均的一种。对于每次输入到网络中的样本（可能是一个样本，也可能是一个batch的样本），其对应的网络结构都是不同的，但所有的这些不同的网络结构又同时share隐含节点的权值。这样不同的样本就对应不同的模型，是bagging的一种极端情况。个人感觉这个解释稍微靠谱些，和bagging，boosting理论有点像，但又不完全相同。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;native bayes是dropout的一个特例。Native bayes有个错误的前提，即假设各个特征之间相互独立，这样在训练样本比较少的情况下，单独对每个特征进行学习，测试时将所有的特征都相乘，且在实际应用时效果还不错。而Droput每次不是训练一个特征，而是一部分隐含层特征。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;还有一个比较有意思的解释是，Dropout类似于性别在生物进化中的角色，物种为了使适应不断变化的环境，性别的出现有效的阻止了过拟合，即避免环境改变时物种可能面临的灭亡。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;下面一个使用MNIST的CNN小例子使用dropout：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 进行20000次训练&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; i &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; range(&lt;span class=&quot;number&quot;&gt;20000&lt;/span&gt;):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;comment&quot;&gt;# 随机取出50个样本数据，包括图片的灰度值x [28*28]，以及label数据y_&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    batch = mnist.train.next_batch(&lt;span class=&quot;number&quot;&gt;50&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; i%&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt; == &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	    &lt;span class=&quot;comment&quot;&gt;# 这里没有再学习权值和偏置，没有对他们更新，是使用训练集做了一个简单的测试，所以概率设置为1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        train_accuracy = accuracy.eval(feed_dict=&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            x:batch[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;], y_: batch[&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;], keep_prob: &lt;span class=&quot;number&quot;&gt;1.0&lt;/span&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        print(&lt;span class=&quot;string&quot;&gt;&quot;step %d, training accuracy %g&quot;&lt;/span&gt;%(i, train_accuracy))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;comment&quot;&gt;# 训练时使用dropout，概率为0.5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    train_step.run(feed_dict=&amp;#123;x: batch[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;], y_: batch[&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;], keep_prob: &lt;span class=&quot;number&quot;&gt;0.5&lt;/span&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 测试时不使用dropout，将概率设置为1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;print(&lt;span class=&quot;string&quot;&gt;&quot;test accuracy %g&quot;&lt;/span&gt;%accuracy.eval(feed_dict=&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    x: mnist.test.images, y_: mnist.test.labels, keep_prob: &lt;span class=&quot;number&quot;&gt;1.0&lt;/span&gt;&amp;#125;))&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;&lt;p&gt;训练神经网络模型时，如果&lt;strong&gt;训练样本较少，为了防止模型过拟合&lt;/strong&gt;，Dropout可以作为一种trikc供选择。Dropout是hintion最近2年提出的，源于其文章&lt;a href=&quot;https://arxiv.org/abs/1207.0580&quot;&gt;Improving neural networks by preventing co-adaptation of feature detectors&lt;/a&gt;.中文大意为：通过阻止特征检测器的共同作用来提高神经网络的性能。本篇博文就是按照这篇论文简单介绍下Dropout的思想。&lt;/p&gt;
+&lt;p&gt;大部分内容来源&lt;a href=&quot;http://www.cnblogs.com/tornadomeet/p/3258122.html&quot;&gt;tornadomeet&lt;/a&gt;，先记录，之后填充。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="ML" scheme="http://peihao.space/categories/ML/"/>
+    
+    
+      <category term="ML" scheme="http://peihao.space/tags/ML/"/>
+    
+  </entry>
+  
+  <entry>
     <title>（转载）CNN卷积神经网络</title>
     <link href="http://peihao.space/2017/03/22/cnn/"/>
     <id>http://peihao.space/2017/03/22/cnn/</id>
     <published>2017-03-22T14:18:42.000Z</published>
-    <updated>2017-03-22T15:32:40.866Z</updated>
+    <updated>2017-03-23T15:03:43.200Z</updated>
     
     <content type="html">&lt;h1 id=&quot;先述&quot;&gt;先述&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;卷积神经网络-翻译&lt;/a&gt;&lt;a href=&quot;https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;    英文原文&lt;/a&gt;（ConvNets 或者 CNNs）属于神经网络的范畴，已经在诸如图像识别和分类的领域证明了其高效的能力。卷积神经网络可以成功识别人脸、物体和交通信号，从而为机器人和自动驾驶汽车提供视力。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/x3.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;上图中，ConvNet主要有四个操作：&lt;/p&gt;
@@ -76,26 +118,22 @@
 &lt;li&gt;&lt;p&gt;第一步：我们初始化所有的滤波器，使用随机值设置参数/权重&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;第二步：网络接收一张训练图像作为输入，通过前向传播过程（卷积、ReLU 和池化操作，以及全连接层的前向传播），找到各个类的输出概率&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
 &lt;ul&gt;
 &lt;li&gt;我们假设船这张图像的输出概率是 [0.2, 0.4, 0.1, 0.3]&lt;/li&gt;
 &lt;li&gt;因为对于第一张训练样本的权重是随机分配的，输出的概率也是随机的&lt;/li&gt;
 &lt;/ul&gt;
-&lt;ol&gt;
-&lt;li&gt;第三步：在输出层计算总误差（计算 4 类的和）&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Total Error = ∑  ½ (target probability – output probability) ²&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;第四步：使用反向传播算法，根据网络的权重计算误差的梯度，并使用梯度下降算法更新所有滤波器的值/权重以及参数的值，使输出误差最小化&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第三步：在输出层计算总误差（计算 4 类的和）&lt;ul&gt;
+&lt;li&gt;Total Error = ∑  ½ (target probability – output probability) ²&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第四步：使用反向传播算法，根据网络的权重计算误差的梯度，并使用梯度下降算法更新所有滤波器的值/权重以及参数的值，使输出误差最小化&lt;ul&gt;
 &lt;li&gt;权重的更新与它们对总误差的占比有关&lt;/li&gt;
 &lt;li&gt;当同样的图像再次作为输入，这时的输出概率可能会是 [0.1, 0.1, 0.7, 0.1]，这就与目标矢量 [0, 0, 1, 0] 更接近了&lt;/li&gt;
 &lt;li&gt;这表明网络已经通过调节权重/滤波器，可以正确对这张特定图像的分类，这样输出的误差就减小了&lt;/li&gt;
 &lt;li&gt;像滤波器数量、滤波器大小、网络结构等这样的参数，在第一步前都是固定的，在训练过程中保持不变——仅仅是滤波器矩阵的值和连接权重在更新&lt;/li&gt;
 &lt;/ul&gt;
-&lt;ol&gt;
+&lt;/li&gt;
 &lt;li&gt;第五步：对训练数据中所有的图像重复步骤 1 ~ 4&lt;/li&gt;
 &lt;/ol&gt;
 </content>
@@ -1068,7 +1106,7 @@
     <link href="http://peihao.space/2017/03/04/ml-intro5/"/>
     <id>http://peihao.space/2017/03/04/ml-intro5/</id>
     <published>2017-03-04T05:18:42.000Z</published>
-    <updated>2017-03-22T15:25:46.620Z</updated>
+    <updated>2017-03-23T07:48:39.294Z</updated>
     
     <content type="html">&lt;h1 id=&quot;神经元&quot;&gt;神经元&lt;/h1&gt;&lt;p&gt;Neural Network神经网络：是由具有适应性的简单单元组成的广泛并进行互联的网络，他的组织能够模拟生物神经系统对真实的世界物体做出的交互反应&lt;/p&gt;
 &lt;p&gt;神经网络由一个个神经元（neuron）互联组成，神经元可以看作一个处理函数，当这个函数的输入超过某一个阈值，经过处理后单元会向其他单元发送信号。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;单元的输入来自其他单元传递过来的信号，这些信号通过带权重的连接进行传递。当前单元接受来自其余单元的带权重的信号和与阈值比较，符合条件的产生输出。&lt;/p&gt;
@@ -1131,13 +1169,13 @@
 &lt;p&gt;CNN节省训练开销的策略是”权共享”，让一组神经元使用相同的连接权。&lt;/p&gt;
 &lt;p&gt;无论是DBN还是CNN，其多隐层堆叠，每层对上层的处理机制，可以看作是对输入信号逐层加工，从而把初始的与输出目标联系不密切的输入转换呈密切。通过多层处理，逐渐的将初始的低层特征转转成高层特征表示，用简单模型完成复杂的分类任务。&lt;/p&gt;
 &lt;h1 id=&quot;CNN卷积神经网络&quot;&gt;CNN卷积神经网络&lt;/h1&gt;&lt;p&gt;在图像处理中，往往把图像表示为像素的向量，比如一个1000×1000的图像，可以表示为一个1000000的向量。在上一节中提到的神经网络中，如果隐含层数目与输入层一样，即也是1000000时，那么输入层到隐含层的参数数据为1000000×1000000=10^12，这样就太多了，基本没法训练。所以图像处理要想练成神经网络大法，必先减少参数加快速度。&lt;/p&gt;
-&lt;p&gt;卷积神经网络有两种神器可以降低参数数目。第一种神器叫做局部感知野（卷积）。一般认为人对外界的认知是从局部到全局的，而图像的空间联系也是局部的像素联系较为紧密，而距离较远的像素相关性则较弱。因而，每个神经元其实没有必要对全局图像进行感知，只需要对局部进行感知，然后在更高层将局部的信息综合起来就得到了全局的信息。&lt;/p&gt;
+&lt;p&gt;卷积神经网络有两种神器可以降低参数数目。第一种神器叫做局部感知野。一般认为人对外界的认知是从局部到全局的，而图像的空间联系也是局部的像素联系较为紧密，而距离较远的像素相关性则较弱。因而，每个神经元其实没有必要对全局图像进行感知，只需要对局部进行感知，然后在更高层将局部的信息综合起来就得到了全局的信息。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/x1.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;在上右图中，假如每个神经元只和10×10个像素值相连，那么权值数据为1000000×100个参数，减少为原来的千分之一。而那10×10个像素值对应的10×10个参数，其实就相当于卷积操作。&lt;/p&gt;
-&lt;p&gt;第二级神器，即权值共享（池化）。在上面的局部连接中，每个神经元都对应100个参数，一共1000000个神经元，如果这1000000个神经元的100个参数都是相等的，那么参数数目就变为100了。&lt;/p&gt;
+&lt;p&gt;第二级神器，即权值共享。在上面的局部连接中，每个神经元都对应100个参数，一共1000000个神经元，如果这1000000个神经元的100个参数都是相等的，那么参数数目就变为100了。&lt;/p&gt;
 &lt;p&gt;怎么理解权值共享呢？我们可以这100个参数（也就是卷积操作）看成是提取特征的方式，该方式与位置无关。这其中隐含的原理则是：图像的一部分的统计特性与其他部分是一样的。这也意味着我们在这一部分学习的特征也能用在另一部分上，所以对于这个图像上的所有位置，我们都能使用同样的学习特征。&lt;/p&gt;
 &lt;p&gt;更直观一些，当从一个大尺寸图像中随机选取一小块，比如说 8×8 作为样本，并且从这个小块样本中学习到了一些特征，这时我们可以把从这个 8×8 样本中学习到的特征作为探测器，应用到这个图像的任意地方中去。特别是，我们可以用从 8×8 样本中所学习到的特征跟原本的大尺寸图像作卷积，从而对这个大尺寸图像上的任一位置获得一个不同特征的激活值。&lt;/p&gt;
-&lt;p&gt;如下图所示，展示了一个33的卷积核在55的图像上做卷积的过程。每个卷积都是一种特征提取方式，就像一个筛子，将图像中符合条件（激活值越大越符合条件）的部分筛选出来。&lt;/p&gt;
+&lt;p&gt;如下图所示，展示了一个33的&lt;strong&gt;卷积&lt;/strong&gt;核在55的图像上做卷积的过程。每个卷积都是一种特征提取方式，就像一个筛子，将图像中符合条件（激活值越大越符合条件）的部分筛选出来。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://peihao.space/img/article/ml/x2.gif&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 </content>
     
@@ -1337,33 +1375,6 @@
     <summary type="html">
     
       &lt;p&gt;作者说过要“站在月球上来审视人类史”， 这是一本时间跨度长达400万年的历史巨著，所以他给我们的更多的应该是整个地球无尽岁月的点点缩影，让我们按照地理上的分布对不同地区不同时间不同文明有所了解。他更多承担的应该是兴趣入门。“历史的今天”，随时把历史上的重大变故跟当今世界的现状联系在一起，提醒着我们认清所生活的现实世界与历史的内在联系，从而使我们的思想能跨越时空的限制，在历史与现实的两个时空里驰骋，甚至由此产生自己出对历史事件的联想与对比，产生出自己的思想的火花与创作的冲动。由此让阅读历史，成为一种乐趣，成了一个对历史和现实两个世界的疑问同时不断探询和解答的过程。当我们对某个点感兴趣了，自己去查史料扩展自己的视野。匆匆读完一遍，随手记下感想。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://peihao.space/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-      <category term="随笔" scheme="http://peihao.space/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>乌鸦你是谁</title>
-    <link href="http://peihao.space/2017/01/25/17-01-25/"/>
-    <id>http://peihao.space/2017/01/25/17-01-25/</id>
-    <published>2017-01-25T14:46:11.000Z</published>
-    <updated>2017-01-25T15:13:48.935Z</updated>
-    
-    <content type="html">&lt;p&gt;&lt;img src=&quot;http://7xowaa.com1.z0.glb.clouddn.com/wuya.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;center&gt;&lt;br&gt;&lt;br&gt;不知不觉就走到了这个尴尬的数字&lt;br&gt;&lt;br&gt;期盼着08，期盼着12，却原来已经在冷夜中蹒跚了数千个日日夜夜&lt;br&gt;&lt;br&gt;好嘛，也是把最初的幼稚与青涩用完的时候了吧&lt;br&gt;&lt;br&gt;年纪大了总会变得多愁善感&lt;br&gt;&lt;br&gt;本以为是云淡风轻，看着游客飘来荡去，顺着指尖，还是把最近的心思揉在一起丢到这里&lt;br&gt;&lt;br&gt;每个小站都是我不同的生活态度&lt;br&gt;&lt;br&gt;封存一些不想被熟知的你们探索的琐论杂情&lt;br&gt;&lt;br&gt;这里没有飞来飞去的广告&lt;br&gt;&lt;br&gt;没有生活所迫的编辑夺人眼球的标题&lt;br&gt;&lt;br&gt;我们用心记录所有随心所欲，不会因为假定的时时刻刻deadline画出没有意义的花瓶&lt;br&gt;&lt;br&gt;有的尽是自由的灵魂，祛除的都是非要不可&lt;br&gt;&lt;br&gt;&lt;br&gt;小站匆匆的陌生游客是否就是我所要的自由呢，我不在乎你怎么漂流到这里，也不会深究你是谁&lt;br&gt;&lt;br&gt;我是浅水中的一条河鱼，我就把这当成是我的自由罢&lt;br&gt;&lt;br&gt;对我而言，你就是深夜中扑腾的乌鸦，我们相遇，交谈或相离，不会记下彼此的记号&lt;br&gt;&lt;br&gt;&lt;br&gt;当期盼变成抗拒，当行进变成蹒跚&lt;br&gt;&lt;br&gt;别样的云清风淡，别样的人生海海&lt;br&gt;&lt;br&gt;&lt;br&gt;写在5位数之前，写在solar与lunar之间，写在惊醒与微醺之后&lt;br&gt;&lt;br&gt;不想懂没结果的是为什么&lt;br&gt;&lt;br&gt;不去问黑夜的乌鸦你是谁&lt;br&gt;&lt;br&gt;&lt;/center&gt;
-
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=&quot;330&quot; height=&quot;86&quot; src=&quot;http://music.163.com/outchain/player?type=2&amp;id=185665&amp;auto=1&amp;height=66&quot;&gt;&lt;/iframe&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http://7xowaa.com1.z0.glb.clouddn.com/wuya.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;center&gt;&lt;br&gt;&lt;br&gt;不知不觉就走到了这个尴尬的数字&lt;br&gt;&lt;br&gt;期盼着08，期盼着12，却原来已经在冷夜中蹒跚了数千个日日夜夜&lt;br&gt;&lt;br&gt;好嘛，也是把最初的幼稚与青涩用完的时候了吧&lt;br&gt;&lt;br&gt;年纪大了总会变得多愁善感&lt;br&gt;&lt;br&gt;本以为是云淡风轻，看着游客飘来荡去，顺着指尖，还是把最近的心思揉在一起丢到这里&lt;br&gt;&lt;br&gt;每个小站都是我不同的生活态度&lt;br&gt;&lt;br&gt;封存一些不想被熟知的你们探索的琐论杂情&lt;br&gt;&lt;br&gt;这里没有飞来飞去的广告&lt;br&gt;&lt;br&gt;没有生活所迫的编辑夺人眼球的标题&lt;br&gt;&lt;br&gt;我们用心记录所有随心所欲，不会因为假定的时时刻刻deadline画出没有意义的花瓶&lt;br&gt;&lt;br&gt;有的尽是自由的灵魂，祛除的都是非要不可&lt;br&gt;&lt;br&gt;&lt;br&gt;小站匆匆的陌生游客是否就是我所要的自由呢，我不在乎你怎么漂流到这里，也不会深究你是谁&lt;br&gt;&lt;br&gt;我是浅水中的一条河鱼，我就把这当成是我的自由罢&lt;br&gt;&lt;br&gt;对我而言，你就是深夜中扑腾的乌鸦，我们相遇，交谈或相离，不会记下彼此的记号&lt;br&gt;&lt;br&gt;&lt;br&gt;当期盼变成抗拒，当行进变成蹒跚&lt;br&gt;&lt;br&gt;别样的云清风淡，别样的人生海海&lt;br&gt;&lt;br&gt;&lt;br&gt;写在5位数之前，写在solar与lunar之间，写在惊醒与微醺之后&lt;br&gt;&lt;br&gt;不想懂没结果的是为什么&lt;br&gt;&lt;br&gt;不去问黑夜的乌鸦你是谁&lt;br&gt;&lt;br&gt;&lt;/center&gt;
     
     </summary>
     

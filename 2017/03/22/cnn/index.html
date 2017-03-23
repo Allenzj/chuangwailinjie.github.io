@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://peihao.space/img/article/ml/x2.gif">
 <meta property="og:image" content="http://peihao.space/img/article/ml/x5.png">
 <meta property="og:image" content="http://peihao.space/img/article/ml/x6.png">
-<meta property="og:updated_time" content="2017-03-22T15:32:40.866Z">
+<meta property="og:updated_time" content="2017-03-23T15:03:43.200Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="（转载）CNN卷积神经网络">
 <meta name="twitter:description" content="先述卷积神经网络-翻译    英文原文（ConvNets 或者 CNNs）属于神经网络的范畴，已经在诸如图像识别和分类的领域证明了其高效的能力。卷积神经网络可以成功识别人脸、物体和交通信号，从而为机器人和自动驾驶汽车提供视力。">
@@ -437,26 +437,22 @@
 <li><p>第一步：我们初始化所有的滤波器，使用随机值设置参数/权重</p>
 </li>
 <li><p>第二步：网络接收一张训练图像作为输入，通过前向传播过程（卷积、ReLU 和池化操作，以及全连接层的前向传播），找到各个类的输出概率</p>
-</li>
-</ol>
 <ul>
 <li>我们假设船这张图像的输出概率是 [0.2, 0.4, 0.1, 0.3]</li>
 <li>因为对于第一张训练样本的权重是随机分配的，输出的概率也是随机的</li>
 </ul>
-<ol>
-<li>第三步：在输出层计算总误差（计算 4 类的和）</li>
-</ol>
-<p>Total Error = ∑  ½ (target probability – output probability) ²</p>
-<ol>
-<li>第四步：使用反向传播算法，根据网络的权重计算误差的梯度，并使用梯度下降算法更新所有滤波器的值/权重以及参数的值，使输出误差最小化</li>
-</ol>
-<ul>
+</li>
+<li>第三步：在输出层计算总误差（计算 4 类的和）<ul>
+<li>Total Error = ∑  ½ (target probability – output probability) ²</li>
+</ul>
+</li>
+<li>第四步：使用反向传播算法，根据网络的权重计算误差的梯度，并使用梯度下降算法更新所有滤波器的值/权重以及参数的值，使输出误差最小化<ul>
 <li>权重的更新与它们对总误差的占比有关</li>
 <li>当同样的图像再次作为输入，这时的输出概率可能会是 [0.1, 0.1, 0.7, 0.1]，这就与目标矢量 [0, 0, 1, 0] 更接近了</li>
 <li>这表明网络已经通过调节权重/滤波器，可以正确对这张特定图像的分类，这样输出的误差就减小了</li>
 <li>像滤波器数量、滤波器大小、网络结构等这样的参数，在第一步前都是固定的，在训练过程中保持不变——仅仅是滤波器矩阵的值和连接权重在更新</li>
 </ul>
-<ol>
+</li>
 <li>第五步：对训练数据中所有的图像重复步骤 1 ~ 4</li>
 </ol>
 
@@ -505,6 +501,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/23/dropout/" rel="prev" title="Dropout">
+                Dropout <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -598,7 +598,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">178</span>
+              <span class="site-state-item-count">179</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

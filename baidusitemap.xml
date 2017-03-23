@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://peihao.space/2017/03/22/cnn/</loc>
-    <lastmod>2017-03-22T15:32:40.866Z</lastmod>
+    <lastmod>2017-03-23T15:03:43.200Z</lastmod>
     <data>
         <display>
         <title>（转载）CNN卷积神经网络</title>
@@ -24,8 +24,28 @@
 
     
   <url>
+    <loc>http://peihao.space/2017/03/23/dropout/</loc>
+    <lastmod>2017-03-23T15:02:03.666Z</lastmod>
+    <data>
+        <display>
+        <title>Dropout</title>
+        <pubTime>2017-03-23T14:18:42.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://peihao.space/2017/03/04/ml-intro5/</loc>
-    <lastmod>2017-03-22T15:25:46.620Z</lastmod>
+    <lastmod>2017-03-23T07:48:39.294Z</lastmod>
     <data>
         <display>
         <title>ML学习-神经网络</title>
