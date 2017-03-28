@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://peihao.space/img/article/ml/x2.gif">
 <meta property="og:image" content="http://peihao.space/img/article/ml/x5.png">
 <meta property="og:image" content="http://peihao.space/img/article/ml/x6.png">
-<meta property="og:updated_time" content="2017-03-23T15:03:43.200Z">
+<meta property="og:updated_time" content="2017-03-25T13:09:35.550Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="（转载）CNN卷积神经网络">
 <meta name="twitter:description" content="先述卷积神经网络-翻译    英文原文（ConvNets 或者 CNNs）属于神经网络的范畴，已经在诸如图像识别和分类的领域证明了其高效的能力。卷积神经网络可以成功识别人脸、物体和交通信号，从而为机器人和自动驾驶汽车提供视力。">
@@ -455,6 +455,17 @@
 </li>
 <li>第五步：对训练数据中所有的图像重复步骤 1 ~ 4</li>
 </ol>
+<h1 id="补充">补充</h1><p>有时候，我们会在池化前后进行局部对比度归一化层（local contract normalization）。这个归一化包括两个部分：局部做减和局部做除</p>
+<p>自然图像存在低阶和高阶的统计特征，低阶（例如二阶）的统计特征是满足高斯分布的，但高阶的统计特性是非高斯分布。图像中，空间上相邻的像素点有着很强的相关性。而对于PCA来说，因为它是对协方差矩阵操作，所以可以去掉输入图像的二阶相关性，但是却无法去掉高阶相关性。而有人证明了除以一个隐含的变量就可以去除高阶相关性。</p>
+<p> 对输入图像的每一个像素，我们计算其邻域（例如3x3窗口）的均值，然后每个像素先减去这个均值，再除以这个邻域窗口（例如3x3窗口）拉成的9维向量的欧几里德范数（如果这个范数大于1的时候才除：这个约束是为了保证归一化只作用于减少响应（除以大于1的数值变小），而不会加强响应（除以小于1的数值变大））。也有论文在计算均值和范数的时候，都加入了距离的影响，也就是距离离该窗口中心越远，影响越小，例如加个高斯权重窗口（空间上相邻的像素点的相关性随着距离变大而变小）。</p>
+<p> 数据归一化，就是将数据映射到[0,1]或[-1,1]区间或更小的区间，比如(0.1,0.9) 。</p>
+<p> 为什么要归一化处理？</p>
+<ol>
+<li>输入数据的单位不一样，有些数据的范围可能特别大，导致的结果是神经网络收敛慢、训练时间长。</li>
+<li>数据范围大的输入在模式分类中的作用可能会偏大，而数据范围小的输入作用就可能会偏小。</li>
+<li>由于神经网络输出层的激活函数的值域是有限制的，因此需要将网络训练的目标数据映射到激活函数的值域。例如神经网络的输出层若采用S形激活函数，由于S形函数的值域限制在(0,1)，也就是说神经网络的输出只能限制在(0,1)，所以训练数据的输出就要归一化到[0,1]区间。</li>
+<li>S形激活函数在(0,1)区间以外区域很平缓，区分度太小。例如S形函数f(X)在参数a=1时，f(100)与f(5)只相差0.0067。</li>
+</ol>
 
       
     </div>
@@ -606,7 +617,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -615,7 +626,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">63</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -692,7 +703,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#先述"><span class="nav-number">1.</span> <span class="nav-text">先述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像是像素值的矩阵"><span class="nav-number">1.1.</span> <span class="nav-text">图像是像素值的矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积"><span class="nav-number">1.2.</span> <span class="nav-text">卷积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ReLU"><span class="nav-number">1.3.</span> <span class="nav-text">ReLU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#池化"><span class="nav-number">1.4.</span> <span class="nav-text">池化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全连接层"><span class="nav-number">1.5.</span> <span class="nav-text">全连接层</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">2.</span> <span class="nav-text">小结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#先述"><span class="nav-number">1.</span> <span class="nav-text">先述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像是像素值的矩阵"><span class="nav-number">1.1.</span> <span class="nav-text">图像是像素值的矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积"><span class="nav-number">1.2.</span> <span class="nav-text">卷积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ReLU"><span class="nav-number">1.3.</span> <span class="nav-text">ReLU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#池化"><span class="nav-number">1.4.</span> <span class="nav-text">池化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全连接层"><span class="nav-number">1.5.</span> <span class="nav-text">全连接层</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">2.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#补充"><span class="nav-number">3.</span> <span class="nav-text">补充</span></a></li></ol></div>
             
 
           </div>

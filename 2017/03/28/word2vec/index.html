@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="android," />
+  <meta name="keywords" content="ML," />
 
 
 
@@ -86,40 +86,26 @@
 
 
 
-<meta name="description" content="FontMetricsFontMetrics是Paint的一个内部类，主要定义了Paint绘图时的一些关键坐标位置，具体如下图
-
-
-ascent:该距离是从所绘字符的baseline之上至该字符所绘制的最高点。这个距离是系统推荐。
-
-descent:该距离是从所绘字符的baseline之下至该字符所绘制的最低点。这个距离是系统推荐的。
-
-top:该距离是从所绘字符的baseline之上至可绘制区域">
+<meta name="description" content="本篇仅限于基于Hierarchical Softmax，即使用哈夫曼树
+资源
+word2vec通过训练将每个词映射成K维实数向量。通过词之间的距离，比如cosine相似度，欧式距离等来判断他们之间的语义相似度。根据词频使用哈弗慢编码，使得所有词频相似的词隐藏层的激活内容基本一致。出现频率越高的词语，他们激活的隐藏层数目越少，这样有效的降低了计算的复杂度。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android-drawText">
-<meta property="og:url" content="http://peihao.space/2016/07/24/drawText/index.html">
+<meta property="og:title" content="word2vec">
+<meta property="og:url" content="http://peihao.space/2017/03/28/word2vec/index.html">
 <meta property="og:site_name" content="窗外临街">
-<meta property="og:description" content="FontMetricsFontMetrics是Paint的一个内部类，主要定义了Paint绘图时的一些关键坐标位置，具体如下图
-
-
-ascent:该距离是从所绘字符的baseline之上至该字符所绘制的最高点。这个距离是系统推荐。
-
-descent:该距离是从所绘字符的baseline之下至该字符所绘制的最低点。这个距离是系统推荐的。
-
-top:该距离是从所绘字符的baseline之上至可绘制区域">
-<meta property="og:image" content="http://xyczero.qiniudn.com/Bolg_%E5%A6%82%E4%BD%95%E2%80%9C%E4%BB%BB%E6%80%A7%E2%80%9D%E4%BD%BF%E7%94%A8Android%E7%9A%84drawText%28%29_base.png">
-<meta property="og:image" content="http://xyczero.qiniudn.com/Bolg_%E5%A6%82%E4%BD%95%E2%80%9C%E4%BB%BB%E6%80%A7%E2%80%9D%E4%BD%BF%E7%94%A8Android%E7%9A%84drawText%28%29_alignLeft.png">
-<meta property="og:image" content="http://xyczero.qiniudn.com/Bolg_%E5%A6%82%E4%BD%95%E2%80%9C%E4%BB%BB%E6%80%A7%E2%80%9D%E4%BD%BF%E7%94%A8Android%E7%9A%84drawText%28%29_alignCenter.png">
-<meta property="og:updated_time" content="2016-07-24T09:04:44.000Z">
+<meta property="og:description" content="本篇仅限于基于Hierarchical Softmax，即使用哈夫曼树
+资源
+word2vec通过训练将每个词映射成K维实数向量。通过词之间的距离，比如cosine相似度，欧式距离等来判断他们之间的语义相似度。根据词频使用哈弗慢编码，使得所有词频相似的词隐藏层的激活内容基本一致。出现频率越高的词语，他们激活的隐藏层数目越少，这样有效的降低了计算的复杂度。">
+<meta property="og:image" content="http://peihao.space/img/article/ml/word1.png">
+<meta property="og:image" content="http://peihao.space/img/article/ml/word2.png">
+<meta property="og:image" content="http://peihao.space/img/article/ml/word3.png">
+<meta property="og:image" content="http://peihao.space/img/article/ml/word4.png">
+<meta property="og:updated_time" content="2017-03-28T10:33:39.999Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android-drawText">
-<meta name="twitter:description" content="FontMetricsFontMetrics是Paint的一个内部类，主要定义了Paint绘图时的一些关键坐标位置，具体如下图
-
-
-ascent:该距离是从所绘字符的baseline之上至该字符所绘制的最高点。这个距离是系统推荐。
-
-descent:该距离是从所绘字符的baseline之下至该字符所绘制的最低点。这个距离是系统推荐的。
-
-top:该距离是从所绘字符的baseline之上至可绘制区域">
+<meta name="twitter:title" content="word2vec">
+<meta name="twitter:description" content="本篇仅限于基于Hierarchical Softmax，即使用哈夫曼树
+资源
+word2vec通过训练将每个词映射成K维实数向量。通过词之间的距离，比如cosine相似度，欧式距离等来判断他们之间的语义相似度。根据词频使用哈弗慢编码，使得所有词频相似的词隐藏层的激活内容基本一致。出现频率越高的词语，他们激活的隐藏层数目越少，这样有效的降低了计算的复杂度。">
 
 
 
@@ -147,13 +133,13 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
 
 
 
-  <link rel="canonical" href="http://peihao.space/2016/07/24/drawText/"/>
+  <link rel="canonical" href="http://peihao.space/2017/03/28/word2vec/"/>
 
 
 
 
 
-  <title> Android-drawText | 窗外临街 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> word2vec | 窗外临街 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -294,7 +280,7 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://peihao.space/2016/07/24/drawText/">
+  <link itemprop="mainEntityOfPage" href="http://peihao.space/2017/03/28/word2vec/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="培豪">
@@ -318,7 +304,7 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
             
             
               
-                Android-drawText
+                word2vec
               
             
           </h1>
@@ -331,8 +317,8 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-07-24T15:24:06+08:00">
-                2016-07-24
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2017-03-28T19:18:42+08:00">
+                2017-03-28
               </time>
             
 
@@ -350,8 +336,8 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
+                  <a href="/categories/ML/" itemprop="url" rel="index">
+                    <span itemprop="name">ML</span>
                   </a>
                 </span>
 
@@ -365,8 +351,8 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
-                <a href="/2016/07/24/drawText/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/24/drawText/" itemprop="commentCount"></span>
+                <a href="/2017/03/28/word2vec/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/28/word2vec/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -376,7 +362,7 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
 
           
           
-             <span id="/2016/07/24/drawText/" class="leancloud_visitors" data-flag-title="Android-drawText">
+             <span id="/2017/03/28/word2vec/" class="leancloud_visitors" data-flag-title="word2vec">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -402,35 +388,44 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
       
 
       
-        <h1 id="FontMetrics">FontMetrics</h1><p>FontMetrics是Paint的一个内部类，主要定义了Paint绘图时的一些关键坐标位置，具体如下图</p>
-<p><img src="http://xyczero.qiniudn.com/Bolg_%E5%A6%82%E4%BD%95%E2%80%9C%E4%BB%BB%E6%80%A7%E2%80%9D%E4%BD%BF%E7%94%A8Android%E7%9A%84drawText%28%29_base.png" alt=""></p>
-<ul>
-<li><p>ascent:该距离是从所绘字符的baseline之上至该字符所绘制的最高点。这个距离是系统推荐。</p>
+        <p>本篇仅限于基于Hierarchical Softmax，即使用哈夫曼树</p>
+<p><a href="http://download.csdn.net/detail/peihaozhu/9796105" target="_blank" rel="external">资源</a></p>
+<p>word2vec通过训练将每个词映射成K维实数向量。通过词之间的距离，比如cosine相似度，欧式距离等来判断他们之间的语义相似度。根据词频使用哈弗慢编码，使得所有词频相似的词隐藏层的激活内容基本一致。出现频率越高的词语，他们激活的隐藏层数目越少，这样有效的降低了计算的复杂度。<br><a id="more"></a></p>
+<blockquote>
+<p>用one-hot来通俗简单的理解，有三个词“麦克风”、“话筒”、“杯子”，用one-hot编码，三个词对应[1, 0, 0]， [0, 1, 0]，[0, 0, 1]。当成千上万的词语，会造成每个词向量含有很多0，也就是稀疏编码，所以我们需要降维。比如说，上面的三个词语可以表示为[0, 1]， [0.4, 0.9]，[1, 0]。这里要注意的是“麦克风”和“话筒”的意思很接近，所以它们对应的向量也很接近，即空间距离短，向量夹角小。</p>
+</blockquote>
+<p><img src="http://peihao.space/img/article/ml/word1.png" alt=""></p>
+<p><strong>分布式假设，其核心思想为出现于上下文情景中的词汇都有相类似的语义。</strong></p>
+<p>word2vec中用到的两个重要模型-CBOW（Continuous Bag-of-Words Model）模型和Skip-gram（Contunuous Skip-gram）模型。</p>
+<p>两个模型都包含三层：输入层、投影层和输出层。前者是在已知当前词$w<em>t$的上下文$w</em>{t-2},w<em>{t-1},w</em>{t+1},w_{t+2}$的前提下预测当前词$w_t$，即$P(w<em>t \mid w</em>{t-2},w<em>{t-1},w</em>{t+1},w_{t+2})$；后者恰恰相反，在已知当前词$w<em>t$的前提下，预测上下文$w</em>{t-2},w<em>{t-1},w</em>{t+1},w<em>{t+2}$,也就是$P(w</em>{t-2},w<em>{t-1},w</em>{t+1},w_{t+2} \mid w_t)$</p>
+<p><img src="http://peihao.space/img/article/ml/word2.png" alt=""></p>
+<h1 id="CBOW模型">CBOW模型</h1><p>CBOW模型包括三层：输入层投影层和输出层。</p>
+<p><img src="http://peihao.space/img/article/ml/word3.png" alt=""><br>上面讲过CBOW模型网络结构是通过上下文context对当前词target做预测，求$P(w<em>t \mid w</em>{t-1},w_{t+1})$。</p>
+<p>这里是假设Context(w)由w前后各c个词构成</p>
+<ol>
+<li><p>输入层：包含Context(w)中2c个词的词向量$v(Context(w)_1),v(Context(w)<em>2),…,v(Context(w)</em>{2c})$，$Context(w) \in R^m$，这里，m的含义同上表示词向量的长度。</p>
 </li>
-<li><p>descent:该距离是从所绘字符的baseline之下至该字符所绘制的最低点。这个距离是系统推荐的。</p>
+<li><p>投影层：将输出层的2c个向量做求和累加，即$x<em>w=\sum</em>{i=1}^{2c}v(Countext(w)_i) \in R^m$</p>
 </li>
-<li><p>top:该距离是从所绘字符的baseline之上至可绘制区域的最高点。</p>
-<a id="more"></a></li>
-<li><p>bottom:该距离是从所绘字符的baseline之下至可绘制区域的最低点。</p>
+<li><p>输出层：输出层对应一个二叉树，以语聊中出现的词当叶子节点，以各次在语聊中出现的次数当权值构造出来哈夫曼树。在哈夫曼树中，叶子节点一共$\mid D \mid$个，分别对应词典D中词，非叶子结点N-1个</p>
 </li>
-<li><p>leading:为文本的线之间添加额外的空间，这是官方文档直译，debug时发现一般都为0.0，该值也是系统推荐的。</p>
+</ol>
+<p>取一个适当大小的窗口当做context window，输入层读入窗口内的词，将它们的向量（K维，初始随机）加和在一起，形成隐藏层K个节点。输出层是一个巨大的二叉树，叶节点代表语料里所有的词（语料含有V个独立的词，则二叉树有|V|个叶节点）。而这整颗二叉树构建的算法就是Huffman树。这样，对于叶节点的每一个词，就会有一个全局唯一的编码，形如”010011”，不妨记左子树为1，右子树为0。接下来，隐层的每一个节点都会跟二叉树的内节点有连边，于是对于二叉树的每一个内节点都会有K条连边，每条边上也会有权值。</p>
+<p>对于语料库中的某个词w_t，对应着二叉树的某个叶子节点，因此它必然有一个二进制编码，如”010011”。在训练阶段，当给定上下文，要预测后面的词$w_t$的时候，我们就从二叉树的根节点开始遍历，这里的目标就是预测这个词的二进制编号的每一位。即对于给定的上下文，我们的目标是使得预测词的二进制编码概率最大。形象地说，我们希望在根节点，词向量和与根节点相连经过logistic计算得到bit=1的概率尽量接近0，在第二层，希望其bit=1的概率尽量接近1，这么一直下去，我们把一路上计算得到的概率相乘，即得到目标词$w_t$在当前网络下的概率$P(w<em>t\mid w</em>{t-1},w_{t+1})$。显而易见，按照目标词的二进制编码计算到最后的概率值就是归一化的.</p>
+<p>模型的目标式子$p(w \mid Context(w))=\prod\limits_{j=2}^N p(d_j^w \mid x<em>w,\theta</em>{j-1}^w)$,用<strong>SGD</strong>训练优化模型，过程中更新相关的参数值（输入之后的加和向量值$x$，哈夫曼树中的内部节点向量$\theta$,以及原始的输入context中的所有向量参数$w$），每次取出一个样本$(context(w),w)$做训练，就要对整体的参数进行更新一次。对于$\theta$和$x$的值，通过SGD求偏导更新，而没有直接参与训练预测的原始context输入词向量$w$，我们通过$x$这个所有context词的加和向量来更新词向量$w$。把梯度贡献的更新项分配到所有输入中。</p>
+<h1 id="Skip-gram">Skip-gram</h1><blockquote>
+<p>Skip-Gram模型采取CBOW的逆过程的动机在于：CBOW算法对于很多分布式信息进行了平滑处理（例如将一整段上下文信息视为一个单一观察量）。很多情况下，对于小型的数据集，这一处理是有帮助的。相形之下，Skip-Gram模型将每个“上下文-目标词汇”的组合视为一个新观察量，这种做法在大型数据集中会更为有效。</p>
+</blockquote>
+<p>Skip-gram模型包括两层：输入层和输出层，相比CBOW，少了投影层，因为它不需要对所有的context词进行特征向量相加。</p>
+<p><img src="http://peihao.space/img/article/ml/word4.png" alt=""></p>
+<ol>
+<li><p>输入层：目标词的词向量$v(w) \in R^m$</p>
 </li>
-</ul>
-<p>特别注意: ascent和top都是负值，而descent和bottom:都是正值</p>
-<h1 id="drawText">drawText</h1><p>canvas.drawText(String text, float x, float y, Paint paint)中有四个参数，这四个参数都是表示其相对于所在View中的坐标，和屏幕坐标无关</p>
-<ul>
-<li>float x：根据官方API上的解释，该参数表示text被画的起始x坐标。其实text被画的起始位置还与Paint有关，Paint的TextAlign属性决定了text相对于起始坐标x的相对位置。例如，TextAlign的默认属性为Paint.Align.LEFT，这是text就是从起始坐标x的右侧开始画起。</li>
-</ul>
-<p><img src="http://xyczero.qiniudn.com/Bolg_%E5%A6%82%E4%BD%95%E2%80%9C%E4%BB%BB%E6%80%A7%E2%80%9D%E4%BD%BF%E7%94%A8Android%E7%9A%84drawText%28%29_alignLeft.png" alt=""></p>
-<p><img src="http://xyczero.qiniudn.com/Bolg_%E5%A6%82%E4%BD%95%E2%80%9C%E4%BB%BB%E6%80%A7%E2%80%9D%E4%BD%BF%E7%94%A8Android%E7%9A%84drawText%28%29_alignCenter.png" alt=""></p>
-<ul>
-<li>float y： 根据官方API上的解释，该参数表示text被画的起始y坐标。这个解释是比较抽象的，其实起始y坐标所代表是text的baseline在Y轴方向的位置</li>
-</ul>
-<p>text的bottom距离：<br>①bottomY = baseY + fontMetrics.bottom;</p>
-<p>text的字体高度：<br>②fontHeight = fontMetrics.descent- fontMetrics.ascent</p>
-<p>因为我们要让text垂直居中，所以此时text的bottom距离应该为：<br>③bottomY=1/2 <em> height + 1/2 </em> fontHeight</p>
-<p>所以由上述①②③公式就可以推得：④baseY = 1/2 <em> height + 1/2 </em> (fontMetrics.descent- fontMetrics.ascent) - fontmetrics.bottom</p>
-<p>此时求得baseline的值，即cavans.drawText()里的y的坐标。</p>
+<li><p>输出层：与CBOW类似，输出层十一颗哈夫曼树</p>
+</li>
+</ol>
+<p>大体上来讲，Skip-Gramm与CBOW的流程相反，通过目标词对context进行预测，Skip-Gramm将其定义为$p(Context(w)\mid w)=\prod\limits<em>{w \in Context(w)} p(u \mid w)$，而上市中的$p(u \mid w)$可以按照上面的思想，通过哈夫曼树的路径节点乘积确定：$p(u \mid w)=\prod\limits</em>{j=2}^{l^u} p(d<em>j^u \mid v(w),\theta</em>{j-1}^u)$</p>
+<p>之后就是对公式进行MLE的SGD优化。要注意的是，因为这里是要对context词进行预测，所以要从哈夫曼树的根部到叶子结点，进行$\mid context \mid$次。每次预测之后，都要处理完一个Context中的一个词之后，就要更新输入词的特征向量。</p>
 
       
     </div>
@@ -459,7 +454,7 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
       
         <div class="post-tags">
           
-            <a href="/tags/android/" rel="tag"># android</a>
+            <a href="/tags/ML/" rel="tag"># ML</a>
           
         </div>
       
@@ -468,8 +463,8 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/11/KMP/" rel="next" title="KMP笔记">
-                <i class="fa fa-chevron-left"></i> KMP笔记
+              <a href="/2017/03/26/tf-cifar/" rel="next" title="TensorFlow简单使用Cifar数据集">
+                <i class="fa fa-chevron-left"></i> TensorFlow简单使用Cifar数据集
               </a>
             
           </div>
@@ -477,10 +472,6 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/07/24/getMeasured/" rel="prev" title="getMeasured">
-                getMeasured <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -498,10 +489,10 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/07/24/drawText/"
-     data-title="Android-drawText"
+        <div class="ds-share flat" data-thread-key="2017/03/28/word2vec/"
+     data-title="word2vec"
      data-content=""
-     data-url="http://peihao.space/2016/07/24/drawText/">
+     data-url="http://peihao.space/2017/03/28/word2vec/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -528,8 +519,8 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/07/24/drawText/"
-           data-title="Android-drawText" data-url="http://peihao.space/2016/07/24/drawText/">
+      <div class="ds-thread" data-thread-key="2017/03/28/word2vec/"
+           data-title="word2vec" data-url="http://peihao.space/2017/03/28/word2vec/">
       </div>
     
   </div>
@@ -582,7 +573,7 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -591,7 +582,7 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">63</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -668,7 +659,7 @@ top:该距离是从所绘字符的baseline之上至可绘制区域">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#FontMetrics"><span class="nav-number">1.</span> <span class="nav-text">FontMetrics</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#drawText"><span class="nav-number">2.</span> <span class="nav-text">drawText</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CBOW模型"><span class="nav-number">1.</span> <span class="nav-text">CBOW模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Skip-gram"><span class="nav-number">2.</span> <span class="nav-text">Skip-gram</span></a></li></ol></div>
             
 
           </div>

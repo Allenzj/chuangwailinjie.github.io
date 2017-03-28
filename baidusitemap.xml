@@ -4,12 +4,92 @@
 
     
   <url>
+    <loc>http://peihao.space/2015/12/14/%E4%B9%A6%E5%8D%95/</loc>
+    <lastmod>2017-03-28T10:45:26.811Z</lastmod>
+    <data>
+        <display>
+        <title>书单</title>
+        <pubTime>2015-12-14T13:35:02.000Z</pubTime>
+        
+        <tag>随感</tag>
+         
+         
+           
+             
+              <breadCrumb title="生活" url="http://peihao.space/categories/%E7%94%9F%E6%B4%BB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2017/03/28/word2vec/</loc>
+    <lastmod>2017-03-28T10:33:39.999Z</lastmod>
+    <data>
+        <display>
+        <title>word2vec</title>
+        <pubTime>2017-03-28T11:18:42.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2017/03/26/tf-cifar/</loc>
+    <lastmod>2017-03-26T14:23:29.347Z</lastmod>
+    <data>
+        <display>
+        <title>TensorFlow简单使用Cifar数据集</title>
+        <pubTime>2017-03-26T14:18:42.000Z</pubTime>
+        
+        <tag>Tensorflow</tag>
+         
+         
+           
+             
+              <breadCrumb title="Tensorflow" url="http://peihao.space/categories/Tensorflow/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://peihao.space/2017/03/22/cnn/</loc>
-    <lastmod>2017-03-23T15:03:43.200Z</lastmod>
+    <lastmod>2017-03-25T13:09:35.550Z</lastmod>
     <data>
         <display>
         <title>（转载）CNN卷积神经网络</title>
         <pubTime>2017-03-22T14:18:42.000Z</pubTime>
+        
+        <tag>ML</tag>
+         
+         
+           
+             
+              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://peihao.space/2017/03/04/ml-intro5/</loc>
+    <lastmod>2017-03-24T08:25:52.417Z</lastmod>
+    <data>
+        <display>
+        <title>ML学习-神经网络</title>
+        <pubTime>2017-03-04T05:18:42.000Z</pubTime>
         
         <tag>ML</tag>
          
@@ -30,26 +110,6 @@
         <display>
         <title>Dropout</title>
         <pubTime>2017-03-23T14:18:42.000Z</pubTime>
-        
-        <tag>ML</tag>
-         
-         
-           
-             
-              <breadCrumb title="ML" url="http://peihao.space/categories/ML/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://peihao.space/2017/03/04/ml-intro5/</loc>
-    <lastmod>2017-03-23T07:48:39.294Z</lastmod>
-    <data>
-        <display>
-        <title>ML学习-神经网络</title>
-        <pubTime>2017-03-04T05:18:42.000Z</pubTime>
         
         <tag>ML</tag>
          
@@ -1632,52 +1692,12 @@
 
     
   <url>
-    <loc>http://peihao.space/2016/07/24/Rel-layout/</loc>
-    <lastmod>2016-07-25T08:11:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>LayoutParams</title>
-        <pubTime>2016-07-24T10:24:06.000Z</pubTime>
-        
-        <tag>android</tag>
-         
-         
-           
-             
-              <breadCrumb title="android" url="http://peihao.space/categories/android/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://peihao.space/2016/07/24/getMeasured/</loc>
     <lastmod>2016-07-24T10:12:38.000Z</lastmod>
     <data>
         <display>
         <title>getMeasured</title>
         <pubTime>2016-07-24T10:24:06.000Z</pubTime>
-        
-        <tag>android</tag>
-         
-         
-           
-             
-              <breadCrumb title="android" url="http://peihao.space/categories/android/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://peihao.space/2016/07/24/drawText/</loc>
-    <lastmod>2016-07-24T09:04:44.000Z</lastmod>
-    <data>
-        <display>
-        <title>Android-drawText</title>
-        <pubTime>2016-07-24T07:24:06.000Z</pubTime>
         
         <tag>android</tag>
          
@@ -2723,26 +2743,6 @@
            
              
               <breadCrumb title="前端" url="http://peihao.space/categories/%E5%89%8D%E7%AB%AF/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://peihao.space/2015/12/14/%E4%B9%A6%E5%8D%95/</loc>
-    <lastmod>2016-03-30T15:18:40.000Z</lastmod>
-    <data>
-        <display>
-        <title>书单</title>
-        <pubTime>2015-12-14T13:35:02.000Z</pubTime>
-        
-        <tag>随感</tag>
-         
-         
-           
-             
-              <breadCrumb title="生活" url="http://peihao.space/categories/%E7%94%9F%E6%B4%BB/"/>
           
         </display>
     </data>
