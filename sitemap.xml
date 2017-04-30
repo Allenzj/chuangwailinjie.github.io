@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://peihao.space/2015/12/14/%E4%B9%A6%E5%8D%95/</loc>
+    <loc>http://peihao.space/album/edit.json</loc>
     
-    <lastmod>2017-03-28T10:45:26.811Z</lastmod>
+    <lastmod>2017-04-30T05:40:23.908Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://peihao.space/2017/03/28/word2vec/</loc>
     
-    <lastmod>2017-03-28T10:33:39.999Z</lastmod>
+    <lastmod>2017-03-29T15:03:51.002Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peihao.space/2015/12/14/%E4%B9%A6%E5%8D%95/</loc>
+    
+    <lastmod>2017-03-28T10:45:26.811Z</lastmod>
     
   </url>
   
@@ -159,13 +166,6 @@
     <loc>http://peihao.space/2017/03/01/ml-intro2/</loc>
     
     <lastmod>2017-03-01T02:54:56.183Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://peihao.space/album/edit.json</loc>
-    
-    <lastmod>2017-02-28T09:22:29.349Z</lastmod>
     
   </url>
   
